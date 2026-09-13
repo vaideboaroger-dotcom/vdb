@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>VAI DE BOA! MUSIC</title>
+    <title>VAI DE BOA! MUSIC!</title>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <link rel="icon" type="image/png" sizes="192x192" href="favicon192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="favicon30.png">
@@ -122,21 +122,121 @@
         .menu-popup button { background:transparent; border:none; color:#ccc; padding:8px 12px; border-radius:12px; font-size:0.8rem; cursor:pointer; text-align:left; display:flex; align-items:center; gap:8px; transition:background 0.2s; min-height:36px; }
         .menu-popup button:active { background:rgba(255,255,255,0.06); }
 
-        .genres-modal { position:fixed; bottom:0; left:0; right:0; background:rgba(10,10,30,0.7); backdrop-filter:blur(30px); -webkit-backdrop-filter:blur(30px); border-radius:25px 25px 0 0; padding:16px 12px 20px; z-index:2000; transform:translateY(100%); transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1); max-height:85vh; overflow:hidden; border-top:1px solid rgba(255,255,255,0.08); box-shadow:0 -20px 60px rgba(0,0,0,0.6); }
-        .genres-modal.open { transform:translateY(0); }
-        .genres-modal .header { text-align:center; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.05); }
+        /* ═══════════════════════════════════════════════════════════
+           🎨 MODAL DE GÊNEROS — ESTILO GLASS SUAVE (iOS)
+           ═══════════════════════════════════════════════════════════ */
+        .genres-modal {
+            position:fixed; bottom:0; left:0; right:0;
+            background: rgba(10, 10, 30, 0.72);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            border-radius: 28px 28px 0 0;
+            padding: 18px 14px 22px;
+            z-index:2000;
+            transform: translateY(100%);
+            transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-height: 88vh;
+            overflow: hidden;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.7),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        .genres-modal.open { transform: translateY(0); }
+        .genres-modal .header { text-align:center; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.08); }
         .genres-modal .header .titulo { font-family:'Audiowide', sans-serif; font-size:1.05rem; font-weight:400; color:var(--genre-blue); text-shadow:0 0 15px var(--genre-blue), 0 0 30px rgba(79,195,247,0.4); letter-spacing:3px; }
-        .genres-modal .header .sub-titulo { font-size:0.55rem; color:rgba(255,255,255,0.2); letter-spacing:4px; text-transform:uppercase; margin-top:2px; }
-        .genres-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; padding:4px 0; max-height:60vh; overflow-y:auto; scrollbar-width:none; }
+        .genres-modal .header .sub-titulo { font-size:0.55rem; color:rgba(255,255,255,0.25); letter-spacing:4px; text-transform:uppercase; margin-top:2px; }
+        .genres-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            padding: 6px 2px;
+            max-height: 62vh;
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
         .genres-grid::-webkit-scrollbar { display:none; }
 
-        .genre-card { position: relative; aspect-ratio: 1 / 1; min-height: 120px; border-radius: 10px; cursor: pointer; overflow: hidden; background: #1a1a3e center/cover no-repeat; box-shadow: 0 4px 14px rgba(0,0,0,0.4); transition: transform 0.2s ease, box-shadow 0.2s ease; -webkit-tap-highlight-color: transparent; }
-        .genre-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,0.55) 75%, rgba(0,0,0,0.85) 100%); pointer-events: none; z-index: 1; }
-        .genre-card:active { transform: scale(0.96); box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
-        .genre-card .genre-name { position: absolute; bottom: 8px; left: 10px; right: 10px; font-family: 'Audiowide', 'Rajdhani', sans-serif; font-size: 0.78rem; font-weight: 400; letter-spacing: 1.2px; text-transform: uppercase; color: #fff; text-align: left; line-height: 1.2; z-index: 2; text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 0 12px rgba(0,0,0,0.6); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; }
+        /* ✨ CARD GLASS SUAVE — vidro fosco estilo iOS */
+        .genre-card {
+            position: relative;
+            min-height: 72px;
+            border-radius: 18px;
+            cursor: pointer;
+            padding: 16px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(14px) saturate(160%);
+            -webkit-backdrop-filter: blur(14px) saturate(160%);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            transition: all 0.28s cubic-bezier(0.34, 1.3, 0.64, 1);
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* brilho reflexivo no topo (efeito vidro) */
+        .genre-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.10) 0%, transparent 100%);
+            pointer-events: none;
+            border-radius: 18px 18px 0 0;
+        }
+        .genre-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 18px;
+            background: radial-gradient(circle at 50% 0%, rgba(79,195,247,0.10) 0%, transparent 60%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .genre-card:hover, .genre-card:active {
+            transform: scale(0.96);
+            background: rgba(79, 195, 247, 0.16);
+            border-color: rgba(79, 195, 247, 0.45);
+            box-shadow: 0 6px 22px rgba(79, 195, 247, 0.25),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        .genre-card:hover::after, .genre-card:active::after { opacity: 1; }
+        .genre-card .genre-name {
+            position: relative;
+            font-family: 'Rajdhani', 'Audiowide', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 700;
+            letter-spacing: 1.1px;
+            text-transform: uppercase;
+            color: #ffffff;
+            line-height: 1.2;
+            z-index: 2;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+            word-break: break-word;
+        }
 
-        .close-genres { width:100%; padding:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:25px; color:#aaa; font-size:0.75rem; cursor:pointer; font-weight:600; margin-top:10px; letter-spacing:3px; text-transform:uppercase; transition:all 0.2s; backdrop-filter:blur(10px); }
-        .close-genres:active { background:rgba(255,255,255,0.1); transform:scale(0.97); }
+        .close-genres {
+            width:100%; padding:12px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 25px;
+            color: #ccc;
+            font-size:0.78rem;
+            cursor:pointer;
+            font-weight: 700;
+            margin-top: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: all 0.25s;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+        .close-genres:active { background: rgba(255,255,255,0.15); transform: scale(0.97); }
 
         .fav-modal { position:fixed; bottom:0; left:0; right:0; background:rgba(10,10,30,0.98); backdrop-filter:blur(20px); border-radius:25px 25px 0 0; padding:14px 12px 18px; z-index:2001; transform:translateY(100%); transition:transform 0.3s cubic-bezier(0.4,0,0.2,1); max-height:70vh; overflow:hidden; border-top:1px solid rgba(255,255,255,0.05); }
         .fav-modal.open { transform:translateY(0); }
@@ -290,9 +390,9 @@
             .qr-content .qr-wrapper img { width:140px; height:140px; }
             .qr-content .qr-logo-overlay { width:36px; height:36px; }
             .qr-content .qr-logo-overlay img { width:24px; height:24px; }
-            .genres-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
-            .genre-card { min-height:100px; border-radius:8px; }
-            .genre-card .genre-name { font-size:0.7rem; letter-spacing:0.9px; bottom:6px; left:8px; right:8px; }
+            .genres-grid { grid-template-columns:repeat(2,1fr); gap:12px; }
+            .genre-card { min-height:64px; border-radius:16px; padding:12px 10px; }
+            .genre-card .genre-name { font-size:0.82rem; letter-spacing:0.9px; }
             .genres-modal .header .titulo { font-size:0.95rem; }
             .fav-item-modal { min-height:36px; font-size:0.8rem; }
             .fav-item-modal .fav-info .title { font-size:0.75rem; }
@@ -751,26 +851,22 @@
     function esconderBotaoSairTV() { const btn = document.getElementById('btnSairModoTV'); if(btn) btn.remove(); }
     async function toggleModoTV() { appState.modoTV = !appState.modoTV; if(appState.modoTV) { notif('📺 Modo TV ATIVADO',2000); await carregarMidiasTV(); } else { notif('📺 Modo TV DESATIVADO',2000); if(appState.mediaTVTimer) { clearInterval(appState.mediaTVTimer); appState.mediaTVTimer = null; } dom.infoScroll.classList.remove('hidden'); esconderBotaoSairTV(); await carregarMidiasPadrao(); } appState._save(); }
 
+    /* ═══════════════════════════════════════════════════════════════
+       🎨 RENDERIZAR GÊNEROS — ESTILO GLASS SUAVE (iOS)
+       Cards de vidro fosco, sem imagens, com brilho e reflexo
+       ═══════════════════════════════════════════════════════════════ */
     function renderizarGeneros() {
         dom.genresGrid.innerHTML = '';
         CONFIG.ORDEM.forEach(g => {
             const card = document.createElement('div');
             card.className = 'genre-card';
             card.setAttribute('data-genre', g);
-            card.style.background = gerarGradienteGenero(g);
-            card.style.backgroundColor = '#1a1a3e';
-            const imgUrl = EDITE_AQUI.IMAGENS[g];
-            if (imgUrl && typeof imgUrl === 'string' && imgUrl.trim().length > 0) {
-                const urlComVersao = imgUrl + '?v=' + CONFIG.CACHE_VERSION;
-                const img = new Image();
-                img.onload = () => { card.style.backgroundImage = `url('${urlComVersao}')`; card.style.backgroundSize = 'cover'; card.style.backgroundPosition = 'center'; };
-                img.onerror = () => { console.warn('❌ Imagem não encontrada:', g, '→', urlComVersao); };
-                img.src = urlComVersao;
-            }
+
             const name = document.createElement('div');
             name.className = 'genre-name';
             name.textContent = g;
             card.appendChild(name);
+
             card.onclick = () => selecionarGenero(g);
             dom.genresGrid.appendChild(card);
         });
@@ -837,9 +933,6 @@
     window.addEventListener('appinstalled', () => { if(btnInstalarFixo) btnInstalarFixo.style.display = 'none'; notif('🎉 App instalado com sucesso!', 3000); });
     if(!ehMobile()) { if(btnInstalarFixo) btnInstalarFixo.style.display = 'none'; }
 
-    // ═══════════════════════════════════════════════════════════
-    // 🔧 SERVICE WORKER — registra o arquivo ./sw.js do repositório
-    // ═══════════════════════════════════════════════════════════
     if('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('./sw.js', { scope: './' })
