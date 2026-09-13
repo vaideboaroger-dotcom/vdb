@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>VAI DE BOA! MUSIC!</title>
+    <title>VAI DE BOA! MUSIC</title>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <link rel="icon" type="image/png" sizes="192x192" href="favicon192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="favicon30.png">
@@ -123,7 +123,8 @@
         .menu-popup button:active { background:rgba(255,255,255,0.06); }
 
         /* ═══════════════════════════════════════════════════════════
-           🎨 MODAL DE GÊNEROS — ESTILO GLASS SUAVE (iOS)
+           🎨 CARD DE GÊNERO AQUI — ESTILO: LISTA COMPACTA
+           Chips finos, cabem mais sem rolar
            ═══════════════════════════════════════════════════════════ */
         .genres-modal {
             position:fixed; bottom:0; left:0; right:0;
@@ -142,81 +143,72 @@
                         inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
         .genres-modal.open { transform: translateY(0); }
-        .genres-modal .header { text-align:center; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.08); }
+        .genres-modal .header { text-align:center; margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.08); }
         .genres-modal .header .titulo { font-family:'Audiowide', sans-serif; font-size:1.05rem; font-weight:400; color:var(--genre-blue); text-shadow:0 0 15px var(--genre-blue), 0 0 30px rgba(79,195,247,0.4); letter-spacing:3px; }
         .genres-modal .header .sub-titulo { font-size:0.55rem; color:rgba(255,255,255,0.25); letter-spacing:4px; text-transform:uppercase; margin-top:2px; }
+
+        /* Lista compacta: 1 coluna, itens finos */
         .genres-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
             padding: 6px 2px;
-            max-height: 62vh;
+            max-height: 65vh;
             overflow-y: auto;
             scrollbar-width: none;
         }
         .genres-grid::-webkit-scrollbar { display:none; }
 
-        /* ✨ CARD GLASS SUAVE — vidro fosco estilo iOS */
+        /* ✨ CHIP FINO — LISTA COMPACTA */
         .genre-card {
             position: relative;
-            min-height: 72px;
-            border-radius: 18px;
+            min-height: 48px;
+            border-radius: 12px;
             cursor: pointer;
-            padding: 16px 14px;
+            padding: 10px 14px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(14px) saturate(160%);
-            -webkit-backdrop-filter: blur(14px) saturate(160%);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.12);
-            transition: all 0.28s cubic-bezier(0.34, 1.3, 0.64, 1);
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.045);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.22s cubic-bezier(0.34, 1.3, 0.64, 1);
             overflow: hidden;
             -webkit-tap-highlight-color: transparent;
         }
-        /* brilho reflexivo no topo (efeito vidro) */
         .genre-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 50%;
-            background: linear-gradient(180deg, rgba(255,255,255,0.10) 0%, transparent 100%);
-            pointer-events: none;
-            border-radius: 18px 18px 0 0;
-        }
-        .genre-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 18px;
-            background: radial-gradient(circle at 50% 0%, rgba(79,195,247,0.10) 0%, transparent 60%);
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s;
+            content: '♪';
+            font-family: serif;
+            color: var(--genre-blue);
+            font-size: 1.1rem;
+            opacity: 0.85;
+            flex-shrink: 0;
+            text-shadow: 0 0 10px rgba(79,195,247,0.5);
+            transition: all 0.22s;
         }
         .genre-card:hover, .genre-card:active {
-            transform: scale(0.96);
-            background: rgba(79, 195, 247, 0.16);
+            background: rgba(79, 195, 247, 0.14);
             border-color: rgba(79, 195, 247, 0.45);
-            box-shadow: 0 6px 22px rgba(79, 195, 247, 0.25),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transform: translateX(4px);
+            box-shadow: 0 4px 18px rgba(79, 195, 247, 0.2);
         }
-        .genre-card:hover::after, .genre-card:active::after { opacity: 1; }
+        .genre-card:hover::before, .genre-card:active::before {
+            opacity: 1;
+            transform: scale(1.15);
+        }
         .genre-card .genre-name {
-            position: relative;
             font-family: 'Rajdhani', 'Audiowide', sans-serif;
-            font-size: 0.92rem;
+            font-size: 0.85rem;
             font-weight: 700;
-            letter-spacing: 1.1px;
+            letter-spacing: 1px;
             text-transform: uppercase;
             color: #ffffff;
-            line-height: 1.2;
+            text-align: left;
             z-index: 2;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-            word-break: break-word;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.4);
         }
 
         .close-genres {
@@ -237,6 +229,9 @@
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
         }
         .close-genres:active { background: rgba(255,255,255,0.15); transform: scale(0.97); }
+        /* ═══════════════════════════════════════════════════════════
+           🎨 FIM DO CARD DE GÊNERO
+           ═══════════════════════════════════════════════════════════ */
 
         .fav-modal { position:fixed; bottom:0; left:0; right:0; background:rgba(10,10,30,0.98); backdrop-filter:blur(20px); border-radius:25px 25px 0 0; padding:14px 12px 18px; z-index:2001; transform:translateY(100%); transition:transform 0.3s cubic-bezier(0.4,0,0.2,1); max-height:70vh; overflow:hidden; border-top:1px solid rgba(255,255,255,0.05); }
         .fav-modal.open { transform:translateY(0); }
@@ -390,9 +385,10 @@
             .qr-content .qr-wrapper img { width:140px; height:140px; }
             .qr-content .qr-logo-overlay { width:36px; height:36px; }
             .qr-content .qr-logo-overlay img { width:24px; height:24px; }
-            .genres-grid { grid-template-columns:repeat(2,1fr); gap:12px; }
-            .genre-card { min-height:64px; border-radius:16px; padding:12px 10px; }
-            .genre-card .genre-name { font-size:0.82rem; letter-spacing:0.9px; }
+            .genres-grid { gap: 7px; }
+            .genre-card { min-height: 44px; padding: 9px 12px; border-radius: 10px; }
+            .genre-card .genre-name { font-size: 0.8rem; letter-spacing: 0.9px; }
+            .genre-card::before { font-size: 1rem; }
             .genres-modal .header .titulo { font-size:0.95rem; }
             .fav-item-modal { min-height:36px; font-size:0.8rem; }
             .fav-item-modal .fav-info .title { font-size:0.75rem; }
@@ -631,15 +627,56 @@
 (function(){
     'use strict';
 
+    /* ═══════════════════════════════════════════════════════════════
+       ╔═══════════════════════════════════════════════════════════╗
+       ║                                                           ║
+       ║   ⚙️  CONFIGURAÇÕES — EDITE AQUI                          ║
+       ║                                                           ║
+       ║   📢 LETREIRO AQUI  →  mude o texto do letreiro          ║
+       ║   ⏰ TIMER AQUI     →  mude o tempo do teste grátis      ║
+       ║   📱 WHATSAPP AQUI  →  mude o número do WhatsApp         ║
+       ║                                                           ║
+       ╚═══════════════════════════════════════════════════════════╝
+       ═══════════════════════════════════════════════════════════════ */
+
     const EDITE_AQUI = {
+
+        // 🎨 IMAGENS DOS GÊNEROS (não usadas no estilo LISTA COMPACTA, mas mantidas para referência)
         IMAGENS: {
             'BÔNUS':'imagens/bonus.png','SERTANEJO':'imagens/sertanejo.png','MPB':'imagens/mpb.png','ROCK':'imagens/rock.png','FORRÓ':'imagens/forro.png','PAGODE':'imagens/pagode.png','ROMÂNTICA':'imagens/romantica.png','FLASHBACK':'imagens/flashback.png','GOSPEL':'imagens/gospel.png','FUNK':'imagens/funk.png','REGGAE':'imagens/re.png','POP/MIX':'imagens/popmix.png','NOVIDADES':'imagens/novidades.png','MISTURA BRASIL':'imagens/misturabrasil.png','DIRIGINDO':'imagens/dirigindo.png','TREINO':'imagens/treino.png','SERESTA':'imagens/seresta.png','MPB 2':'imagens/mpb2.png','HIP HOP':'imagens/hiphop.png','FORRÓ RAIZ':'imagens/forroraiz.png','BAILÃO':'imagens/bailao.png','SAMBA':'imagens/samba.png','BREGA':'imagens/brega.png','MODA RAIZ':'imagens/modaraiz.png','RELIGIOSA':'imagens/religiosa.png','FANK':'imagens/fank.png','TESTE MIDIA':'imagens/testemidia.png','MODÃO SERTANEJO':'imagens/modaosertanejo.png','CHORINHO':'imagens/chorinho.png','GLOBAL HITS':'imagens/globalhits.png',
         },
+
+        // ╔══════════════════════════════════════════════════════════╗
+        // ║  📢 LETREIRO AQUI — MUDE O TEXTO DO LETREIRO             ║
+        // ╚══════════════════════════════════════════════════════════╝
         LETREIRO: '🎵 VAI DE BOA! MUSIC 🎵  +3 MIL MÚSICAS  •  VITALÍCIO R$39,00  🐵  •  SERTANEJO  •  MPB  •  ROCK  •  FORRÓ  •  PAGODE  •  ROMÂNTICA  •  FLASHBACK  •  GOSPEL  •  FUNK  •  REGGAE  •  BREGA  •  MODA RAIZ  •  SAMBA  •  POP/MIX  •  NOVIDADES TODA SEMANA  🎶  OUÇA SEM PARAR!  🔥',
+        // ╚══════════════════════════════════════════════════════════╝
+        // ║  📢 FIM DO LETREIRO                                      ║
+        // ╚══════════════════════════════════════════════════════════╝
+
+        // ╔══════════════════════════════════════════════════════════╗
+        // ║  ⏰ TIMER AQUI — TEMPO DO TESTE GRÁTIS (em segundos)      ║
+        // ║  Exemplos:                                                ║
+        // ║    86400  = 24 horas (1 dia)                              ║
+        // ║    3600   = 1 hora                                        ║
+        // ║    604800 = 7 dias                                        ║
+        // ║    1800   = 30 minutos                                    ║
+        // ╚══════════════════════════════════════════════════════════╝
         TEMPO_TESTE_SEGUNDOS: 86400,
+        // ╚══════════════════════════════════════════════════════════╝
+        // ║  ⏰ FIM DO TIMER                                          ║
+        // ╚══════════════════════════════════════════════════════════╝
+
+        // 📱 WHATSAPP (só números, com código do país: 55 + DDD + número)
         WHATSAPP: '5512988461978',
+
+        // ⏱️ Velocidade do letreiro (em segundos)
         LETREIRO_DURACAO: 30,
     };
+
+    /* ═══════════════════════════════════════════════════════════════
+       ⚠️  DAQUI PRA BAIXO NÃO PRECISA MEXER
+       ═══════════════════════════════════════════════════════════════ */
 
     const CONFIG = {
         CACHE_VERSION: parseInt(localStorage.getItem('vdb_cache_version') || '1'),
@@ -699,12 +736,6 @@
     const sleep = ms => new Promise(r=>setTimeout(r,ms));
     const now = () => Date.now();
 
-    function gerarGradienteGenero(nome) {
-        let hash = 0;
-        for (let i = 0; i < nome.length; i++) hash = nome.charCodeAt(i) + ((hash << 5) - hash);
-        const h1 = Math.abs(hash) % 360; const h2 = (h1 + 45) % 360;
-        return `linear-gradient(135deg, hsl(${h1}, 55%, 40%) 0%, hsl(${h2}, 65%, 18%) 100%)`;
-    }
     function copiarTexto(texto, mensagem) {
         if(!texto) return notif('⚠️ Nada para copiar!',1500);
         navigator.clipboard.writeText(texto).then(()=>notif(mensagem||'📋 Copiado!',1500)).catch(()=>{ const i=document.createElement('input'); i.value=texto; document.body.appendChild(i); i.select(); document.execCommand('copy'); i.remove(); notif(mensagem||'📋 Copiado!',1500); });
@@ -852,8 +883,8 @@
     async function toggleModoTV() { appState.modoTV = !appState.modoTV; if(appState.modoTV) { notif('📺 Modo TV ATIVADO',2000); await carregarMidiasTV(); } else { notif('📺 Modo TV DESATIVADO',2000); if(appState.mediaTVTimer) { clearInterval(appState.mediaTVTimer); appState.mediaTVTimer = null; } dom.infoScroll.classList.remove('hidden'); esconderBotaoSairTV(); await carregarMidiasPadrao(); } appState._save(); }
 
     /* ═══════════════════════════════════════════════════════════════
-       🎨 RENDERIZAR GÊNEROS — ESTILO GLASS SUAVE (iOS)
-       Cards de vidro fosco, sem imagens, com brilho e reflexo
+       🎨 CARD DE GÊNERO AQUI — RENDERIZAÇÃO DOS CARDS
+       Estilo atual: LISTA COMPACTA (chips finos)
        ═══════════════════════════════════════════════════════════════ */
     function renderizarGeneros() {
         dom.genresGrid.innerHTML = '';
@@ -871,6 +902,9 @@
             dom.genresGrid.appendChild(card);
         });
     }
+    /* ═══════════════════════════════════════════════════════════════
+       🎨 FIM DO CARD DE GÊNERO
+       ═══════════════════════════════════════════════════════════════ */
 
     async function selecionarGenero(genero) { showLoad(true); const musicas = await cacheManager.get(genero, CONFIG.GENRE_URLS[genero]); if(!musicas || !musicas.length) { showLoad(false); notif('❌ Erro ao carregar '+genero,2000); dom.genresModal.classList.remove('open'); return; } dom.audio.pause(); appState.musicas = musicas; appState.modoAtual = genero; appState.playlistAtual = shuffle(musicas); appState.indiceAtual = 0; dom.generoNome.textContent = genero; dom.generoNome.style.color = GENRE_COLOR; dom.generoNome.style.textShadow = `0 0 12px ${GENRE_COLOR}, 0 0 24px rgba(79,195,247,0.4)`; const m = appState.playlistAtual[0]; if(m) { atualizarLetreiro(m); updateHeart(m.id); } renderizarGeneros(); showLoad(false); dom.genresModal.classList.remove('open'); forcarTelaCheia(); if(appState.isBackgroundActive) setTimeout(tocar, 300); appState._save(); }
 
@@ -922,7 +956,7 @@
     function ehIOS(){ return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; }
     function jaEstaInstalado(){ return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
 
-    window.addEventListener('beforeinstallprompt', (e) => { console.log('✅ beforeinstallprompt disparado! App é instalável.'); e.preventDefault(); deferredInstallPrompt = e; if(btnInstalarFixo && ehMobile() && !jaEstaInstalado()) btnInstalarFixo.style.display = 'flex'; });
+    window.addEventListener('beforeinstallprompt', (e) => { console.log('✅ beforeinstallprompt disparado!'); e.preventDefault(); deferredInstallPrompt = e; if(btnInstalarFixo && ehMobile() && !jaEstaInstalado()) btnInstalarFixo.style.display = 'flex'; });
     function atualizarVisibilidadeBotaoInstalar() { if(!btnInstalarFixo) return; const bloqueado = dom.blockOverlay.classList.contains('active') && dom.blockOverlay.style.display !== 'none'; if(bloqueado || jaEstaInstalado() || !ehMobile()) btnInstalarFixo.style.display = 'none'; else btnInstalarFixo.style.display = 'flex'; }
     const overlayObserver = new MutationObserver(atualizarVisibilidadeBotaoInstalar);
     overlayObserver.observe(dom.blockOverlay, { attributes: true, attributeFilter: ['class', 'style'] });
