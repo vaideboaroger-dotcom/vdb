@@ -7,12 +7,17 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <link rel="icon" href="favicon30.png" type="image/png">
     <link rel="apple-touch-icon" href="favicon30.png">
-    <link rel="manifest" href="manifest.json">
+
+    <!-- ═══════════ PWA — INSTALAÇÃO NO CELULAR ═══════════ -->
+    <link rel="manifest" href="./manifest.json" crossorigin="use-credentials">
+    <meta name="application-name" content="VDB Music">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="VDB Music">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#0a0a1e">
+    <!-- ═══════════════════════════════════════════════════ -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -150,30 +155,16 @@
             pointer-events: none;
             z-index: 1;
         }
-        .genre-card:active {
-            transform: scale(0.96);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-        }
+        .genre-card:active { transform: scale(0.96); box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
         .genre-card .genre-name {
-            position: absolute;
-            bottom: 8px;
-            left: 10px;
-            right: 10px;
+            position: absolute; bottom: 8px; left: 10px; right: 10px;
             font-family: 'Audiowide', 'Rajdhani', sans-serif;
-            font-size: 0.78rem;
-            font-weight: 400;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-            color: #fff;
-            text-align: left;
-            line-height: 1.2;
-            z-index: 2;
+            font-size: 0.78rem; font-weight: 400; letter-spacing: 1.2px;
+            text-transform: uppercase; color: #fff; text-align: left;
+            line-height: 1.2; z-index: 2;
             text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 0 12px rgba(0,0,0,0.6);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            word-break: break-word;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+            overflow: hidden; word-break: break-word;
         }
         .genre-card .genre-count { display: none; }
 
@@ -691,9 +682,7 @@
     'use strict';
 
     /* ═══════════════════════════════════════════════════════════════
-       ╔═══════════════════════════════════════════════════════════╗
-       ║   ✏️  EDITE AQUI — Tudo que você precisa mudar            ║
-       ╚═══════════════════════════════════════════════════════════╝
+       ✏️  EDITE AQUI — Tudo que você precisa mudar
        ═══════════════════════════════════════════════════════════════ */
 
     const EDITE_AQUI = {
@@ -708,7 +697,7 @@
             'FLASHBACK':        'imagens/flashback.png',
             'GOSPEL':           'imagens/gospel.png',
             'FUNK':             'imagens/funk.png',
-            'REGGAE':           'imagens/re.png',   // ← Verifique se este arquivo existe!
+            'REGGAE':           'imagens/re.png',
             'POP/MIX':          'imagens/popmix.png',
             'NOVIDADES':        'imagens/novidades.png',
             'MISTURA BRASIL':   'imagens/misturabrasil.png',
@@ -739,22 +728,7 @@
        ⚠️  DAQUI PRA BAIXO NÃO PRECISA MEXER
        ═══════════════════════════════════════════════════════════════ */
 
-    // ─────────────────────────────────────────────────────────
-    // 🔧 DETECÇÃO AUTOMÁTICA DO CAMINHO BASE (GitHub Pages)
-    // ─────────────────────────────────────────────────────────
-    // Detecta se estamos em /VDB/ ou na raiz
-    const BASE_PATH = (() => {
-        const path = window.location.pathname;
-        if (path.includes('/VDB/')) return '/VDB/';
-        // Se estiver na raiz de um domínio
-        const parts = path.split('/').filter(Boolean);
-        if (parts.length > 0 && !parts[0].includes('.')) return '/' + parts[0] + '/';
-        return '/';
-    })();
-    console.log('🌐 BASE_PATH detectado:', BASE_PATH);
-
     const CONFIG = {
-        BASE_PATH: BASE_PATH,
         CACHE_VERSION: parseInt(localStorage.getItem('vdb_cache_version') || '1'),
         WHATSAPP_NUMBER: EDITE_AQUI.WHATSAPP.replace(/\D/g,''),
         GENRE_URLS: {
@@ -1475,23 +1449,17 @@
         appState._save();
     }
 
-    // ─────────────────────────────────────────────────────────
-    // 🖼️ RENDERIZAR GÊNEROS (com fallback inteligente para imagens)
-    // ─────────────────────────────────────────────────────────
     function renderizarGeneros() {
         dom.genresGrid.innerHTML = '';
         CONFIG.ORDEM.forEach(g => {
             const card = document.createElement('div');
             card.className = 'genre-card';
             card.setAttribute('data-genre', g);
-
-            // Sempre aplica gradiente primeiro (fallback)
             card.style.background = gerarGradienteGenero(g);
             card.style.backgroundColor = '#1a1a3e';
 
             const imgUrl = EDITE_AQUI.IMAGENS[g];
             if (imgUrl && typeof imgUrl === 'string' && imgUrl.trim().length > 0) {
-                // Cache-busting + teste de carregamento
                 const urlComVersao = imgUrl + '?v=' + CONFIG.CACHE_VERSION;
                 const img = new Image();
                 img.onload = () => {
@@ -1501,7 +1469,6 @@
                 };
                 img.onerror = () => {
                     console.warn('❌ Imagem não encontrada:', g, '→', urlComVersao);
-                    // Mantém o gradiente
                 };
                 img.src = urlComVersao;
             }
@@ -1877,9 +1844,9 @@
         }
     }
 
-    // ─────────────────────────────────────────────────────────
-    // 📲 BOTÃO INSTALAR + PWA (Service Worker via Blob)
-    // ─────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════
+    // 📲 PWA — BOTÃO INSTALAR + SERVICE WORKER
+    // ═══════════════════════════════════════════════════════════
     const btnInstalarFixo = document.getElementById('btnInstalarFixo');
     const instrucoesInstalar = document.getElementById('instrucoesInstalar');
     const instrucoesBox = document.getElementById('instrucoesBox');
@@ -1890,10 +1857,9 @@
     function jaEstaInstalado(){ return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
 
     window.addEventListener('beforeinstallprompt', (e) => {
-        console.log('✅ beforeinstallprompt disparado!');
+        console.log('✅ beforeinstallprompt disparado! App é instalável.');
         e.preventDefault();
         deferredInstallPrompt = e;
-        // Mostra botão imediatamente
         if(btnInstalarFixo && ehMobile() && !jaEstaInstalado()) {
             btnInstalarFixo.style.display = 'flex';
         }
@@ -1958,34 +1924,39 @@
 
     if(!ehMobile()) { if(btnInstalarFixo) btnInstalarFixo.style.display = 'none'; }
 
-    // ─────────────────────────────────────────────────────────
-    // 🔧 SERVICE WORKER via BLOB (não precisa de arquivo sw.js)
-    // ─────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════
+    // 🔧 SERVICE WORKER — registra o arquivo ./sw.js do repositório
+    // (Android NÃO aceita Service Worker via Blob)
+    // ═══════════════════════════════════════════════════════════
     if('serviceWorker' in navigator) {
-        const swCode = `
-            self.addEventListener('install', (e) => { self.skipWaiting(); });
-            self.addEventListener('activate', (e) => { e.waitUntil(clients.claim()); });
-            self.addEventListener('fetch', (e) => {
-                // Handler vazio obrigatório para o Android reconhecer como PWA
-            });
-        `;
-        const blob = new Blob([swCode], { type: 'application/javascript' });
-        const swUrl = URL.createObjectURL(blob);
-        navigator.serviceWorker.register(swUrl)
-            .then(() => console.log('✅ Service Worker registrado via Blob!'))
-            .catch(err => console.warn('⚠️ Service Worker falhou:', err));
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js', { scope: './' })
+                .then((reg) => console.log('✅ Service Worker registrado:', reg.scope))
+                .catch((err) => console.warn('⚠️ Service Worker falhou:', err));
+        });
     }
 
-    // ─────────────────────────────────────────────────────────
+    // Diagnóstico automático
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            if (!deferredInstallPrompt && ehMobile() && !jaEstaInstalado()) {
+                console.warn('⚠️ App NÃO está instalável. Verifique:');
+                console.warn('  → manifest.json:', window.location.origin + '/VDB/manifest.json');
+                console.warn('  → sw.js:', window.location.origin + '/VDB/sw.js');
+                console.warn('  → HTTPS?', window.location.protocol);
+            }
+        }, 5000);
+    });
+
+    // ═══════════════════════════════════════════════════════════
     // 🚀 INICIAR
-    // ─────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════
     async function iniciar() {
         try {
             appState.favorites = appState.getFavorites();
             updateFavBadge();
             updateProgress(10);
 
-            // Preencher fingerprint
             if (dom.infoDispositivo) dom.infoDispositivo.textContent = '🆔 ' + appState.fingerprint;
 
             dom.scrollText.textContent = LETREIRO_PROMO;
