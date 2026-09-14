@@ -123,30 +123,51 @@
         .menu-popup button:active { background:rgba(255,255,255,0.06); }
 
         /* ═══════════════════════════════════════════════════════════
-           🎨 CARD DE GÊNERO AQUI — ESTILO: GRADIENTE COLORIDO
+           🎨 MODAL DE GÊNEROS — OVERLAY DE TELA CHEIA
+           (opção 5 = gradiente colorido nos CARDS internos)
            ═══════════════════════════════════════════════════════════ */
         .genres-modal {
-            position: relative;
-            min-height: 62px;
-            border-radius: 14px;
-            cursor: pointer;
-            padding: 14px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background: linear-gradient(135deg,
-                var(--c1, #4fc3f7),
-                var(--c2, #6c5ce7));
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
-            transition: all 0.25s ease;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(10, 10, 30, 0.96);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 20px 16px calc(20px + var(--safe-bottom));
+            display: none;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
             overflow: hidden;
         }
-        .genres-modal.open { transform: translateY(0); }
-        .genres-modal .header { text-align:center; margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.08); }
-        .genres-modal .header .titulo { font-family:'Audiowide', sans-serif; font-size:1.05rem; font-weight:400; color:var(--genre-blue); text-shadow:0 0 15px var(--genre-blue), 0 0 30px rgba(79,195,247,0.4); letter-spacing:3px; }
-        .genres-modal .header .sub-titulo { font-size:0.55rem; color:rgba(255,255,255,0.25); letter-spacing:4px; text-transform:uppercase; margin-top:2px; }
+        .genres-modal.open {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .genres-modal .header {
+            text-align: center;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            flex-shrink: 0;
+        }
+        .genres-modal .header .titulo {
+            font-family: 'Audiowide', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 400;
+            color: var(--genre-blue);
+            text-shadow: 0 0 15px var(--genre-blue), 0 0 30px rgba(79, 195, 247, 0.4);
+            letter-spacing: 3px;
+        }
+        .genres-modal .header .sub-titulo {
+            font-size: 0.55rem;
+            color: rgba(255, 255, 255, 0.25);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
 
         /* Lista de gêneros */
         .genres-grid {
@@ -154,11 +175,11 @@
             flex-direction: column;
             gap: 8px;
             padding: 6px 2px;
-            max-height: 65vh;
+            flex: 1;
             overflow-y: auto;
             scrollbar-width: none;
         }
-        .genres-grid::-webkit-scrollbar { display:none; }
+        .genres-grid::-webkit-scrollbar { display: none; }
 
         /* ✨ CARD DE GÊNERO — GRADIENTE COLORIDO (Opção 5) */
         .genre-card {
@@ -223,11 +244,12 @@
             text-transform: uppercase;
             transition: all 0.25s;
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+            flex-shrink: 0;
         }
         .close-genres:active { background: rgba(255,255,255,0.15); transform: scale(0.97); }
         /* ═══════════════════════════════════════════════════════════
-           🎨 FIM DO CARD DE GÊNERO
-           ══════════════════
+           🎨 FIM DO MODAL DE GÊNERO
+           ═══════════════════════════════════════════════════════════ */
 
         .fav-modal { position:fixed; bottom:0; left:0; right:0; background:rgba(10,10,30,0.98); backdrop-filter:blur(20px); border-radius:25px 25px 0 0; padding:14px 12px 18px; z-index:2001; transform:translateY(100%); transition:transform 0.3s cubic-bezier(0.4,0,0.2,1); max-height:70vh; overflow:hidden; border-top:1px solid rgba(255,255,255,0.05); }
         .fav-modal.open { transform:translateY(0); }
@@ -382,9 +404,8 @@
             .qr-content .qr-logo-overlay { width:36px; height:36px; }
             .qr-content .qr-logo-overlay img { width:24px; height:24px; }
             .genres-grid { gap: 7px; }
-            .genre-card { min-height: 44px; padding: 9px 12px; border-radius: 10px; }
-            .genre-card .genre-name { font-size: 0.8rem; letter-spacing: 0.9px; }
-            .genre-card::before { font-size: 1rem; }
+            .genre-card { min-height: 52px; padding: 11px 14px; border-radius: 12px; }
+            .genre-card .genre-name { font-size: 0.78rem; letter-spacing: 1px; }
             .genres-modal .header .titulo { font-size:0.95rem; }
             .fav-item-modal { min-height:36px; font-size:0.8rem; }
             .fav-item-modal .fav-info .title { font-size:0.75rem; }
@@ -625,48 +646,17 @@
 
     /* ═══════════════════════════════════════════════════════════════
        ╔═══════════════════════════════════════════════════════════╗
-       ║                                                           ║
        ║   ⚙️  CONFIGURAÇÕES — EDITE AQUI                          ║
-       ║                                                           ║
-       ║   📢 LETREIRO AQUI  →  mude o texto do letreiro          ║
-       ║   ⏰ TIMER AQUI     →  mude o tempo do teste grátis      ║
-       ║   📱 WHATSAPP AQUI  →  mude o número do WhatsApp         ║
-       ║                                                           ║
        ╚═══════════════════════════════════════════════════════════╝
        ═══════════════════════════════════════════════════════════════ */
 
     const EDITE_AQUI = {
-
-        // 🎨 IMAGENS DOS GÊNEROS (não usadas no estilo LISTA COMPACTA, mas mantidas para referência)
         IMAGENS: {
             'BÔNUS':'imagens/bonus.png','SERTANEJO':'imagens/sertanejo.png','MPB':'imagens/mpb.png','ROCK':'imagens/rock.png','FORRÓ':'imagens/forro.png','PAGODE':'imagens/pagode.png','ROMÂNTICA':'imagens/romantica.png','FLASHBACK':'imagens/flashback.png','GOSPEL':'imagens/gospel.png','FUNK':'imagens/funk.png','REGGAE':'imagens/re.png','POP/MIX':'imagens/popmix.png','NOVIDADES':'imagens/novidades.png','MISTURA BRASIL':'imagens/misturabrasil.png','DIRIGINDO':'imagens/dirigindo.png','TREINO':'imagens/treino.png','SERESTA':'imagens/seresta.png','MPB 2':'imagens/mpb2.png','HIP HOP':'imagens/hiphop.png','FORRÓ RAIZ':'imagens/forroraiz.png','BAILÃO':'imagens/bailao.png','SAMBA':'imagens/samba.png','BREGA':'imagens/brega.png','MODA RAIZ':'imagens/modaraiz.png','RELIGIOSA':'imagens/religiosa.png','FANK':'imagens/fank.png','TESTE MIDIA':'imagens/testemidia.png','MODÃO SERTANEJO':'imagens/modaosertanejo.png','CHORINHO':'imagens/chorinho.png','GLOBAL HITS':'imagens/globalhits.png',
         },
-
-        // ╔══════════════════════════════════════════════════════════╗
-        // ║  📢 LETREIRO AQUI — MUDE O TEXTO DO LETREIRO             ║
-        // ╚══════════════════════════════════════════════════════════╝
         LETREIRO: '🎵 VAI DE BOA! MUSIC 🎵  + DE 5 MIL MÚSICAS  •  VITALÍCIO R$39,00  🐵  •  SERTANEJO  •  MPB  •  ROCK  •  FORRÓ  •  PAGODE  •  ROMÂNTICA  •  FLASHBACK  •  GOSPEL  •  FUNK  •  REGGAE  •  BREGA  •  MODA RAIZ  •  SAMBA  •  POP/MIX  •  NOVIDADES TODA SEMANA  🎶  OUÇA SEM PARAR!  🔥',
-        // ╚══════════════════════════════════════════════════════════╝
-        // ║  📢 FIM DO LETREIRO                                      ║
-        // ╚══════════════════════════════════════════════════════════╝
-
-        // ╔══════════════════════════════════════════════════════════╗
-        // ║  ⏰ TIMER AQUI — TEMPO DO TESTE GRÁTIS (em segundos)      ║
-        // ║  Exemplos:                                                ║
-        // ║    86400  = 24 horas (1 dia)                              ║
-        // ║    3600   = 1 hora                                        ║
-        // ║    604800 = 7 dias                                        ║
-        // ║    1800   = 30 minutos                                    ║
-        // ╚══════════════════════════════════════════════════════════╝
         TEMPO_TESTE_SEGUNDOS: 86400,
-        // ╚══════════════════════════════════════════════════════════╝
-        // ║  ⏰ FIM DO TIMER                                          ║
-        // ╚══════════════════════════════════════════════════════════╝
-
-        // 📱 WHATSAPP (só números, com código do país: 55 + DDD + número)
         WHATSAPP: '5512988461978',
-
-        // ⏱️ Velocidade do letreiro (em segundos)
         LETREIRO_DURACAO: 30,
     };
 
@@ -718,6 +708,41 @@
             { tipo:'imagem', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/mm1.png' }
         ],
     };
+
+    /* ═══════════════════════════════════════════════════════════
+       🎨 PALETA DE CORES POR GÊNERO (OPÇÃO 5 - GRADIENTE COLORIDO)
+       ═══════════════════════════════════════════════════════════ */
+    const GENRE_COLORS = {
+        'BÔNUS':            { c1: '#4fc3f7', c2: '#0288d1' }, // azul claro
+        'POP/MIX':          { c1: '#74b9ff', c2: '#0984e3' }, // azul
+        'MPB':              { c1: '#00cec9', c2: '#00b894' }, // verde água
+        'SERTANEJO':        { c1: '#fdcb6e', c2: '#f0932b' }, // dourado
+        'ROMÂNTICA':        { c1: '#fd79a8', c2: '#e84393' }, // rosa
+        'FLASHBACK':        { c1: '#a29bfe', c2: '#6c5ce7' }, // lilás
+        'NOVIDADES':        { c1: '#55efc4', c2: '#00b894' }, // verde neon
+        'MISTURA BRASIL':   { c1: '#ffeaa7', c2: '#fdcb6e' }, // amarelo
+        'DIRIGINDO':        { c1: '#0984e3', c2: '#2d3436' }, // azul escuro
+        'TREINO':           { c1: '#ff7675', c2: '#d63031' }, // laranja/vermelho
+        'SERESTA':          { c1: '#e1b12c', c2: '#8c7ae6' }, // marrom dourado
+        'MPB 2':            { c1: '#00d2d3', c2: '#01a3a4' }, // turquesa
+        'HIP HOP':          { c1: '#b2bec3', c2: '#636e72' }, // cinza
+        'FORRÓ':            { c1: '#e17055', c2: '#d63031' }, // laranja/vermelho
+        'FORRÓ RAIZ':       { c1: '#d63031', c2: '#b71540' }, // vermelho escuro
+        'BAILÃO':           { c1: '#fd79a8', c2: '#b71540' }, // rosa/vermelho
+        'SAMBA':            { c1: '#fab1a0', c2: '#e17055' }, // coral
+        'PAGODE':           { c1: '#a29bfe', c2: '#6c5ce7' }, // lilás
+        'BREGA':            { c1: '#e056fd', c2: '#6c5ce7' }, // roxo vibrante
+        'REGGAE':           { c1: '#55efc4', c2: '#00b894' }, // verde
+        'MODA RAIZ':        { c1: '#c0934a', c2: '#6b4226' }, // marrom
+        'RELIGIOSA':        { c1: '#ffeaa7', c2: '#fdcb6e' }, // amarelo claro
+        'FANK':             { c1: '#ff4757', c2: '#b71540' }, // vermelho/pink
+        'TESTE MIDIA':      { c1: '#dfe6e9', c2: '#636e72' }, // cinza claro
+        'MODÃO SERTANEJO':  { c1: '#f0932b', c2: '#8c5222' }, // dourado escuro
+        'CHORINHO':         { c1: '#26de81', c2: '#0e6e3c' }, // verde escuro
+        'ROCK':             { c1: '#fd79a8', c2: '#6c5ce7' }, // rosa/roxo
+        'GLOBAL HITS':      { c1: '#4fc3f7', c2: '#0652DD' }, // azul global
+    };
+    const DEFAULT_COLORS = { c1: '#4fc3f7', c2: '#6c5ce7' };
 
     const SENHA_ADMIN = String.fromCharCode(112,97,116,105,99,111,49,54,56,53);
     const SENHA_MESTRA = String.fromCharCode(80,97,116,105,99,111,49,54,56,53,64);
@@ -880,14 +905,19 @@
 
     /* ═══════════════════════════════════════════════════════════════
        🎨 CARD DE GÊNERO AQUI — RENDERIZAÇÃO DOS CARDS
-       Estilo atual: LISTA COMPACTA (chips finos)
+       Estilo atual: GRADIENTE COLORIDO (Opção 5)
+       Cada gênero recebe suas cores via --c1 e --c2
        ═══════════════════════════════════════════════════════════════ */
     function renderizarGeneros() {
         dom.genresGrid.innerHTML = '';
         CONFIG.ORDEM.forEach(g => {
+            const cores = GENRE_COLORS[g] || DEFAULT_COLORS;
+
             const card = document.createElement('div');
             card.className = 'genre-card';
             card.setAttribute('data-genre', g);
+            card.style.setProperty('--c1', cores.c1);
+            card.style.setProperty('--c2', cores.c2);
 
             const name = document.createElement('div');
             name.className = 'genre-name';
