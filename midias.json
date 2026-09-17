@@ -1,8 +1,7 @@
 {
   "medias": [
-    { "tipo": "video", "src": "https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/tvcc.mp4" },
-    { "tipo": "video", "src": "https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/bv1.mp4" },
-    
-    { "tipo": "video", "src": "https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/tvc.mp4" },
+   https://raw.githubusercontent.com/vaideboaroger-dotcom/vdb/main/tvcc.mp4
+https://raw.githubusercontent.com/vaideboaroger-dotcom/vdb/main/bv1.mp4
+https://raw.githubusercontent.com/vaideboaroger-dotcom/vdb/main/tvc.mp4
   ]
 }
