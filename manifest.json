@@ -1,7 +1,7 @@
 {
   "name": "VAI DE BOA! MUSIC",
   "short_name": "VDB Music",
-  "description": "Ouça +5 mil músicas — Sertanejo, MPB, Rock, Forró, Pagode e muito mais!",
+  "description": "Ouça +5 mil músicas",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -9,7 +9,6 @@
   "background_color": "#0a0a0a",
   "theme_color": "#000000",
   "lang": "pt-BR",
-  "categories": ["music", "entertainment"],
   "icons": [
     { "src": "favicon192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "favicon30.png",  "sizes": "512x512", "type": "image/png", "purpose": "any" },
