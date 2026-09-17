@@ -1,38 +1,42 @@
+// Service Worker — VAI DE BOA! MUSIC
 const CACHE_NAME = 'vdb-music-v1';
-const CACHE_URLS = ['./', './index.html', './manifest.json'];
+const ASSETS = [
+  './',
+  './index.html',
+  './manifest.json',
+  './favicon30.png',
+  './favicon192.png'
+];
 
 self.addEventListener('install', (event) => {
-  self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(CACHE_URLS)).catch(()=>{})
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS).catch(() => {}))
   );
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((nomes) => {
-      return Promise.all(nomes.filter((n) => n !== CACHE_NAME).map((n) => caches.delete(n)));
-    }).then(() => self.clients.claim())
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
+    )
+  );
+  self.clients.claim();
+});
+
+self.addEventListener('fetch', (event) => {
+  if (event.request.method !== 'GET') return;
+  event.respondWith(
+    fetch(event.request)
+      .then((response) => {
+        const copy = response.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy).catch(() => {}));
+        return response;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
 
 self.addEventListener('message', (event) => {
   if (event.data === 'SKIP_WAITING') self.skipWaiting();
-});
-
-self.addEventListener('fetch', (event) => {
-  const { request } = event;
-  if (request.method !== 'GET') return;
-  if (request.url.includes('raw.githubusercontent.com')) return;
-  if (request.url.includes('api.qrserver.com')) return;
-  if (request.url.includes('fonts.googleapis.com')) return;
-  if (request.url.includes('fonts.gstatic.com')) return;
-  if (request.url.includes('cdnjs.cloudflare.com')) return;
-  event.respondWith(
-    fetch(request).then((response) => {
-      const clone = response.clone();
-      caches.open(CACHE_NAME).then((cache) => cache.put(request, clone).catch(()=>{}));
-      return response;
-    }).catch(() => caches.match(request))
-  );
 });
