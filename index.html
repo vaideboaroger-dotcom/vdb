@@ -46,11 +46,62 @@
 
         #playerContainer { position:fixed; inset:0; z-index:10; display:none; }
         #playerContainer.visible { display:block; }
-        .media-container { position:fixed; inset:0; z-index:0; background:var(--dark); overflow:hidden; }
-        .media-container video, .media-container img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1s ease; }
-        .media-container .active { opacity:1; z-index:3; }
-        .media-container .inactive { opacity:0; z-index:0; }
+        
+        /* ═══════════════════════════════════════════════════════════
+           🎬 MEDIA CONTAINER MELHORADO - SEM GAPS/ESPAÇOS
+           ═══════════════════════════════════════════════════════════ */
+        .media-container { 
+            position:fixed; 
+            inset:0; 
+            z-index:0; 
+            background:#000; 
+            overflow:hidden; 
+            /* Previne gaps entre elementos */
+            display:block;
+        }
+        .media-container video, 
+        .media-container img { 
+            position:absolute; 
+            inset:0; 
+            width:100%; 
+            height:100%; 
+            object-fit:cover; 
+            opacity:0; 
+            /* Transição mais suave para evitar flicker */
+            transition:opacity 0.8s ease-in-out;
+            /* Remove gaps */
+            margin:0;
+            padding:0;
+            border:0;
+            outline:0;
+            /* Força renderização */
+            will-change:opacity;
+            transform:translateZ(0);
+            -webkit-transform:translateZ(0);
+            backface-visibility:hidden;
+            -webkit-backface-visibility:hidden;
+        }
+        .media-container .active { 
+            opacity:1; 
+            z-index:3; 
+            /* Garante que vídeos ativos sejam visíveis */
+            visibility:visible;
+        }
+        .media-container .inactive { 
+            opacity:0; 
+            z-index:0; 
+            /* Não usa display:none para evitar flash */
+            visibility:hidden;
+        }
         .media-container .clickable { cursor:pointer; }
+        
+        /* Fallback background sempre visível por baixo */
+        .media-container .media-fallback {
+            position:absolute;
+            inset:0;
+            z-index:1;
+            background:radial-gradient(circle at center, #1a1a3e, #0a0a1e);
+        }
 
         .top-bar { position:fixed; top:0; left:0; right:0; z-index:35; display:flex; align-items:center; justify-content:space-between; padding:6px 12px; background:linear-gradient(180deg, rgba(10,10,30,0.9) 0%, transparent 100%); height:54px; }
         .top-left { display:flex; align-items:center; gap:10px; }
@@ -124,7 +175,6 @@
 
         /* ═══════════════════════════════════════════════════════════
            🎨 MODAL DE GÊNEROS — OVERLAY DE TELA CHEIA
-           (opção 5 = gradiente colorido nos CARDS internos)
            ═══════════════════════════════════════════════════════════ */
         .genres-modal {
             position: fixed;
@@ -169,7 +219,6 @@
             margin-top: 2px;
         }
 
-        /* Lista de gêneros */
         .genres-grid {
             display: flex;
             flex-direction: column;
@@ -181,7 +230,6 @@
         }
         .genres-grid::-webkit-scrollbar { display: none; }
 
-        /* ✨ CARD DE GÊNERO — GRADIENTE COLORIDO (Opção 5) */
         .genre-card {
             position: relative;
             min-height: 62px;
@@ -247,9 +295,6 @@
             flex-shrink: 0;
         }
         .close-genres:active { background: rgba(255,255,255,0.15); transform: scale(0.97); }
-        /* ═══════════════════════════════════════════════════════════
-           🎨 FIM DO MODAL DE GÊNERO
-           ═══════════════════════════════════════════════════════════ */
 
         .fav-modal { position:fixed; bottom:0; left:0; right:0; background:rgba(10,10,30,0.98); backdrop-filter:blur(20px); border-radius:25px 25px 0 0; padding:14px 12px 18px; z-index:2001; transform:translateY(100%); transition:transform 0.3s cubic-bezier(0.4,0,0.2,1); max-height:70vh; overflow:hidden; border-top:1px solid rgba(255,255,255,0.05); }
         .fav-modal.open { transform:translateY(0); }
@@ -351,12 +396,123 @@
         #adminPanel .total { font-size:0.5rem; color:#555; text-align:center; padding:4px; border-top:1px solid rgba(255,255,255,0.03); margin-top:4px; }
         #adminPanel .btn-fechar { background:rgba(255,255,255,0.03); border:none; padding:8px; border-radius:20px; color:#555; cursor:pointer; width:100%; font-size:0.75rem; margin-top:4px; }
 
-        #bannerPromocional { position:fixed; bottom:16px; right:16px; z-index:9999; background:linear-gradient(135deg, #6c5ce7, #fd79a8, #fdcb6e); background-size: 200% 200%; animation: gradientBanner 4s ease-in-out infinite alternate; border:2px solid rgba(255,255,255,0.2); border-radius:30px; padding:8px 14px; display:flex; align-items:center; gap:8px; box-shadow:0 4px 30px rgba(108,92,231,0.5); cursor:pointer; opacity:0; transform:translateX(100%) scale(0.8); transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1); pointer-events:none; max-width:90vw; }
-        #bannerPromocional.mostrar { opacity:1; transform:translateX(0) scale(1); pointer-events:auto; }
-        @keyframes gradientBanner { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        #bannerPromocional img { width:28px; height:28px; border-radius:50%; object-fit:cover; border:2px solid rgba(255,255,255,0.4); }
-        #bannerPromocional .banner-texto { color:#fff; font-size:0.75rem; font-weight:800; white-space:nowrap; text-shadow:0 2px 10px rgba(0,0,0,0.3); }
-        #bannerPromocional .banner-texto span { color:#fff; background:rgba(0,0,0,0.2); padding:2px 6px; border-radius:12px; font-weight:900; }
+        /* ═══════════════════════════════════════════════════════════
+           🎨 BANNER PROMOCIONAL MELHORADO - EFEITO VIDRO (GLASSMORPHISM)
+           Posicionado no lado direito, meio da tela
+           ═══════════════════════════════════════════════════════════ */
+        #bannerPromocional { 
+            position: fixed; 
+            right: 16px; 
+            top: 50%; 
+            transform: translateY(-50%) translateX(120%) scale(0.8); 
+            z-index: 9999; 
+            /* Efeito de vidro (glassmorphism) */
+            background: rgba(108, 92, 231, 0.15);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 
+                0 8px 32px rgba(108, 92, 231, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+            cursor: pointer; 
+            opacity: 0; 
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); 
+            pointer-events: none; 
+            max-width: 200px;
+            /* Efeito de brilho animado */
+            overflow: hidden;
+        }
+        #bannerPromocional::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 70%
+            );
+            animation: brilhoBanner 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes brilhoBanner {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        #bannerPromocional.mostrar { 
+            opacity: 1; 
+            transform: translateY(-50%) translateX(0) scale(1); 
+            pointer-events: auto; 
+        }
+        #bannerPromocional:active {
+            transform: translateY(-50%) translateX(0) scale(0.95);
+            filter: brightness(1.2);
+        }
+        #bannerPromocional img { 
+            width: 44px; 
+            height: 44px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(108, 92, 231, 0.4);
+        }
+        #bannerPromocional .banner-texto { 
+            color: #fff; 
+            font-size: 0.7rem; 
+            font-weight: 800; 
+            white-space: nowrap; 
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); 
+            text-align: center;
+            line-height: 1.3;
+        }
+        #bannerPromocional .banner-texto .titulo-banner {
+            display: block;
+            font-size: 0.85rem;
+            background: linear-gradient(135deg, #fdcb6e, #fd79a8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+        #bannerPromocional .banner-texto .preco-banner {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: #fff;
+            margin-top: 2px;
+            text-shadow: 0 0 20px rgba(253, 203, 110, 0.5);
+        }
+        #bannerPromocional .banner-texto .preco-banner small {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 600;
+        }
+        #bannerPromocional .banner-pulse {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: #00b894;
+            border-radius: 50%;
+            animation: pulseBanner 1.5s ease-in-out infinite;
+            box-shadow: 0 0 10px #00b894;
+        }
+        @keyframes pulseBanner {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+        }
 
         #btnSairModoTV { position:fixed; top:90px; right:12px; z-index:60; background:rgba(0,0,0,0.6); backdrop-filter:blur(8px); color:#fff; border:1px solid rgba(255,255,255,0.2); border-radius:50%; width:34px; height:34px; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; }
 
@@ -411,9 +567,11 @@
             .fav-item-modal .fav-info .title { font-size:0.75rem; }
             .fav-item-modal .fav-info .artist { font-size:0.6rem; }
             .notification { font-size:0.8rem; padding:7px 14px; top:90px; }
-            #bannerPromocional { padding:6px 10px; bottom:12px; right:12px; }
-            #bannerPromocional img { width:24px; height:24px; }
-            #bannerPromocional .banner-texto { font-size:0.65rem; }
+            #bannerPromocional { right: 10px; padding: 10px 12px; max-width: 160px; }
+            #bannerPromocional img { width: 36px; height: 36px; }
+            #bannerPromocional .banner-texto { font-size: 0.6rem; }
+            #bannerPromocional .banner-texto .titulo-banner { font-size: 0.7rem; }
+            #bannerPromocional .banner-texto .preco-banner { font-size: 0.9rem; }
             #btnSairModoTV { top:80px; right:10px; width:30px; height:30px; font-size:1rem; }
             .genero-nome { font-size:0.7rem; letter-spacing:0.8px; }
         }
@@ -429,7 +587,10 @@
 </div>
 
 <div id="playerContainer">
-    <div class="media-container" id="mediaContainer"></div>
+    <div class="media-container" id="mediaContainer">
+        <!-- Fallback background sempre presente -->
+        <div class="media-fallback"></div>
+    </div>
     <div class="top-bar">
         <div class="top-left">
             <img src="favicon30.png" alt="VDB Music" class="logo-macaco" id="logoMacaco">
@@ -622,9 +783,17 @@
     <button id="closeFeedbackBtn">Cancelar</button>
 </div>
 
+<!-- ═══════════════════════════════════════════════════════════
+     🎨 BANNER PROMOCIONAL MELHORADO - EFEITO VIDRO
+     Lado direito, meio da tela
+     ═══════════════════════════════════════════════════════════ -->
 <div id="bannerPromocional">
+    <div class="banner-pulse"></div>
     <img src="favicon30.png" alt="VDB">
-    <div class="banner-texto">🔥 <span>VITALÍCIO</span> R$ 39,00</div>
+    <div class="banner-texto">
+        <span class="titulo-banner">VITALÍCIO</span>
+        <span class="preco-banner">R$ 39<small>,00</small></span>
+    </div>
 </div>
 
 <button id="btnInstalarFixo"><i class="fas fa-download"></i> INSTALAR APP</button>
@@ -641,13 +810,149 @@
 </div>
 
 <script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   🔧 SERVICE WORKER INLINE - REGISTRO RÁPIDO E ATUALIZAÇÃO AUTOMÁTICA
+   Integrado diretamente no HTML para atualização mais rápida
+   ═══════════════════════════════════════════════════════════════════════════ */
+(function() {
+    'use strict';
+    
+    const SW_VERSION = 'vdb-v' + Date.now();
+    const CACHE_NAME = SW_VERSION;
+    const PRECACHE_URLS = [
+        './',
+        './index.html',
+        './manifest.json',
+        './favicon30.png',
+        './favicon192.png',
+        './favicon512.png'
+    ];
+
+    const NO_CACHE_EXT = ['.mp4', '.webm', '.mp3', '.json', '.jpg', '.jpeg', '.gif', '.svg'];
+    const NO_CACHE_HOSTS = [
+        'raw.githubusercontent.com',
+        'api.qrserver.com',
+        'wa.me',
+        'api.whatsapp.com',
+        'fonts.googleapis.com',
+        'fonts.gstatic.com',
+        'cdnjs.cloudflare.com',
+        'cdn.jsdelivr.net'
+    ];
+
+    // Cria o Service Worker como Blob URL para registro inline
+    const swCode = `
+        const CACHE_NAME = '${CACHE_NAME}';
+        const PRECACHE_URLS = ${JSON.stringify(PRECACHE_URLS)};
+        const NO_CACHE_EXT = ${JSON.stringify(NO_CACHE_EXT)};
+        const NO_CACHE_HOSTS = ${JSON.stringify(NO_CACHE_HOSTS)};
+
+        self.addEventListener('install', (event) => {
+            console.log('[SW] Install', CACHE_NAME);
+            event.waitUntil(
+                caches.open(CACHE_NAME)
+                    .then((cache) => cache.addAll(PRECACHE_URLS).catch(() => {}))
+                    .then(() => self.skipWaiting())
+            );
+        });
+
+        self.addEventListener('activate', (event) => {
+            console.log('[SW] Activate', CACHE_NAME);
+            event.waitUntil(
+                caches.keys()
+                    .then((keys) => Promise.all(
+                        keys
+                            .filter((k) => k.startsWith('vdb-') && k !== CACHE_NAME)
+                            .map((k) => caches.delete(k))
+                    ))
+                    .then(() => self.clients.claim())
+            );
+        });
+
+        self.addEventListener('fetch', (event) => {
+            const req = event.request;
+            if (req.method !== 'GET') return;
+
+            const url = new URL(req.url);
+            if (!url.protocol.startsWith('http')) return;
+
+            const path = url.pathname.toLowerCase();
+            const isNoCacheExt = NO_CACHE_EXT.some((ext) => path.endsWith(ext));
+            const isNoCacheHost = NO_CACHE_HOSTS.some((host) => url.hostname.includes(host));
+
+            if (isNoCacheExt || isNoCacheHost) {
+                event.respondWith(
+                    fetch(req).catch(() => new Response('', { status: 503, statusText: 'Offline' }))
+                );
+                return;
+            }
+
+            event.respondWith(
+                caches.match(req).then((cached) => {
+                    const networkFetch = fetch(req)
+                        .then((response) => {
+                            if (response && response.status === 200 && response.type === 'basic') {
+                                const clone = response.clone();
+                                caches.open(CACHE_NAME).then((cache) => cache.put(req, clone));
+                            }
+                            return response;
+                        })
+                        .catch(() => cached);
+                    return cached || networkFetch;
+                })
+            );
+        });
+
+        self.addEventListener('message', (event) => {
+            if (event.data === 'SKIP_WAITING') self.skipWaiting();
+            if (event.data === 'CLEAR_CACHE') {
+                caches.keys().then((keys) => Promise.all(keys.map((k) => caches.delete(k))));
+            }
+        });
+    `;
+
+    // Registra o Service Worker inline
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+            try {
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                const reg = await navigator.serviceWorker.register(swUrl, { scope: './' });
+                console.log('✅ Service Worker inline registrado:', reg.scope);
+                
+                // Força atualização imediata
+                if (reg.waiting) {
+                    reg.waiting.postMessage('SKIP_WAITING');
+                }
+                reg.addEventListener('updatefound', () => {
+                    const newWorker = reg.installing;
+                    if (newWorker) {
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                newWorker.postMessage('SKIP_WAITING');
+                            }
+                        });
+                    }
+                });
+            } catch (err) {
+                console.warn('⚠️ Service Worker inline falhou, tentando arquivo externo:', err);
+                // Fallback para arquivo externo
+                try {
+                    await navigator.serviceWorker.register('./sw.js', { scope: './' });
+                    console.log('✅ Service Worker externo registrado');
+                } catch (e) {
+                    console.warn('⚠️ Service Worker externo também falhou:', e);
+                }
+            }
+        });
+    }
+})();
+
 (function(){
     'use strict';
 
     /* ═══════════════════════════════════════════════════════════════
-       ╔═══════════════════════════════════════════════════════════╗
-       ║   ⚙️  CONFIGURAÇÕES — EDITE AQUI                          ║
-       ╚═══════════════════════════════════════════════════════════╝
+       ⚙️  CONFIGURAÇÕES — EDITE AQUI
        ═══════════════════════════════════════════════════════════════ */
 
     const EDITE_AQUI = {
@@ -701,45 +1006,45 @@
         REPOS: {'BÔNUS':'play12','MPB':'mpbtop','POP/MIX':'poptop','SERTANEJO':'sertanejo','FORRÓ':'forrodez','SAMBA':'sambatop','BREGA':'bregatop','REGGAE':'reggaetop','MODA RAIZ':'modatop','RELIGIOSA':'religiosa','ROMÂNTICA':'romanticatop','FLASHBACK':'flashbacktop','FANK':'fank','TESTE MIDIA':'testemidias','MODÃO SERTANEJO':'modasertaneja','CHORINHO':'chorinho','FORRÓ RAIZ':'forroraiz','ROCK':'rock','NOVIDADES':'VDB','MISTURA BRASIL':'listtop','DIRIGINDO':'listtop','TREINO':'listtop','SERESTA':'sertanejo','MPB 2':'mpbtop','HIP HOP':'poptop','PAGODE':'sambatop','BAILÃO':'forrodez','GLOBAL HITS':'chorinho'},
         MIDIAS_PADRAO_URL: 'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/midias.json',
         MIDIAS_TV_URL: 'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/modotv.json',
-       FALLBACK_MIDIAS: [
-    { tipo:'video', src:'https://raw.githubusercontent.com/vaideboaroger-dotcom/vdb/main/tvcc.mp4' },
-    { tipo:'video', src:'https://raw.githubusercontent.com/vaideboaroger-dotcom/vdb/main/bv1.mp4' },
-    { tipo:'video', src:'https://raw.githubusercontent.com/vaideboaroger-dotcom/vdb/main/tvc.mp4' }
-],
+        FALLBACK_MIDIAS: [
+            { tipo:'video', src:'https://raw.githubusercontent.com/vaideboaroger-dotcom/vdb/main/tvcc.mp4' },
+            { tipo:'video', src:'https://raw.githubusercontent.com/vaideboaroger-dotcom/vdb/main/bv1.mp4' },
+            { tipo:'video', src:'https://raw.githubusercontent.com/vaideboaroger-dotcom/vdb/main/tvc.mp4' }
+        ],
     };
 
     /* ═══════════════════════════════════════════════════════════
-       🎨 PALETA DE CORES POR GÊNERO (OPÇÃO 5 - GRADIENTE COLORIDO)
+       🎨 PALETA DE CORES POR GÊNERO
        ═══════════════════════════════════════════════════════════ */
     const GENRE_COLORS = {
-        'BÔNUS':            { c1: '#4fc3f7', c2: '#0288d1' }, // azul claro
-        'POP/MIX':          { c1: '#74b9ff', c2: '#0984e3' }, // azul
-        'MPB':              { c1: '#00cec9', c2: '#00b894' }, // verde água
-        'SERTANEJO':        { c1: '#fdcb6e', c2: '#f0932b' }, // dourado
-        'ROMÂNTICA':        { c1: '#fd79a8', c2: '#e84393' }, // rosa
-        'FLASHBACK':        { c1: '#a29bfe', c2: '#6c5ce7' }, // lilás
-        'NOVIDADES':        { c1: '#55efc4', c2: '#00b894' }, // verde neon
-        'MISTURA BRASIL':   { c1: '#ffeaa7', c2: '#fdcb6e' }, // amarelo
-        'DIRIGINDO':        { c1: '#0984e3', c2: '#2d3436' }, // azul escuro
-        'TREINO':           { c1: '#ff7675', c2: '#d63031' }, // laranja/vermelho
-        'SERESTA':          { c1: '#e1b12c', c2: '#8c7ae6' }, // marrom dourado
-        'MPB 2':            { c1: '#00d2d3', c2: '#01a3a4' }, // turquesa
-        'HIP HOP':          { c1: '#b2bec3', c2: '#636e72' }, // cinza
-        'FORRÓ':            { c1: '#e17055', c2: '#d63031' }, // laranja/vermelho
-        'FORRÓ RAIZ':       { c1: '#d63031', c2: '#b71540' }, // vermelho escuro
-        'BAILÃO':           { c1: '#fd79a8', c2: '#b71540' }, // rosa/vermelho
-        'SAMBA':            { c1: '#fab1a0', c2: '#e17055' }, // coral
-        'PAGODE':           { c1: '#a29bfe', c2: '#6c5ce7' }, // lilás
-        'BREGA':            { c1: '#e056fd', c2: '#6c5ce7' }, // roxo vibrante
-        'REGGAE':           { c1: '#55efc4', c2: '#00b894' }, // verde
-        'MODA RAIZ':        { c1: '#c0934a', c2: '#6b4226' }, // marrom
-        'RELIGIOSA':        { c1: '#ffeaa7', c2: '#fdcb6e' }, // amarelo claro
-        'FANK':             { c1: '#ff4757', c2: '#b71540' }, // vermelho/pink
-        'TESTE MIDIA':      { c1: '#dfe6e9', c2: '#636e72' }, // cinza claro
-        'MODÃO SERTANEJO':  { c1: '#f0932b', c2: '#8c5222' }, // dourado escuro
-        'CHORINHO':         { c1: '#26de81', c2: '#0e6e3c' }, // verde escuro
-        'ROCK':             { c1: '#fd79a8', c2: '#6c5ce7' }, // rosa/roxo
-        'GLOBAL HITS':      { c1: '#4fc3f7', c2: '#0652DD' }, // azul global
+        'BÔNUS':            { c1: '#4fc3f7', c2: '#0288d1' },
+        'POP/MIX':          { c1: '#74b9ff', c2: '#0984e3' },
+        'MPB':              { c1: '#00cec9', c2: '#00b894' },
+        'SERTANEJO':        { c1: '#fdcb6e', c2: '#f0932b' },
+        'ROMÂNTICA':        { c1: '#fd79a8', c2: '#e84393' },
+        'FLASHBACK':        { c1: '#a29bfe', c2: '#6c5ce7' },
+        'NOVIDADES':        { c1: '#55efc4', c2: '#00b894' },
+        'MISTURA BRASIL':   { c1: '#ffeaa7', c2: '#fdcb6e' },
+        'DIRIGINDO':        { c1: '#0984e3', c2: '#2d3436' },
+        'TREINO':           { c1: '#ff7675', c2: '#d63031' },
+        'SERESTA':          { c1: '#e1b12c', c2: '#8c7ae6' },
+        'MPB 2':            { c1: '#00d2d3', c2: '#01a3a4' },
+        'HIP HOP':          { c1: '#b2bec3', c2: '#636e72' },
+        'FORRÓ':            { c1: '#e17055', c2: '#d63031' },
+        'FORRÓ RAIZ':       { c1: '#d63031', c2: '#b71540' },
+        'BAILÃO':           { c1: '#fd79a8', c2: '#b71540' },
+        'SAMBA':            { c1: '#fab1a0', c2: '#e17055' },
+        'PAGODE':           { c1: '#a29bfe', c2: '#6c5ce7' },
+        'BREGA':            { c1: '#e056fd', c2: '#6c5ce7' },
+        'REGGAE':           { c1: '#55efc4', c2: '#00b894' },
+        'MODA RAIZ':        { c1: '#c0934a', c2: '#6b4226' },
+        'RELIGIOSA':        { c1: '#ffeaa7', c2: '#fdcb6e' },
+        'FANK':             { c1: '#ff4757', c2: '#b71540' },
+        'TESTE MIDIA':      { c1: '#dfe6e9', c2: '#636e72' },
+        'MODÃO SERTANEJO':  { c1: '#f0932b', c2: '#8c5222' },
+        'CHORINHO':         { c1: '#26de81', c2: '#0e6e3c' },
+        'ROCK':             { c1: '#fd79a8', c2: '#6c5ce7' },
+        'GLOBAL HITS':      { c1: '#4fc3f7', c2: '#0652DD' },
     };
     const DEFAULT_COLORS = { c1: '#4fc3f7', c2: '#6c5ce7' };
 
@@ -895,41 +1200,215 @@
     function manterAudioAtivo() { if(keepAliveInterval) clearInterval(keepAliveInterval); keepAliveInterval = setInterval(() => { if(!appState.isBackgroundActive) return; try { if(dom.backgroundAudio.paused) dom.backgroundAudio.play().catch(()=>{}); if(appState.isPlaying && dom.audio.paused && !dom.audio.ended && dom.audio.src && !appState.carregandoMusica) { dom.audio.play().catch(()=>{}); } } catch(e) {} }, 3000); dom.audio.addEventListener('ended', () => { if(appState.isPlaying && !appState.carregandoMusica) next(); }); dom.audio.addEventListener('pause', () => { if(appState.isPlaying && !appState.carregandoMusica && !dom.audio.ended) { setTimeout(() => { if(appState.isPlaying && dom.audio.paused) dom.audio.play().catch(()=>{}); }, 300); } }); }
     async function ativarPlayer() { if(appState.playerAtivado) return; appState.playerAtivado = true; updateProgress(30); try { dom.backgroundAudio.src = getSilentAudioUrl(); dom.backgroundAudio.loop = true; dom.backgroundAudio.volume = 0.001; await dom.backgroundAudio.play(); appState.isBackgroundActive = true; dom.audioStatus.classList.add('active'); manterAudioAtivo(); if('wakeLock' in navigator) { try { appState.wakeLock = await navigator.wakeLock.request('screen'); } catch(e) {} } updateProgress(70); forcarTelaCheia(); iniciarTimerCorrido(); updateProgress(100); setTimeout(tocar, 500); } catch(e) { appState.isBackgroundActive = true; dom.audioStatus.classList.add('active'); updateProgress(100); forcarTelaCheia(); iniciarTimerCorrido(); setTimeout(tocar, 500); } }
 
-    async function carregarMidiasPadrao() { try { dom.mediaContainer.innerHTML = ''; let midias = []; try { const response = await fetch(CONFIG.MIDIAS_PADRAO_URL + '?v='+CONFIG.CACHE_VERSION+'&t='+now()); const data = await response.json(); if(Array.isArray(data)) midias = data; else if(data.medias) midias = data.medias; else if(data.midias) midias = data.midias; } catch(e) {} if(!midias.length) midias = CONFIG.FALLBACK_MIDIAS; midias = midias.filter(m=>m&&(m.tipo==='video'||m.tipo==='imagem')&&m.src); if(!midias.length) midias = CONFIG.FALLBACK_MIDIAS; const fallbackDiv = document.createElement('div'); fallbackDiv.style.cssText = 'position:absolute;inset:0;background:radial-gradient(circle at center,#1a1a3e,#0a0a1e);z-index:1;'; dom.mediaContainer.appendChild(fallbackDiv); midias.forEach((m,i) => { let el; if(m.tipo==='video') { el = document.createElement('video'); el.src = m.src + (m.src.includes('?')?'&':'?')+'v='+CONFIG.CACHE_VERSION; el.muted = true; el.playsInline = true; el.loop = true; el.load(); el.onerror = ()=>el.style.display='none'; } else { el = document.createElement('img'); el.src = m.src + (m.src.includes('?')?'&':'?')+'v='+CONFIG.CACHE_VERSION; el.loading='lazy'; el.alt='VDB Music'; el.onerror = ()=>el.style.display='none'; } el.className = i===0 ? 'active' : 'inactive'; if(m.src && m.src.toLowerCase().includes('clik')) { el.classList.add('clickable'); el.style.cursor='pointer'; } dom.mediaContainer.appendChild(el); if(i===0 && m.tipo==='video') el.play().catch(()=>{}); }); dom.mediaContainer.addEventListener('click', function(e) { const target = e.target.closest('video, img'); if(target && target.classList.contains('clickable')) abrirWhatsAppCompra(); }); const children = dom.mediaContainer.querySelectorAll('video, img'); if(children.length > 1) { if(appState.mediaTimer) clearInterval(appState.mediaTimer); let idx = 0; appState.mediaTimer = setInterval(() => { const atual = children[idx]; const prox = children[(idx+1) % children.length]; if(!atual || !prox) return; atual.className = 'inactive'; if(atual.tagName === 'VIDEO') atual.pause(); prox.className = 'active'; if(prox.tagName === 'VIDEO') prox.play().catch(()=>{}); idx = (idx+1) % children.length; }, 5000); } } catch(erro) { dom.mediaContainer.innerHTML = ''; } }
+    /* ═══════════════════════════════════════════════════════════════
+       🎬 CARREGAMENTO DE MÍDIAS MELHORADO - SEM GAPS/ESPAÇOS
+       ═══════════════════════════════════════════════════════════════ */
+    async function carregarMidiasPadrao() { 
+        try { 
+            // Limpa apenas os elementos de mídia, mantendo o fallback
+            const fallback = dom.mediaContainer.querySelector('.media-fallback');
+            dom.mediaContainer.innerHTML = '';
+            if(fallback) dom.mediaContainer.appendChild(fallback);
+            
+            let midias = []; 
+            try { 
+                const response = await fetch(CONFIG.MIDIAS_PADRAO_URL + '?v='+CONFIG.CACHE_VERSION+'&t='+now()); 
+                const data = await response.json(); 
+                if(Array.isArray(data)) midias = data; 
+                else if(data.medias) midias = data.medias; 
+                else if(data.midias) midias = data.midias; 
+            } catch(e) {} 
+            
+            if(!midias.length) midias = CONFIG.FALLBACK_MIDIAS; 
+            midias = midias.filter(m=>m&&(m.tipo==='video'||m.tipo==='imagem')&&m.src); 
+            if(!midias.length) midias = CONFIG.FALLBACK_MIDIAS; 
+            
+            // Cria fallback se não existir
+            if(!dom.mediaContainer.querySelector('.media-fallback')) {
+                const fallbackDiv = document.createElement('div'); 
+                fallbackDiv.className = 'media-fallback';
+                fallbackDiv.style.cssText = 'position:absolute;inset:0;background:radial-gradient(circle at center,#1a1a3e,#0a0a1e);z-index:1;'; 
+                dom.mediaContainer.appendChild(fallbackDiv); 
+            }
+            
+            midias.forEach((m,i) => { 
+                let el; 
+                if(m.tipo==='video') { 
+                    el = document.createElement('video'); 
+                    el.src = m.src + (m.src.includes('?')?'&':'?')+'v='+CONFIG.CACHE_VERSION; 
+                    el.muted = true; 
+                    el.playsInline = true; 
+                    el.loop = true; 
+                    el.preload = 'auto';
+                    el.setAttribute('playsinline', '');
+                    el.setAttribute('webkit-playsinline', '');
+                    el.load(); 
+                    // Tratamento de erro melhorado
+                    el.onerror = () => { 
+                        console.warn('Erro ao carregar vídeo:', m.src);
+                        el.style.display='none'; 
+                        // Tenta próximo vídeo se este falhar
+                        const children = dom.mediaContainer.querySelectorAll('video, img');
+                        if(children.length > 1) {
+                            const nextIdx = (i + 1) % children.length;
+                            if(children[nextIdx]) {
+                                children[nextIdx].className = 'active';
+                                if(children[nextIdx].tagName === 'VIDEO') children[nextIdx].play().catch(()=>{});
+                            }
+                        }
+                    }; 
+                } else { 
+                    el = document.createElement('img'); 
+                    el.src = m.src + (m.src.includes('?')?'&':'?')+'v='+CONFIG.CACHE_VERSION; 
+                    el.loading='lazy'; 
+                    el.alt='VDB Music'; 
+                    el.onerror = ()=>el.style.display='none'; 
+                } 
+                el.className = i===0 ? 'active' : 'inactive'; 
+                if(m.src && m.src.toLowerCase().includes('clik')) { 
+                    el.classList.add('clickable'); 
+                    el.style.cursor='pointer'; 
+                } 
+                dom.mediaContainer.appendChild(el); 
+                if(i===0 && m.tipo==='video') el.play().catch(()=>{}); 
+            }); 
+            
+            dom.mediaContainer.addEventListener('click', function(e) { 
+                const target = e.target.closest('video, img'); 
+                if(target && target.classList.contains('clickable')) abrirWhatsAppCompra(); 
+            }); 
+            
+            const children = dom.mediaContainer.querySelectorAll('video, img'); 
+            if(children.length > 1) { 
+                if(appState.mediaTimer) clearInterval(appState.mediaTimer); 
+                let idx = 0; 
+                appState.mediaTimer = setInterval(() => { 
+                    const atual = children[idx]; 
+                    const prox = children[(idx+1) % children.length]; 
+                    if(!atual || !prox) return; 
+                    
+                    // Transição suave: ativa o próximo ANTES de desativar o atual
+                    prox.className = 'active'; 
+                    if(prox.tagName === 'VIDEO') {
+                        prox.currentTime = 0;
+                        prox.play().catch(()=>{}); 
+                    }
+                    
+                    // Pequeno delay para garantir que o próximo esteja visível
+                    setTimeout(() => {
+                        atual.className = 'inactive'; 
+                        if(atual.tagName === 'VIDEO') atual.pause(); 
+                    }, 50);
+                    
+                    idx = (idx+1) % children.length; 
+                }, 5000); 
+            } 
+        } catch(erro) { 
+            console.error('Erro ao carregar mídias:', erro);
+            // Não limpa o container em caso de erro para evitar tela preta
+        } 
+    }
 
-    async function carregarMidiasTV() { try { dom.mediaContainer.innerHTML = ''; let midias = []; try { const response = await fetch(CONFIG.MIDIAS_TV_URL + '?v='+CONFIG.CACHE_VERSION+'&t='+now()); const data = await response.json(); if(Array.isArray(data)) midias = data; else if(data.medias) midias = data.medias; else if(data.midias) midias = data.midias; } catch(e) {} if(!midias.length) midias = [ { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/tvbob.mp4' }, { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/amytv.mp4' } ]; midias = midias.filter(m=>m&&(m.tipo==='video'||m.tipo==='imagem')&&m.src); if(!midias.length) midias = [ { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/tvbob.mp4' }, { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/amytv.mp4' } ]; midias.forEach((m,i) => { let el; if(m.tipo==='video') { el = document.createElement('video'); el.src = m.src + (m.src.includes('?')?'&':'?')+'v='+CONFIG.CACHE_VERSION; el.muted = true; el.playsInline = true; el.loop = true; el.load(); el.onerror = ()=>el.style.display='none'; } else { el = document.createElement('img'); el.src = m.src + (m.src.includes('?')?'&':'?')+'v='+CONFIG.CACHE_VERSION; el.loading='lazy'; el.alt='VDB TV'; el.onerror = ()=>el.style.display='none'; } el.className = i===0 ? 'active' : 'inactive'; dom.mediaContainer.appendChild(el); if(i===0 && m.tipo==='video') el.play().catch(()=>{}); }); if(appState.mediaTVTimer) clearInterval(appState.mediaTVTimer); let idx=0; const children = dom.mediaContainer.querySelectorAll('video, img'); if(children.length > 1) { appState.mediaTVTimer = setInterval(() => { const atual = children[idx]; const prox = children[(idx+1) % children.length]; if(!atual || !prox) return; atual.className = 'inactive'; if(atual.tagName === 'VIDEO') atual.pause(); prox.className = 'active'; if(prox.tagName === 'VIDEO') prox.play().catch(()=>{}); idx = (idx+1) % children.length; }, 8000); } dom.infoScroll.classList.add('hidden'); mostrarBotaoSairTV(); } catch(erro) { dom.mediaContainer.innerHTML = ''; } }
+    async function carregarMidiasTV() { 
+        try { 
+            const fallback = dom.mediaContainer.querySelector('.media-fallback');
+            dom.mediaContainer.innerHTML = ''; 
+            if(fallback) dom.mediaContainer.appendChild(fallback);
+            
+            let midias = []; 
+            try { 
+                const response = await fetch(CONFIG.MIDIAS_TV_URL + '?v='+CONFIG.CACHE_VERSION+'&t='+now()); 
+                const data = await response.json(); 
+                if(Array.isArray(data)) midias = data; 
+                else if(data.medias) midias = data.medias; 
+                else if(data.midias) midias = data.midias; 
+            } catch(e) {} 
+            
+            if(!midias.length) midias = [ 
+                { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/tvbob.mp4' }, 
+                { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/amytv.mp4' } 
+            ]; 
+            midias = midias.filter(m=>m&&(m.tipo==='video'||m.tipo==='imagem')&&m.src); 
+            if(!midias.length) midias = [ 
+                { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/tvbob.mp4' }, 
+                { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/amytv.mp4' } 
+            ]; 
+            
+            midias.forEach((m,i) => { 
+                let el; 
+                if(m.tipo==='video') { 
+                    el = document.createElement('video'); 
+                    el.src = m.src + (m.src.includes('?')?'&':'?')+'v='+CONFIG.CACHE_VERSION; 
+                    el.muted = true; 
+                    el.playsInline = true; 
+                    el.loop = true; 
+                    el.preload = 'auto';
+                    el.setAttribute('playsinline', '');
+                    el.setAttribute('webkit-playsinline', '');
+                    el.load(); 
+                    el.onerror = ()=>el.style.display='none'; 
+                } else { 
+                    el = document.createElement('img'); 
+                    el.src = m.src + (m.src.includes('?')?'&':'?')+'v='+CONFIG.CACHE_VERSION; 
+                    el.loading='lazy'; 
+                    el.alt='VDB TV'; 
+                    el.onerror = ()=>el.style.display='none'; 
+                } 
+                el.className = i===0 ? 'active' : 'inactive'; 
+                dom.mediaContainer.appendChild(el); 
+                if(i===0 && m.tipo==='video') el.play().catch(()=>{}); 
+            }); 
+            
+            if(appState.mediaTVTimer) clearInterval(appState.mediaTVTimer); 
+            let idx=0; 
+            const children = dom.mediaContainer.querySelectorAll('video, img'); 
+            if(children.length > 1) { 
+                appState.mediaTVTimer = setInterval(() => { 
+                    const atual = children[idx]; 
+                    const prox = children[(idx+1) % children.length]; 
+                    if(!atual || !prox) return; 
+                    
+                    prox.className = 'active'; 
+                    if(prox.tagName === 'VIDEO') {
+                        prox.currentTime = 0;
+                        prox.play().catch(()=>{}); 
+                    }
+                    
+                    setTimeout(() => {
+                        atual.className = 'inactive'; 
+                        if(atual.tagName === 'VIDEO') atual.pause(); 
+                    }, 50);
+                    
+                    idx = (idx+1) % children.length; 
+                }, 8000); 
+            } 
+            dom.infoScroll.classList.add('hidden'); 
+            mostrarBotaoSairTV(); 
+        } catch(erro) { 
+            console.error('Erro ao carregar mídias TV:', erro);
+        } 
+    }
     function mostrarBotaoSairTV() { esconderBotaoSairTV(); const btn = document.createElement('button'); btn.id = 'btnSairModoTV'; btn.innerHTML = '✕'; btn.onclick = () => toggleModoTV(); document.body.appendChild(btn); }
     function esconderBotaoSairTV() { const btn = document.getElementById('btnSairModoTV'); if(btn) btn.remove(); }
     async function toggleModoTV() { appState.modoTV = !appState.modoTV; if(appState.modoTV) { notif('📺 Modo TV ATIVADO',2000); await carregarMidiasTV(); } else { notif('📺 Modo TV DESATIVADO',2000); if(appState.mediaTVTimer) { clearInterval(appState.mediaTVTimer); appState.mediaTVTimer = null; } dom.infoScroll.classList.remove('hidden'); esconderBotaoSairTV(); await carregarMidiasPadrao(); } appState._save(); }
 
-    /* ═══════════════════════════════════════════════════════════════
-       🎨 CARD DE GÊNERO AQUI — RENDERIZAÇÃO DOS CARDS
-       Estilo atual: GRADIENTE COLORIDO (Opção 5)
-       Cada gênero recebe suas cores via --c1 e --c2
-       ═══════════════════════════════════════════════════════════════ */
     function renderizarGeneros() {
         dom.genresGrid.innerHTML = '';
         CONFIG.ORDEM.forEach(g => {
             const cores = GENRE_COLORS[g] || DEFAULT_COLORS;
-
             const card = document.createElement('div');
             card.className = 'genre-card';
             card.setAttribute('data-genre', g);
             card.style.setProperty('--c1', cores.c1);
             card.style.setProperty('--c2', cores.c2);
-
             const name = document.createElement('div');
             name.className = 'genre-name';
             name.textContent = g;
             card.appendChild(name);
-
             card.onclick = () => selecionarGenero(g);
             dom.genresGrid.appendChild(card);
         });
     }
-    /* ═══════════════════════════════════════════════════════════════
-       🎨 FIM DO CARD DE GÊNERO
-       ═══════════════════════════════════════════════════════════════ */
 
     async function selecionarGenero(genero) { showLoad(true); const musicas = await cacheManager.get(genero, CONFIG.GENRE_URLS[genero]); if(!musicas || !musicas.length) { showLoad(false); notif('❌ Erro ao carregar '+genero,2000); dom.genresModal.classList.remove('open'); return; } dom.audio.pause(); appState.musicas = musicas; appState.modoAtual = genero; appState.playlistAtual = shuffle(musicas); appState.indiceAtual = 0; dom.generoNome.textContent = genero; dom.generoNome.style.color = GENRE_COLOR; dom.generoNome.style.textShadow = `0 0 12px ${GENRE_COLOR}, 0 0 24px rgba(79,195,247,0.4)`; const m = appState.playlistAtual[0]; if(m) { atualizarLetreiro(m); updateHeart(m.id); } renderizarGeneros(); showLoad(false); dom.genresModal.classList.remove('open'); forcarTelaCheia(); if(appState.isBackgroundActive) setTimeout(tocar, 300); appState._save(); }
 
@@ -991,14 +1470,6 @@
     if(fecharBtnGlobal) fecharBtnGlobal.onclick = () => instrucoesInstalar.classList.remove('active');
     window.addEventListener('appinstalled', () => { if(btnInstalarFixo) btnInstalarFixo.style.display = 'none'; notif('🎉 App instalado com sucesso!', 3000); });
     if(!ehMobile()) { if(btnInstalarFixo) btnInstalarFixo.style.display = 'none'; }
-
-    if('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js', { scope: './' })
-                .then((reg) => console.log('✅ Service Worker registrado:', reg.scope))
-                .catch((err) => console.warn('⚠️ Service Worker falhou:', err));
-        });
-    }
 
     async function iniciar() {
         try {
@@ -1077,7 +1548,7 @@
             dom.audio.onerror = () => { if(appState.carregandoMusica) return; errosConsec++; if(errosConsec >= 5) { errosConsec = 0; return; } next(); };
             dom.audio.oncanplay = () => { errosConsec = 0; };
             document.addEventListener('keydown', (e) => { if(e.target.tagName==='INPUT') return; if(e.key===' ') { e.preventDefault(); togglePlay(); } if(e.key==='ArrowRight') next(); if(e.key==='ArrowLeft') prev(); if(e.key==='s'||e.key==='S') toggleShuffle(); });
-            document.addEventListener('click', (e) => { if(e.target.closest('button') || e.target.closest('.genre-card') || e.target.closest('.fav-item-modal') || e.target.closest('#infoScroll') || e.target.closest('#btnInstalarFixo')) return; showControls(); });
+            document.addEventListener('click', (e) => { if(e.target.closest('button') || e.target.closest('.genre-card') || e.target.closest('.fav-item-modal') || e.target.closest('#infoScroll') || e.target.closest('#btnInstalarFixo') || e.target.closest('#bannerPromocional')) return; showControls(); });
             document.addEventListener('visibilitychange', () => { if(document.visibilityState==='visible') { forcarTelaCheia(); if(!appState.desbloqueado) { const tr=calcularTempoRestante(); appState.tempoRestante=tr; updateTimerDisplay(); if(tr<=0 && !appState.escolhaMostrada) { bloquear(); appState.escolhaMostrada = true; mostrarEscolha(); } } if(appState.isPlaying && dom.audio && dom.audio.paused && dom.audio.src && !appState.carregandoMusica) { dom.audio.play().then(()=>{ dom.playBtn.innerHTML='<i class="fas fa-pause"></i>'; if('mediaSession' in navigator) navigator.mediaSession.playbackState='playing'; }).catch(()=>{ if(appState.playlistAtual.length) tocar(); }); } if(appState.isBackgroundActive && dom.backgroundAudio.paused) { dom.backgroundAudio.src = getSilentAudioUrl(); dom.backgroundAudio.loop=true; dom.backgroundAudio.volume=0.001; dom.backgroundAudio.play().catch(()=>{}); } if('wakeLock' in navigator) navigator.wakeLock.request('screen').catch(()=>{}); } else { if('wakeLock' in navigator && appState.wakeLock) { try { appState.wakeLock.release(); } catch(e) {} appState.wakeLock = null; } } });
             dom.forceUpdateBtn.onclick = async () => { dom.menuPopup.classList.remove('open'); notif('🔄 Atualizando mídias...',1500); CONFIG.CACHE_VERSION++; localStorage.setItem('vdb_cache_version', String(CONFIG.CACHE_VERSION)); if(appState.modoTV) await carregarMidiasTV(); else await carregarMidiasPadrao(); notif('✅ Mídias atualizadas!',2000); };
             new TouchManager();
