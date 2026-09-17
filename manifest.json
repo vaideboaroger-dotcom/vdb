@@ -1,7 +1,7 @@
 {
   "name": "VAI DE BOA! MUSIC",
   "short_name": "VDB Music",
-  "description": "Ouça +5 mil músicas",
+  "description": "VAI DE BOA! MUSIC - +3 mil músicas vitalício",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -10,9 +10,17 @@
   "theme_color": "#000000",
   "lang": "pt-BR",
   "icons": [
-    { "src": "favicon192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "favicon30.png",  "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "favicon192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
-    { "src": "favicon30.png",  "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    {
+      "src": "favicon192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "favicon30.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }
