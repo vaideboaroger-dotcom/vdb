@@ -221,7 +221,6 @@
         #adminPanel .total { font-size:0.5rem; color:#555; text-align:center; padding:4px; border-top:1px solid rgba(255,255,255,0.03); margin-top:4px; }
         #adminPanel .btn-fechar { background:rgba(255,255,255,0.03); border:none; padding:8px; border-radius:20px; color:#555; cursor:pointer; width:100%; font-size:0.75rem; margin-top:4px; }
 
-        /* ⭐ BANNER PROMOCIONAL — MEIO DIREITO */
         #bannerPromocional {
             position: fixed;
             top: 50%;
@@ -256,7 +255,7 @@
 
         #btnSairModoTV { position:fixed; top:90px; right:12px; z-index:60; background:rgba(0,0,0,0.7); color:#fff; border:1px solid rgba(255,255,255,0.2); border-radius:50%; width:34px; height:34px; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; }
 
-        /* ⭐ BOTÃO INSTALAR APP */
+        /* ⭐ BOTÃO INSTALAR APP — sempre visível */
         #btnInstalarFixo {
             position: fixed;
             bottom: calc(20px + var(--safe-bottom));
@@ -322,14 +321,14 @@
             .genre-card .genre-name { font-size:0.78rem; }
             .notification { font-size:0.8rem; padding:7px 14px; top:90px; }
             #btnInstalarFixo { padding: 12px 18px; font-size: 0.85rem; }
-            /* ⭐ Banner no meio-direito (mobile também) */
             #bannerPromocional { right: 8px; padding: 8px 12px; max-width: 140px; }
             #bannerPromocional img { width: 28px; height: 28px; }
             #bannerPromocional .banner-texto { font-size: 0.65rem; }
         }
     </style>
 </head>
-<bod
+<body>
+
 <div class="particulas-bg">
     <div class="particula-bg"></div>
     <div class="particula-bg"></div>
@@ -804,7 +803,7 @@
     }
 
     /* ═══════════════════════════════════════════════════════════
-       📲 BOTÃO INSTALAR APP — FORÇA APARECER EM QUALQUER DISPOSITIVO
+       📲 BOTÃO INSTALAR APP — SEMPRE VISÍVEL (PC + CELULAR)
        ═══════════════════════════════════════════════════════════ */
     const btnInstalarFixo = document.getElementById('btnInstalarFixo');
     const instrucoesInstalar = document.getElementById('instrucoesInstalar');
@@ -813,49 +812,69 @@
 
     function jaEstaInstalado(){ return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
     function ehIOS(){ return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; }
+    function ehAndroid(){ return /Android/i.test(navigator.userAgent); }
+    function ehPC(){ return !ehIOS() && !ehAndroid() && !/Mobile/i.test(navigator.userAgent); }
 
     function forcarBotao(){
         if(!btnInstalarFixo) return;
         if(jaEstaInstalado()) { btnInstalarFixo.style.display = 'none'; return; }
-        const bloqueado = dom.blockOverlay.classList.contains('active') && dom.blockOverlay.style.display !== 'none';
-        if(bloqueado) { btnInstalarFixo.style.display = 'none'; return; }
+        // ✅ Mostra SEMPRE, independente do navegador
         btnInstalarFixo.classList.add('mostrar');
         btnInstalarFixo.style.display = 'flex';
     }
     function esconderBotao(){ if(btnInstalarFixo) { btnInstalarFixo.classList.remove('mostrar'); btnInstalarFixo.style.display = 'none'; } }
 
     window.addEventListener('beforeinstallprompt', (e) => {
-        console.log('✅ beforeinstallprompt disparado!');
         e.preventDefault();
         deferredInstallPrompt = e;
-        setTimeout(forcarBotao, 300);
+        forcarBotao();
     });
 
-    const overlayObserver = new MutationObserver(forcarBotao);
-    overlayObserver.observe(dom.blockOverlay, { attributes: true, attributeFilter: ['class', 'style'] });
-
-    setTimeout(forcarBotao, 500);
+    // ✅ Força o botão a aparecer desde o início
+    setTimeout(forcarBotao, 300);
     setTimeout(forcarBotao, 1000);
-    setTimeout(forcarBotao, 2000);
-    setTimeout(forcarBotao, 3000);
+    setTimeout(forcarBotao, 2500);
     setTimeout(forcarBotao, 5000);
     setTimeout(forcarBotao, 8000);
+    // Tenta novamente sempre que a página ficar visível
+    document.addEventListener('visibilitychange', () => { if(!document.hidden) setTimeout(forcarBotao, 500); });
 
     if(btnInstalarFixo) {
         btnInstalarFixo.onclick = async () => {
+            // Se o navegador suportar instalação nativa, usa
             if(deferredInstallPrompt) {
-                deferredInstallPrompt.prompt();
-                const resultado = await deferredInstallPrompt.userChoice;
-                if(resultado.outcome === 'accepted') { notif('✅ Instalando app...', 2500); esconderBotao(); }
-                else { notif('❌ Instalação cancelada', 2000); }
-                deferredInstallPrompt = null;
+                try {
+                    deferredInstallPrompt.prompt();
+                    const resultado = await deferredInstallPrompt.userChoice;
+                    if(resultado.outcome === 'accepted') { notif('✅ Instalando app...', 2500); esconderBotao(); }
+                    else { notif('❌ Instalação cancelada', 2000); }
+                    deferredInstallPrompt = null;
+                } catch(e) { console.warn(e); }
                 return;
             }
+            // Senão, mostra instruções específicas
             let html = '';
             if(ehIOS()) {
-                html = `<h3>📲 INSTALAR NO IPHONE</h3><div class="sub">Use o Safari</div><div class="passo"><div class="num">1</div><div class="txt">Toque em <b>Compartilhar</b> ⬆️</div></div><div class="passo"><div class="num">2</div><div class="txt">Toque em <b>"Adicionar à Tela de Início"</b></div></div><div class="passo"><div class="num">3</div><div class="txt">Confirme em <b>"Adicionar"</b></div></div><button class="btn-fechar-inst" id="fecharInstrucoesBtn">ENTENDI</button>`;
+                html = `<h3>📲 INSTALAR NO IPHONE</h3>
+                    <div class="sub">Use o Safari</div>
+                    <div class="passo"><div class="num">1</div><div class="txt">Toque em <b>Compartilhar</b> ⬆️</div></div>
+                    <div class="passo"><div class="num">2</div><div class="txt">Toque em <b>"Adicionar à Tela de Início"</b></div></div>
+                    <div class="passo"><div class="num">3</div><div class="txt">Confirme em <b>"Adicionar"</b></div></div>
+                    <button class="btn-fechar-inst" id="fecharInstrucoesBtn">ENTENDI</button>`;
+            } else if(ehAndroid()) {
+                html = `<h3>📲 INSTALAR NO ANDROID</h3>
+                    <div class="sub">Use o Chrome</div>
+                    <div class="passo"><div class="num">1</div><div class="txt">Toque no ícone <b>⋮</b> (3 pontinhos)</div></div>
+                    <div class="passo"><div class="num">2</div><div class="txt">Toque em <b>"Instalar app"</b></div></div>
+                    <div class="passo"><div class="num">3</div><div class="txt">Confirme em <b>"Instalar"</b> 🎵</div></div>
+                    <button class="btn-fechar-inst" id="fecharInstrucoesBtn">ENTENDI</button>`;
             } else {
-                html = `<h3>📲 INSTALAR APP</h3><div class="sub">Como instalar na tela inicial</div><div class="passo"><div class="num">1</div><div class="txt">Toque no ícone <b>⋮</b> (3 pontinhos) do navegador</div></div><div class="passo"><div class="num">2</div><div class="txt">Toque em <b>"Instalar app"</b> ou <b>"Adicionar à tela inicial"</b></div></div><div class="passo"><div class="num">3</div><div class="txt">Confirme em <b>"Instalar"</b> e pronto! 🎵</div></div><button class="btn-fechar-inst" id="fecharInstrucoesBtn">ENTENDI</button>`;
+                html = `<h3>💻 INSTALAR NO PC</h3>
+                    <div class="sub">Use Chrome ou Edge</div>
+                    <div class="passo"><div class="num">1</div><div class="txt">Clique no ícone <b>⊕</b> ou <b>💻</b> na barra de endereços</div></div>
+                    <div class="passo"><div class="num">2</div><div class="txt">Ou menu <b>⋮ → "Instalar VAI DE BOA! MUSIC"</b></div></div>
+                    <div class="passo"><div class="num">3</div><div class="txt">Confirme em <b>"Instalar"</b> 🎵</div></div>
+                    <button class="btn-fechar-inst" id="fecharInstrucoesBtn">ENTENDI</button>`;
             }
             if(instrucoesBox) instrucoesBox.innerHTML = html;
             if(instrucoesInstalar) instrucoesInstalar.classList.add('active');
@@ -864,27 +883,12 @@
         };
     }
 
-    const fecharBtnGlobal = document.getElementById('fecharInstrucoesBtn');
-    if(fecharBtnGlobal) fecharBtnGlobal.onclick = () => { instrucoesInstalar.classList.remove('active'); };
-
     window.addEventListener('appinstalled', () => { esconderBotao(); notif('🎉 App instalado com sucesso!', 3000); });
 
     if('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('./sw.js', { scope: './' })
-                .then((reg) => {
-                    console.log('✅ Service Worker registrado:', reg.scope);
-                    reg.addEventListener('updatefound', () => {
-                        const newWorker = reg.installing;
-                        if (!newWorker) return;
-                        newWorker.addEventListener('statechange', () => {
-                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                newWorker.postMessage('SKIP_WAITING');
-                                setTimeout(() => location.reload(), 500);
-                            }
-                        });
-                    });
-                })
+                .then((reg) => { console.log('✅ Service Worker registrado:', reg.scope); })
                 .catch((err) => console.warn('⚠️ Service Worker falhou:', err));
         });
     }
@@ -910,7 +914,7 @@
             if(!primeira) { appState.musicas = [ { id:'fallback1', title:'Música Exemplo', artist:'Artista', src:'', genero:'BÔNUS' }, { id:'fallback2', title:'Outra Música', artist:'Artista 2', src:'', genero:'BÔNUS' } ]; appState.playlistAtual = shuffle(appState.musicas); dom.generoNome.textContent = 'BÔNUS'; }
             renderizarGeneros();
             updateProgress(90);
-            setTimeout(() => { dom.loadingScreen.style.display = 'none'; dom.playerContainer.classList.add('visible'); updateProgress(100); }, 1500);
+            setTimeout(() => { dom.loadingScreen.style.display = 'none'; dom.playerContainer.classList.add('visible'); updateProgress(100); forcarBotao(); }, 1500);
             updateTimerDisplay();
             forcarTelaCheia();
             if(appState.desbloqueado) setTimeout(ativarPlayer,1500);
@@ -971,8 +975,7 @@
             dom.forceUpdateBtn.onclick = async () => { dom.menuPopup.classList.remove('open'); notif('🔄 Atualizando mídias...',1500); CONFIG.CACHE_VERSION++; localStorage.setItem('vdb_cache_version', String(CONFIG.CACHE_VERSION)); if(appState.modoTV) await carregarMidiasTV(); else await carregarMidiasPadrao(); notif('✅ Mídias atualizadas!',2000); };
             new TouchManager();
             iniciarBannerPromocional();
-            setTimeout(forcarBotao, 3000);
-            setTimeout(forcarBotao, 6000);
+            forcarBotao();
         } catch(erro) { console.error('❌ Erro ao iniciar:', erro); dom.loadingScreen.style.display='none'; dom.playerContainer.classList.add('visible'); notif('⚠️ Erro ao iniciar, recarregue a página',5000); }
     }
     iniciar();
@@ -980,4 +983,3 @@
 </script>
 </body>
 </html>
-    
