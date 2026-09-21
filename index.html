@@ -681,32 +681,40 @@
     'use strict';
 
     const APP_VERSION_LOCAL = 'v5';
-    const MAGIC_BUTTON_DAYS = 7;
 
     console.log('%c🚀 VAI DE BOA! MUSIC', 'color:#a855f7; font-size:20px; font-weight:bold');
     console.log('%c📦 Versão: ' + APP_VERSION_LOCAL, 'color:#22d3ee; font-size:14px; font-weight:bold');
 
-    // 🪄 BOTÃO MÁGICO
+    // ═══════════════════════════════════════════════════════════
+    // 🪄 BOTÃO MÁGICO — APARECE 1 VEZ POR VERSÃO
+    // ═══════════════════════════════════════════════════════════
     function gerenciarBotaoMagico() {
         const btn = document.getElementById('btnMagicUpdate');
         if(!btn) return;
-        const primeiraVisita = localStorage.getItem('vdb_primeira_visita_v5');
-        if(!primeiraVisita) {
-            localStorage.setItem('vdb_primeira_visita_v5', String(Date.now()));
-            console.log('🪄 Botão mágico ativado (primeira visita em v5)');
+
+        // Verifica qual versão o usuário já viu/atualizou
+        const versaoJaVista = localStorage.getItem('vdb_botao_versao_vista');
+
+        // Se ele já viu ESSA versão, não mostra o botão
+        if(versaoJaVista === APP_VERSION_LOCAL) {
+            btn.remove();
+            console.log('✅ Botão mágico não aparece (já viu a versão ' + APP_VERSION_LOCAL + ')');
+            return;
         }
-        const primeira = parseInt(localStorage.getItem('vdb_primeira_visita_v5') || String(Date.now()));
-        const diasPassados = (Date.now() - primeira) / (1000 * 60 * 60 * 24);
-        if(diasPassados < MAGIC_BUTTON_DAYS) {
-            setTimeout(() => { btn.classList.add('show'); }, 3000);
-            console.log('🪄 Botão mágico visível por mais ' + Math.ceil(MAGIC_BUTTON_DAYS - diasPassados) + ' dia(s)');
-        } else {
-            console.log('🪄 Botão mágico expirado');
-        }
+
+        // Senão, mostra o botão (1 vez)
+        setTimeout(() => { btn.classList.add('show'); }, 3000);
+        console.log('🪄 Botão mágico aparecendo (nova versão ' + APP_VERSION_LOCAL + ')');
+
         btn.onclick = async () => {
             if(!confirm('🔄 Atualizar o app agora?\n\nVai limpar o cache e recarregar. Depois é só usar normalmente!')) return;
+
+            // ⭐ Marca essa versão como "já vista" — nunca mais mostra pra essa versão
+            localStorage.setItem('vdb_botao_versao_vista', APP_VERSION_LOCAL);
+
             btn.innerHTML = '⏳ Atualizando...';
             btn.disabled = true;
+
             try {
                 if('caches' in window) {
                     const keys = await caches.keys();
@@ -718,13 +726,16 @@
                 }
                 localStorage.removeItem('vdb_app_version');
             } catch(e) { console.warn('Erro:', e); }
+
             setTimeout(() => {
                 window.location.href = window.location.pathname + '?update=' + Date.now();
             }, 800);
         };
     }
 
+    // ═══════════════════════════════════════════════════════════
     // 🛡️ ANTI-CACHE
+    // ═══════════════════════════════════════════════════════════
     (async function limparCacheSeMudou() {
         try {
             const versaoSalva = localStorage.getItem('vdb_app_version');
@@ -741,7 +752,9 @@
         } catch(e) { console.warn('Erro limpeza:', e); }
     })();
 
-    // 🔄 VERIFICADOR
+    // ═══════════════════════════════════════════════════════════
+    // 🔄 VERIFICADOR DE ATUALIZAÇÃO
+    // ═══════════════════════════════════════════════════════════
     let jaAvisouAtualizacao = false;
     async function checarAtualizacao(silencioso) {
         if(jaAvisouAtualizacao) return true;
@@ -1184,16 +1197,9 @@
     function ehAndroid(){ return /Android/i.test(navigator.userAgent); }
     function ehPC(){ return !ehIOS() && !ehAndroid() && !/Mobile/i.test(navigator.userAgent); }
 
-    // 🔥 BOTÃO INSTALAR SÓ APARECE NO PC
+    // ✅ BOTÃO INSTALAR — SEMPRE VISÍVEL (celular + PC)
     function forcarBotao(){
         if(!btnInstalarFixo) return;
-        // 🚫 NÃO mostrar em celular (Android/iOS)
-        if(ehIOS() || ehAndroid()) {
-            btnInstalarFixo.style.display = 'none';
-            btnInstalarFixo.classList.remove('mostrar');
-            return;
-        }
-        // ✅ Só mostra no PC se não estiver instalado
         if(jaEstaInstalado()) { btnInstalarFixo.style.display = 'none'; return; }
         btnInstalarFixo.classList.add('mostrar');
         btnInstalarFixo.style.display = 'flex';
