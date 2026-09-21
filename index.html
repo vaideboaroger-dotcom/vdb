@@ -68,7 +68,7 @@
         .info-scroll { position:fixed; top:54px; left:0; right:0; z-index:30; padding:4px 12px; height:38px; display:flex; align-items:center; justify-content:center; overflow:hidden; cursor:pointer; background:rgba(0,0,0,0.3); border-bottom:1px solid rgba(255,255,255,0.03); }
         .info-scroll.modo-pesquisa { height:44px; background:rgba(0,0,0,0.5); cursor:default; }
         .info-scroll.hidden { opacity:0; pointer-events:none; height:0; padding:0; }
-        .letreiro { font-size:0.85rem; font-weight:700; white-space:nowrap; animation:scrollText 30s linear infinite; background:linear-gradient(90deg, #a855f7, #22d3ee, #f472b6, #fbbf24, #a855f7); background-size:300% 100%; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+        .letreiro { font-size:0.85rem; font-weight:700; white-space:nowrap; animation:scrollText 60s linear infinite; background:linear-gradient(90deg, #a855f7, #22d3ee, #f472b6, #fbbf24, #a855f7); background-size:300% 100%; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
         .info-scroll.modo-pesquisa .letreiro { animation:none; white-space:normal; }
         @keyframes scrollText { 0%{transform:translateX(100vw)} 100%{transform:translateX(-100%)} }
         .search-input-container { display:none; width:100%; align-items:center; gap:8px; position:relative; }
@@ -80,7 +80,7 @@
         #searchClearLetreiro.visible { display:block; }
 
         .fav-heart-center { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:15; text-align:center; pointer-events:none; }
-        .fav-heart { font-size:4.2rem; color:rgba(255,255,255,0.06); cursor:pointer; display:inline-block; text-shadow:0 0 60px rgba(0,0,0,0.8); pointer-events:auto; transition:all 0.3s; }
+        .fav-heart { font-size:4.2rem; color:rgba(255,255,255,0.35); cursor:pointer; display:inline-block; text-shadow:0 0 20px rgba(168,85,247,0.5), 0 0 60px rgba(0,0,0,0.9); pointer-events:auto; transition:all 0.3s; }
         .fav-heart.active { color:var(--accent); animation:heartBeat 0.6s ease-in-out infinite; }
         @keyframes heartBeat { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
         .fav-heart:active { transform:scale(1.3); }
@@ -255,7 +255,6 @@
 
         #btnSairModoTV { position:fixed; top:90px; right:12px; z-index:60; background:rgba(0,0,0,0.7); color:#fff; border:1px solid rgba(255,255,255,0.2); border-radius:50%; width:34px; height:34px; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; }
 
-        /* ⭐ BOTÃO INSTALAR APP — sempre visível */
         #btnInstalarFixo {
             position: fixed;
             bottom: calc(20px + var(--safe-bottom));
@@ -562,13 +561,13 @@
         LETREIRO: '🎵 VAI DE BOA! MUSIC 🎵 + DE 5 MIL MÚSICAS • VITALÍCIO R$39,00 🐵 • SERTANEJO • MPB • ROCK • FORRÓ • PAGODE • ROMÂNTICA • FLASHBACK • GOSPEL • FUNK • REGGAE • BREGA • MODA RAIZ • SAMBA • POP/MIX 🎶',
         TEMPO_TESTE_SEGUNDOS: 86400,
         WHATSAPP: '5512988461978',
-        LETREIRO_DURACAO: 30,
+        LETREIRO_DURACAO: 60,
     };
 
     const CONFIG = {
         CACHE_VERSION: parseInt(localStorage.getItem('vdb_cache_version') || '1'),
         WHATSAPP_NUMBER: EDITE_AQUI.WHATSAPP.replace(/\D/g,''),
-        GENRE_URLS: { 'BÔNUS': 'https://raw.githubusercontent.com/radiolojasjc-hub/play12/refs/heads/main/play.json','FLASHBACK': 'https://raw.githubusercontent.com/radiolojasjc-hub/flashbacktop/refs/heads/main/flashback.json','RELIGIOSA': 'https://raw.githubusercontent.com/radiolojasjc-hub/religiosa/refs/heads/main/religiosa.json','ROMÂNTICA': 'https://raw.githubusercontent.com/radiolojasjc-hub/romanticatop/refs/heads/main/romantica.json','MPB': 'https://raw.githubusercontent.com/radiolojasjc-hub/mpbtop/refs/heads/main/mpb.json','POP/MIX': 'https://raw.githubusercontent.com/radiolojasjc-hub/poptop/refs/heads/main/pop.json','SERTANEJO': 'https://raw.githubusercontent.com/radiolojasjc-hub/sertanejo/refs/heads/main/sertanejo.json','FORRÓ': 'https://raw.githubusercontent.com/radiolojasjc-hub/forrodez/refs/heads/main/forrodez.json','SAMBA': 'https://raw.githubusercontent.com/radiolojasjc-hub/sambatop/refs/heads/main/samba.json','BREGA': 'https://raw.githubusercontent.com/radiolojasjc-hub/bregatop/refs/heads/main/brega.json','REGGAE': 'https://raw.githubusercontent.com/radiolojasjc-hub/reggaetop/refs/heads/main/reggae.json','MODA RAIZ': 'https://raw.githubusercontent.com/radiolojasjc-hub/modatop/refs/heads/main/moda.json','FANK': 'https://raw.githubusercontent.com/radiolojasjc-hub/fank/refs/heads/main/fank.json','TESTE MIDIA': 'https://raw.githubusercontent.com/radiolojasjc-hub/testemidias/refs/heads/main/teste.json','MODÃO SERTANEJO': 'https://raw.githubusercontent.com/radiolojasjc-hub/modasertaneja/refs/heads/main/modaosert.json','CHORINHO': 'https://raw.githubusercontent.com/radiolojasjc-hub/chorinho/refs/heads/main/chorinho.json','FORRÓ RAIZ': 'https://raw.githubusercontent.com/radiolojasjc-hub/forroraiz/refs/heads/main/forroraiz.json','ROCK': 'https://raw.githubusercontent.com/radiolojasjc-hub/rock/refs/heads/main/rock.json','NOVIDADES': 'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/novidades.json','MISTURA BRASIL': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/misturabrasil.json','DISCO MUSIC': 'https://raw.githubusercontent.com/vaideboaroger-dotcom/vdb/refs/heads/main/discomusic.json','TREINO': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/treino.json','SERESTA': 'https://raw.githubusercontent.com/radiolojasjc-hub/sertanejo/refs/heads/main/seresta.json','MPB 2': 'https://raw.githubusercontent.com/radiolojasjc-hub/mpbtop/refs/heads/main/mpb2.json','HIP HOP': 'https://raw.githubusercontent.com/radiolojasjc-hub/poptop/refs/heads/main/hiphop.json','PAGODE': 'https://raw.githubusercontent.com/radiolojasjc-hub/sambatop/refs/heads/main/pagode.json','BAILÃO': 'https://raw.githubusercontent.com/radiolojasjc-hub/forrodez/refs/heads/main/bail%C3%A3o.json','GLOBAL HITS': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/globalhits.json' },
+        GENRE_URLS: { 'BÔNUS': 'https://raw.githubusercontent.com/radiolojasjc-hub/play12/refs/heads/main/play.json','FLASHBACK': 'https://raw.githubusercontent.com/radiolojasjc-hub/flashbacktop/refs/heads/main/flashback.json','RELIGIOSA': 'https://raw.githubusercontent.com/radiolojasjc-hub/religiosa/refs/heads/main/religiosa.json','ROMÂNTICA': 'https://raw.githubusercontent.com/radiolojasjc-hub/romanticatop/refs/heads/main/romantica.json','MPB': 'https://raw.githubusercontent.com/radiolojasjc-hub/mpbtop/refs/heads/main/mpb.json','POP/MIX': 'https://raw.githubusercontent.com/radiolojasjc-hub/poptop/refs/heads/main/pop.json','SERTANEJO': 'https://raw.githubusercontent.com/radiolojasjc-hub/sertanejo/refs/heads/main/sertanejo.json','FORRÓ': 'https://raw.githubusercontent.com/radiolojasjc-hub/forrodez/refs/heads/main/forrodez.json','SAMBA': 'https://raw.githubusercontent.com/radiolojasjc-hub/sambatop/refs/heads/main/samba.json','BREGA': 'https://raw.githubusercontent.com/radiolojasjc-hub/bregatop/refs/heads/main/brega.json','REGGAE': 'https://raw.githubusercontent.com/radiolojasjc-hub/reggaetop/refs/heads/main/reggae.json','MODA RAIZ': 'https://raw.githubusercontent.com/radiolojasjc-hub/modatop/refs/heads/main/moda.json','FUNK': 'https://raw.githubusercontent.com/radiolojasjc-hub/fank/refs/heads/main/fank.json','TESTE MIDIA': 'https://raw.githubusercontent.com/radiolojasjc-hub/testemidias/refs/heads/main/teste.json','MODÃO SERTANEJO': 'https://raw.githubusercontent.com/radiolojasjc-hub/modasertaneja/refs/heads/main/modaosert.json','CHORINHO': 'https://raw.githubusercontent.com/radiolojasjc-hub/chorinho/refs/heads/main/chorinho.json','FORRÓ RAIZ': 'https://raw.githubusercontent.com/radiolojasjc-hub/forroraiz/refs/heads/main/forroraiz.json','ROCK': 'https://raw.githubusercontent.com/radiolojasjc-hub/rock/refs/heads/main/rock.json','NOVIDADES': 'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/novidades.json','MISTURA BRASIL': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/misturabrasil.json','DISCO MUSIC': 'https://raw.githubusercontent.com/vaideboaroger-dotcom/vdb/refs/heads/main/discomusic.json','TREINO': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/treino.json','SERESTA': 'https://raw.githubusercontent.com/radiolojasjc-hub/sertanejo/refs/heads/main/seresta.json','MPB 2': 'https://raw.githubusercontent.com/radiolojasjc-hub/mpbtop/refs/heads/main/mpb2.json','HIP HOP': 'https://raw.githubusercontent.com/radiolojasjc-hub/poptop/refs/heads/main/hiphop.json','PAGODE': 'https://raw.githubusercontent.com/radiolojasjc-hub/sambatop/refs/heads/main/pagode.json','BAILÃO': 'https://raw.githubusercontent.com/radiolojasjc-hub/forrodez/refs/heads/main/bail%C3%A3o.json','GLOBAL HITS': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/globalhits.json' },
         ORDEM: ['BÔNUS','POP/MIX','MPB','DISCO MUSIC','SERTANEJO','ROMÂNTICA','FLASHBACK','NOVIDADES','MISTURA BRASIL','DIRIGINDO','TREINO','SERESTA','MPB 2','HIP HOP','FORRÓ','FORRÓ RAIZ','BAILÃO','SAMBA','PAGODE','BREGA','REGGAE','MODA RAIZ','RELIGIOSA','FUNK','TESTE MIDIA','MODÃO SERTANEJO','CHORINHO','ROCK','GLOBAL HITS'],
         REPOS: {'BÔNUS':'play12','MPB':'mpbtop','POP/MIX':'poptop','SERTANEJO':'sertanejo','FORRÓ':'forrodez','SAMBA':'sambatop','BREGA':'bregatop','REGGAE':'reggaetop','MODA RAIZ':'modatop','RELIGIOSA':'religiosa','ROMÂNTICA':'romanticatop','FLASHBACK':'flashbacktop','FUNK':'fank','TESTE MIDIA':'testemidias','MODÃO SERTANEJO':'modasertaneja','CHORINHO':'chorinho','FORRÓ RAIZ':'forroraiz','ROCK':'rock','NOVIDADES':'VDB','MISTURA BRASIL':'listtop','DISCO MUSIC':'vdb','TREINO':'listtop','SERESTA':'sertanejo','MPB 2':'mpbtop','HIP HOP':'poptop','PAGODE':'sambatop','BAILÃO':'forrodez','GLOBAL HITS':'chorinho'},
         MIDIAS_PADRAO_URL: 'https://raw.githubusercontent.com/vaideboaroger-dotcom/vdb/main/midias.json',
@@ -580,7 +579,7 @@
         ],
     };
 
-    const GENRE_COLORS = { 'BÔNUS': { c1: '#22d3ee', c2: '#0288d1' }, 'POP/MIX': { c1: '#60a5fa', c2: '#3b82f6' }, 'MPB': { c1: '#2dd4bf', c2: '#10b981' }, 'SERTANEJO': { c1: '#fbbf24', c2: '#f59e0b' }, 'ROMÂNTICA': { c1: '#f472b6', c2: '#ec4899' }, 'FLASHBACK': { c1: '#a855f7', c2: '#8b5cf6' }, 'NOVIDADES': { c1: '#34d399', c2: '#10b981' }, 'MISTURA BRASIL': { c1: '#fde047', c2: '#fbbf24' }, 'DISCO MUSIC': { c1: '#3b82f6', c2: '#1e3a8a' }, 'TREINO': { c1: '#f87171', c2: '#dc2626' }, 'SERESTA': { c1: '#d4a017', c2: '#8b5cf6' }, 'MPB 2': { c1: '#2dd4bf', c2: '#14b8a6' }, 'HIP HOP': { c1: '#9ca3af', c2: '#4b5563' }, 'FORRÓ': { c1: '#fb923c', c2: '#ea580c' }, 'FORRÓ RAIZ': { c1: '#ef4444', c2: '#991b1b' }, 'BAILÃO': { c1: '#f472b6', c2: '#be123c' }, 'SAMBA': { c1: '#fda4af', c2: '#fb923c' }, 'PAGODE': { c1: '#a855f7', c2: '#7c3aed' }, 'BREGA': { c1: '#d946ef', c2: '#a855f7' }, 'REGGAE': { c1: '#34d399', c2: '#059669' }, 'MODA RAIZ': { c1: '#a16207', c2: '#78350f' }, 'RELIGIOSA': { c1: '#fde68a', c2: '#fbbf24' }, 'FANK': { c1: '#f43f5e', c2: '#be123c' }, 'TESTE MIDIA': { c1: '#d1d5db', c2: '#6b7280' }, 'MODÃO SERTANEJO': { c1: '#f59e0b', c2: '#78350f' }, 'CHORINHO': { c1: '#22c55e', c2: '#14532d' }, 'ROCK': { c1: '#f472b6', c2: '#a855f7' }, 'GLOBAL HITS': { c1: '#22d3ee', c2: '#1d4ed8' } };
+    const GENRE_COLORS = { 'BÔNUS': { c1: '#22d3ee', c2: '#0288d1' }, 'POP/MIX': { c1: '#60a5fa', c2: '#3b82f6' }, 'MPB': { c1: '#2dd4bf', c2: '#10b981' }, 'SERTANEJO': { c1: '#fbbf24', c2: '#f59e0b' }, 'ROMÂNTICA': { c1: '#f472b6', c2: '#ec4899' }, 'FLASHBACK': { c1: '#a855f7', c2: '#8b5cf6' }, 'NOVIDADES': { c1: '#34d399', c2: '#10b981' }, 'MISTURA BRASIL': { c1: '#fde047', c2: '#fbbf24' }, 'DISCO MUSIC': { c1: '#3b82f6', c2: '#1e3a8a' }, 'TREINO': { c1: '#f87171', c2: '#dc2626' }, 'SERESTA': { c1: '#d4a017', c2: '#8b5cf6' }, 'MPB 2': { c1: '#2dd4bf', c2: '#14b8a6' }, 'HIP HOP': { c1: '#9ca3af', c2: '#4b5563' }, 'FORRÓ': { c1: '#fb923c', c2: '#ea580c' }, 'FORRÓ RAIZ': { c1: '#ef4444', c2: '#991b1b' }, 'BAILÃO': { c1: '#f472b6', c2: '#be123c' }, 'SAMBA': { c1: '#fda4af', c2: '#fb923c' }, 'PAGODE': { c1: '#a855f7', c2: '#7c3aed' }, 'BREGA': { c1: '#d946ef', c2: '#a855f7' }, 'REGGAE': { c1: '#34d399', c2: '#059669' }, 'MODA RAIZ': { c1: '#a16207', c2: '#78350f' }, 'RELIGIOSA': { c1: '#fde68a', c2: '#fbbf24' }, 'FUNK': { c1: '#f43f5e', c2: '#be123c' }, 'TESTE MIDIA': { c1: '#d1d5db', c2: '#6b7280' }, 'MODÃO SERTANEJO': { c1: '#f59e0b', c2: '#78350f' }, 'CHORINHO': { c1: '#22c55e', c2: '#14532d' }, 'ROCK': { c1: '#f472b6', c2: '#a855f7' }, 'GLOBAL HITS': { c1: '#22d3ee', c2: '#1d4ed8' } };
     const DEFAULT_COLORS = { c1: '#22d3ee', c2: '#a855f7' };
     const SENHA_ADMIN = String.fromCharCode(112,97,116,105,99,111,49,54,56,53);
     const SENHA_MESTRA = String.fromCharCode(80,97,116,105,99,111,49,54,56,53,64);
@@ -721,13 +720,11 @@
     }
     function atualizarPlaylist() { if(!appState.playlistAtual.length) return null; if(appState.indiceAtual >= appState.playlistAtual.length) { appState.playlistAtual = shuffle(appState.musicas); appState.indiceAtual = 0; } return appState.playlistAtual[appState.indiceAtual]; }
 
-    // ⭐ FUNÇÃO CORRIGIDA: DISCO MUSIC usa repositório vaideboaroger-dotcom/vdb
     function getUrls(musica) {
         const src = musica.src || '';
         if(!src) return [];
         if(src.startsWith('http')) return [src + (src.includes('?')?'&':'?')+'v='+CONFIG.CACHE_VERSION];
         const nome = src.replace(/^\.\//,'').replace(/[^a-zA-Z0-9\-_.]/g,'');
-        // ✅ DISCO MUSIC usa repositório próprio (vaideboaroger-dotcom/vdb)
         if(musica.genero === 'DISCO MUSIC') {
             return ['https://raw.githubusercontent.com/vaideboaroger-dotcom/vdb/refs/heads/main/' + nome + '?v=' + CONFIG.CACHE_VERSION];
         }
@@ -816,9 +813,6 @@
         executeSwipeAction(direction) { if(direction==='left') { next(); notif('⏭️ Próxima',800); showControls(); } else if(direction==='right') { prev(); notif('⏮️ Anterior',800); showControls(); } else if(direction==='up') { showControls(); } else if(direction==='down') { dom.bottomControls.classList.remove('visible'); } }
     }
 
-    /* ═══════════════════════════════════════════════════════════
-       📲 BOTÃO INSTALAR APP — SEMPRE VISÍVEL (PC + CELULAR)
-       ═══════════════════════════════════════════════════════════ */
     const btnInstalarFixo = document.getElementById('btnInstalarFixo');
     const instrucoesInstalar = document.getElementById('instrucoesInstalar');
     const instrucoesBox = document.getElementById('instrucoesBox');
