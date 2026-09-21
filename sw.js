@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════
-// SERVICE WORKER — VAI DE BOA! MUSIC
+// SERVICE WORKER REFORÇADO — VAI DE BOA! MUSIC
 // ⚠️ MUDE ESSA VERSÃO a cada atualização
 // ═══════════════════════════════════════════════════════════
 const CACHE_VERSION = 'v5';
@@ -32,6 +32,8 @@ self.addEventListener('fetch', event => {
     if(!req.url.startsWith('http')) return;
 
     const url = new URL(req.url);
+
+    // Ignora requisições de terceiros (CDN, GitHub raw, etc)
     if(url.origin !== self.location.origin) return;
 
     const isHTML = url.pathname.endsWith('.html') ||
@@ -41,6 +43,7 @@ self.addEventListener('fetch', event => {
     const isVersion = url.pathname.endsWith('version.json');
     const isSW = url.pathname.endsWith('sw.js');
 
+    // HTML, version.json, sw.js → SEMPRE da rede (network-only)
     if(isHTML || isVersion || isSW) {
         event.respondWith(
             fetch(req, { cache: 'no-store' })
@@ -56,6 +59,7 @@ self.addEventListener('fetch', event => {
         return;
     }
 
+    // Resto → cache first
     event.respondWith(
         caches.match(req).then(cached => {
             if(cached) return cached;
