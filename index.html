@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>VAI DE BOA! MUSIC</title>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <link rel="icon" type="image/png" sizes="192x192" href="favicon192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="favicon30.png">
     <link rel="apple-touch-icon" sizes="192x192" href="favicon192.png">
@@ -35,12 +37,10 @@
         * { margin:0; padding:0; box-sizing:border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color:transparent; user-select:none; }
         html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden; position:fixed; top:0; left:0; }
 
-        /* BANNER DE ATUALIZAÇÃO */
         #bannerUpdate { position:fixed; top:0; left:0; right:0; z-index:9999999; background:linear-gradient(90deg, #a855f7, #22d3ee); color:#fff; padding:12px 16px; text-align:center; font-weight:700; font-size:0.9rem; cursor:pointer; box-shadow:0 4px 20px rgba(168,85,247,0.6); animation:slideDown 0.4s ease-out; }
         #bannerUpdate b { text-decoration: underline; }
         @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
 
-        /* LOADING */
         #loadingScreen { position:fixed; inset:0; background:var(--black-1); display:flex; align-items:center; justify-content:center; z-index:99999; flex-direction:column; gap:16px; }
         .loading-logo { width:72px; height:72px; border-radius:50%; object-fit:cover; border:3px solid var(--primary); animation:pulse 1.5s infinite; }
         @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
@@ -50,7 +50,6 @@
         .loading-progress-container { width:200px; height:4px; background:rgba(255,255,255,0.05); border-radius:4px; overflow:hidden; }
         .loading-progress-fill { height:100%; width:0%; background:linear-gradient(90deg,var(--primary),var(--secondary),var(--accent)); border-radius:4px; transition:width 0.4s ease; }
 
-        /* PLAYER */
         #playerContainer { position:fixed; inset:0; z-index:10; display:none; }
         #playerContainer.visible { display:block; }
         .media-container { position:fixed; inset:0; z-index:0; background:var(--black-0); overflow:hidden; }
@@ -59,7 +58,6 @@
         .media-container .inactive { opacity:0; z-index:0; }
         .media-container .clickable { cursor:pointer; }
 
-        /* TOP BAR */
         .top-bar { position:fixed; top:0; left:0; right:0; z-index:35; display:flex; align-items:center; justify-content:space-between; padding:6px 12px; background:linear-gradient(180deg, rgba(0,0,0,0.95) 0%, transparent 100%); height:54px; }
         .top-left { display:flex; align-items:center; gap:10px; }
         .logo-macaco { height:36px; width:36px; border-radius:50%; object-fit:cover; border:2px solid rgba(168,85,247,0.4); cursor:pointer; transition: transform 0.3s var(--ease-spring); }
@@ -81,7 +79,6 @@
         .menu-btn { background:rgba(255,255,255,0.05); border:none; color:#fff; width:32px; height:32px; border-radius:50%; font-size:0.9rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition: all 0.3s var(--ease-spring); }
         .menu-btn:active { transform: scale(0.9); background: rgba(255,255,255,0.15); }
 
-        /* LETREIRO */
         .info-scroll { position:fixed; top:54px; left:0; right:0; z-index:30; padding:4px 12px; height:38px; display:flex; align-items:center; justify-content:center; overflow:hidden; cursor:pointer; background:rgba(0,0,0,0.3); border-bottom:1px solid rgba(255,255,255,0.03); }
         .info-scroll.modo-pesquisa { height:44px; background:rgba(0,0,0,0.5); cursor:default; }
         .info-scroll.hidden { opacity:0; pointer-events:none; height:0; padding:0; }
@@ -96,7 +93,6 @@
         #searchClearLetreiro { position:absolute; right:6px; top:50%; transform:translateY(-50%); background:transparent; border:none; color:rgba(255,255,255,0.3); font-size:1.1rem; cursor:pointer; display:none; padding:4px 8px; }
         #searchClearLetreiro.visible { display:block; }
 
-        /* CORAÇÃO */
         .fav-heart-center { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:15; text-align:center; pointer-events:none; }
         .fav-heart { font-size:4.2rem; color:rgba(255,255,255,0.55); cursor:pointer; display:inline-block; text-shadow:0 0 15px rgba(255,255,255,0.4), 0 0 40px rgba(168,85,247,0.6), 0 0 80px rgba(0,0,0,0.9); pointer-events:auto; transition: all 0.3s var(--ease-spring); animation: heartFloat 3s ease-in-out infinite; }
         @keyframes heartFloat { 0%,100%{transform: translateY(0) scale(1)} 50%{transform: translateY(-6px) scale(1.03)} }
@@ -104,7 +100,6 @@
         @keyframes heartBeat { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
         .fav-heart:active { transform: scale(1.3) !important; animation: none; }
 
-        /* EQUALIZADOR */
         .equalizer { position:fixed; bottom:calc(4px + var(--safe-bottom)); left:12px; z-index:19; display:flex; gap:2px; align-items:flex-end; height:20px; pointer-events:none; opacity:0.4; transition: opacity 0.3s; }
         .equalizer.on { opacity: 1; }
         .equalizer .bar { width:3px; background: linear-gradient(180deg, var(--theme-1), var(--theme-2)); border-radius:2px; transition: height 0.1s ease; }
@@ -120,7 +115,6 @@
         @keyframes eq5 { 0%,100%{height:8px} 50%{height:18px} }
         .equalizer.paused .bar { animation-play-state: paused; }
 
-        /* CONTROLES */
         .bottom-controls { position:fixed; bottom:0; left:0; right:0; background:rgba(10,10,10,0.95); padding:6px 12px calc(10px + var(--safe-bottom)); z-index:20; transform:translateY(100%); transition: transform 0.4s var(--ease-spring); border-top:1px solid rgba(255,255,255,0.04); }
         .bottom-controls.visible { transform:translateY(0); }
         .progress-time { display:flex; justify-content:space-between; font-size:0.65rem; color:#888; font-weight:500; }
@@ -137,7 +131,6 @@
         .ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.4); transform: scale(0); animation: rippleAnim 0.6s ease-out; pointer-events: none; }
         @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
 
-        /* MINI PLAYER */
         .mini-player { position:fixed; bottom:calc(12px + var(--safe-bottom)); left:12px; right:12px; z-index:18; background: rgba(20,20,30,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border:1px solid rgba(255,255,255,0.08); border-radius:18px; padding:10px 12px; display:flex; align-items:center; gap:12px; transform: translateY(120%); transition: transform 0.4s var(--ease-spring); pointer-events:auto; }
         .mini-player.visible { transform: translateY(0); }
         .mini-cover { width:44px; height:44px; border-radius:10px; background: linear-gradient(135deg, var(--theme-1), var(--theme-2)); display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
@@ -149,7 +142,6 @@
         .mini-progress { position:absolute; bottom:0; left:12px; right:12px; height:2px; background: rgba(255,255,255,0.08); border-radius:2px; overflow:hidden; }
         .mini-progress-fill { height:100%; background: linear-gradient(90deg, var(--theme-1), var(--theme-2)); width:0%; }
 
-        /* FAB */
         .fab-container { position:fixed; bottom:calc(85px + var(--safe-bottom)); right:12px; z-index:40; display:flex; flex-direction:column; align-items:flex-end; gap:6px; }
         .fab-main { background:rgba(10,10,10,0.9); width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#fff; font-size:1.1rem; border:1px solid rgba(255,255,255,0.06); transition: all 0.3s var(--ease-spring); }
         .fab-main:active { transform: scale(0.9) rotate(90deg); }
@@ -159,14 +151,12 @@
         .fab-sub-btn { background:transparent; border:none; color:#ccc; padding:8px 14px; border-radius:12px; font-size:0.75rem; cursor:pointer; display:flex; align-items:center; gap:8px; min-height:36px; white-space:nowrap; transition: background 0.2s; }
         .fab-sub-btn:active { background: rgba(255,255,255,0.08); }
 
-        /* MENU */
         .menu-popup { position:fixed; top:54px; right:10px; background: rgba(15,15,20,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius:16px; padding:6px; z-index:32; display:none; flex-direction:column; gap:3px; border:1px solid rgba(255,255,255,0.05); min-width:180px; transform-origin: top right; max-height: 85vh; overflow-y: auto; }
         .menu-popup.open { display:flex; animation: menuIn 0.25s var(--ease-spring); }
         @keyframes menuIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .menu-popup button { background:transparent; border:none; color:#ccc; padding:8px 12px; border-radius:12px; font-size:0.8rem; cursor:pointer; text-align:left; display:flex; align-items:center; gap:8px; min-height:36px; transition: background 0.2s; }
         .menu-popup button:active { background: rgba(255,255,255,0.08); }
 
-        /* MODAIS */
         .genres-modal { position:fixed; inset:0; z-index:100; background:rgba(0,0,0,0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); padding:20px 16px calc(20px + var(--safe-bottom)); display:none; flex-direction:column; opacity:0; transition:opacity 0.4s var(--ease-smooth); overflow:hidden; }
         .genres-modal.open { display:flex; opacity:1; }
         .genres-modal .header { text-align:center; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.06); flex-shrink:0; }
@@ -196,7 +186,6 @@
         .fav-item-modal .remove-fav { background:transparent; border:none; color:var(--accent); font-size:1rem; cursor:pointer; padding:0 6px; }
         .fav-empty-modal { color:#555; padding:20px; text-align:center; font-size:0.85rem; }
         .close-fav { width:100%; padding:10px; background: linear-gradient(135deg, var(--accent), var(--primary)); border:none; border-radius:25px; color:#fff; font-size:0.85rem; cursor:pointer; font-weight:700; margin-top:6px; transition: all 0.2s var(--ease-spring); }
-        .close-fav:active { transform: scale(0.97); }
 
         .choice-menu { position:fixed; bottom:0; left:0; right:0; background: rgba(15,15,20,0.98); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-radius:25px 25px 0 0; padding:14px 12px 18px; z-index:1999; transform:translateY(100%); transition: transform 0.4s var(--ease-spring); max-height:60vh; overflow:hidden; border-top:1px solid rgba(255,255,255,0.05); }
         .choice-menu.open { transform:translateY(0); }
@@ -221,7 +210,6 @@
         .notification { position:fixed; top:100px; left:50%; transform: translateX(-50%) translateY(-20px); background: rgba(15,15,20,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); color:var(--secondary); padding:8px 20px; border-radius:30px; font-size:0.9rem; z-index:100003; opacity:0; transition: all 0.3s var(--ease-spring); pointer-events:none; border:1px solid rgba(168,85,247,0.2); white-space:nowrap; font-weight:600; max-width:90vw; }
         .notification.show { opacity:1; transform: translateX(-50%) translateY(0); }
 
-        /* SISTEMA (bloqueio, admin) */
         #loadingOverlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9998; align-items:center; justify-content:center; }
         #loadingOverlay.active { display:flex; }
         #loadingOverlay i { font-size:2.2rem; color:var(--secondary); animation:spin 1s infinite; }
@@ -471,6 +459,7 @@
         <button id="sleepMenuBtn"><i class="fas fa-moon"></i>Sleep Timer</button>
         <button id="qrCodeMenuBtn"><i class="fas fa-qrcode"></i>QR Code</button>
         <button id="checkUpdateBtn"><i class="fas fa-cloud-download-alt"></i>Verificar Atualização</button>
+        <button id="hardReloadBtn"><i class="fas fa-redo"></i>🔄 Forçar Recarregar TUDO</button>
         <button id="forceUpdateBtn"><i class="fas fa-sync-alt"></i>Atualizar Mídias</button>
     </div>
 </div>
@@ -657,22 +646,57 @@
     'use strict';
 
     // ═══════════════════════════════════════════════════════════
-    // 🔄 AUTO-ATUALIZAÇÃO
-    // ⬇️ MUDE ESSA VERSÃO A CADA ATUALIZAÇÃO (junto com version.json e sw.js)
+    // 🔄 VERSÃO DO APP — MUDE A CADA ATUALIZAÇÃO
     // ═══════════════════════════════════════════════════════════
-    const APP_VERSION_LOCAL = 'v4';
+    const APP_VERSION_LOCAL = 'v5';
+    console.log('%c🚀 VAI DE BOA! MUSIC', 'color:#a855f7; font-size:20px; font-weight:bold');
+    console.log('%c📦 Versão: ' + APP_VERSION_LOCAL, 'color:#22d3ee; font-size:14px; font-weight:bold');
+
+    // ═══════════════════════════════════════════════════════════
+    // 🛡️ ANTI-CACHE: Limpa cache se a versão mudou
+    // ═══════════════════════════════════════════════════════════
+    (async function limparCacheSeMudou() {
+        try {
+            const versaoSalva = localStorage.getItem('vdb_app_version');
+            if(versaoSalva && versaoSalva !== APP_VERSION_LOCAL) {
+                console.log('🔄 Versão mudou de', versaoSalva, 'para', APP_VERSION_LOCAL);
+                console.log('🗑️ Limpando caches antigos...');
+                if('caches' in window) {
+                    const names = await caches.keys();
+                    await Promise.all(names.map(n => caches.delete(n)));
+                    console.log('✅ Cache limpo');
+                }
+                localStorage.setItem('vdb_app_version', APP_VERSION_LOCAL);
+            } else if(!versaoSalva) {
+                localStorage.setItem('vdb_app_version', APP_VERSION_LOCAL);
+            }
+        } catch(e) { console.warn('Erro limpeza:', e); }
+    })();
+
+    // ═══════════════════════════════════════════════════════════
+    // 🔄 VERIFICADOR DE ATUALIZAÇÃO (3 camadas)
+    // ═══════════════════════════════════════════════════════════
+    let jaAvisouAtualizacao = false;
 
     async function checarAtualizacao(silencioso) {
+        if(jaAvisouAtualizacao) return true;
         try {
-            const resp = await fetch('./version.json?t=' + Date.now(), { cache: 'no-store' });
+            const url = './version.json?t=' + Date.now() + '&r=' + Math.random();
+            const resp = await fetch(url, { cache: 'no-store' });
+            if(!resp.ok) throw new Error('HTTP ' + resp.status);
             const data = await resp.json();
+            console.log('🔍 Versão remota:', data.version, '| Local:', APP_VERSION_LOCAL);
+
             if(data.version && data.version !== APP_VERSION_LOCAL) {
+                console.log('✨ NOVA VERSÃO DETECTADA!');
+                jaAvisouAtualizacao = true;
                 mostrarBannerAtualizacao(data.version);
                 return true;
             } else if(!silencioso) {
-                notif('✅ Você está na versão mais recente!', 2500, 'success');
+                notif('✅ Você está na versão mais recente (' + APP_VERSION_LOCAL + ')', 2500, 'success');
             }
         } catch(e) {
+            console.warn('⚠️ Erro ao verificar:', e);
             if(!silencioso) notif('⚠️ Não foi possível verificar', 2000, 'warning');
         }
         return false;
@@ -697,16 +721,38 @@
             } catch(e) {}
             setTimeout(() => {
                 window.location.href = window.location.pathname + '?update=' + Date.now();
-            }, 300);
+            }, 400);
         };
         document.body.appendChild(banner);
+    }
+
+    // 🆕 FORÇA RECARGA HARD (limpa TUDO)
+    async function forcarRecarregarTudo() {
+        notif('🔄 Limpando tudo...', 2000, 'info');
+        try {
+            if(navigator.serviceWorker) {
+                const regs = await navigator.serviceWorker.getRegistrations();
+                await Promise.all(regs.map(r => r.unregister()));
+                console.log('✅ SW removido');
+            }
+            if('caches' in window) {
+                const names = await caches.keys();
+                await Promise.all(names.map(n => caches.delete(n)));
+                console.log('✅ Cache removido');
+            }
+            // Não apaga localStorage pra preservar senhas/estado
+            localStorage.removeItem('vdb_app_version');
+        } catch(e) {}
+        setTimeout(() => {
+            window.location.href = window.location.pathname + '?hard=' + Date.now();
+        }, 1000);
     }
 
     // ═══════════════════════════════════════════════════════════
     // CONFIGURAÇÕES
     // ═══════════════════════════════════════════════════════════
     const EDITE_AQUI = {
-        LETREIRO: '🎵 VAI DE BOA! MUSIC 🎵 + DE 10 MIL MÚSICAS • VITALÍCIO R$39,00 🐵 • SERTANEJO • MPB • ROCK • FORRÓ • PAGODE  • FLASHBACK • GOSPEL • FUNK • REGGAE • POP 🎶',
+        LETREIRO: '🎵 VAI DE BOA! MUSIC 🎵 + DE 5 MIL MÚSICAS • VITALÍCIO R$39,00 🐵 • SERTANEJO • MPB • ROCK • FORRÓ • PAGODE • ROMÂNTICA • FLASHBACK • GOSPEL • FUNK • REGGAE • BREGA • MODA RAIZ • SAMBA • POP/MIX 🎶',
         TEMPO_TESTE_SEGUNDOS: 86400,
         WHATSAPP: '5512988461978',
         LETREIRO_DURACAO: 60,
@@ -855,7 +901,7 @@
         fabFeedback: $('fabFeedback'), fabYoutube: $('fabYoutube'), fabShare: $('fabShare'), fabQrCode: $('fabQrCode'), fabMain: $('fabMain'), fabSub: $('fabSub'),
         sendFeedbackBtn: $('sendFeedbackBtn'), closeFeedbackBtn: $('closeFeedbackBtn'), closeMenuBtn: $('closeMenuBtn'), fullscreenMenuBtn: $('fullscreenMenuBtn'),
         modoTVMenuBtn: $('modoTVMenuBtn'), liberarAgoraBtn: $('liberarAgoraBtn'), cadastroMenuBtn: $('cadastroMenuBtn'), reloadPlaylistBtn: $('reloadPlaylistBtn'),
-        feedbackMenuBtn: $('feedbackMenuBtn'), sleepMenuBtn: $('sleepMenuBtn'), qrCodeMenuBtn: $('qrCodeMenuBtn'), forceUpdateBtn: $('forceUpdateBtn'), checkUpdateBtn: $('checkUpdateBtn'),
+        feedbackMenuBtn: $('feedbackMenuBtn'), sleepMenuBtn: $('sleepMenuBtn'), qrCodeMenuBtn: $('qrCodeMenuBtn'), forceUpdateBtn: $('forceUpdateBtn'), checkUpdateBtn: $('checkUpdateBtn'), hardReloadBtn: $('hardReloadBtn'),
         qrCodeModal: $('qrCodeModal'), qrCodeImage: $('qrCodeImage'), qrCloseBtn: $('qrCloseBtn'), prevBtn: $('prevBtn'), nextBtn: $('nextBtn'),
         closeFavBtn: $('closeFavBtn'), starRating: $('starRating'), feedbackText: $('feedbackText'), bannerPromocional: $('bannerPromocional'),
         searchInputLetreiro: $('searchInputLetreiro'), searchClearLetreiro: $('searchClearLetreiro'), logoMacaco: $('logoMacaco'),
@@ -1130,17 +1176,19 @@
 
     window.addEventListener('appinstalled', () => { esconderBotao(); notif('🎉 App instalado com sucesso!', 3000); });
 
-    // Service Worker
+    // ═══════════════════════════════════════════════════════════
+    // SERVICE WORKER
+    // ═══════════════════════════════════════════════════════════
     if('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js', { scope: './' })
+            navigator.serviceWorker.register('./sw.js?v=' + APP_VERSION_LOCAL, { scope: './' })
                 .then((reg) => {
                     console.log('✅ SW registrado:', reg.scope);
-                    // Verifica atualizações do SW
                     reg.addEventListener('updatefound', () => {
                         const newWorker = reg.installing;
                         newWorker.addEventListener('statechange', () => {
                             if(newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                console.log('🔄 Novo SW instalado');
                                 mostrarBannerAtualizacao('nova');
                             }
                         });
@@ -1177,7 +1225,6 @@
             forcarTelaCheia();
             if(appState.desbloqueado) setTimeout(ativarPlayer,1500);
 
-            // Ripple effect
             document.querySelectorAll('button, .genre-card, .choice-btn, .fav-item-modal, .fab-sub-btn, .menu-popup button, .ctrl-btn, .sheet-option, .speed-btn, .queue-item, .recent-item').forEach(el => {
                 el.addEventListener('click', addRipple);
             });
@@ -1204,6 +1251,7 @@
             dom.recentMenuBtn.onclick = () => { dom.menuPopup.classList.remove('open'); renderizarRecentes(); dom.recentSheet.classList.add('open'); };
             dom.speedMenuBtn.onclick = () => { dom.menuPopup.classList.remove('open'); dom.speedSheet.classList.add('open'); };
             dom.checkUpdateBtn.onclick = () => { dom.menuPopup.classList.remove('open'); checarAtualizacao(false); };
+            dom.hardReloadBtn.onclick = () => { dom.menuPopup.classList.remove('open'); forcarRecarregarTudo(); };
 
             document.querySelectorAll('.speed-btn').forEach(btn => {
                 btn.onclick = () => {
@@ -1274,9 +1322,10 @@
             iniciarBannerPromocional();
             forcarBotao();
 
-            // ⭐ AUTO-ATUALIZAÇÃO: verifica agora + a cada 30s
-            checarAtualizacao(true);
-            setInterval(() => checarAtualizacao(true), 30000);
+            // ⭐ AUTO-ATUALIZAÇÃO REFORÇADA
+            console.log('🔄 Iniciando verificações de atualização...');
+            setTimeout(() => checarAtualizacao(true), 2000);
+            setInterval(() => checarAtualizacao(true), 15000); // a cada 15s
         } catch(erro) { console.error('❌ Erro ao iniciar:', erro); dom.loadingScreen.style.display='none'; dom.playerContainer.classList.add('visible'); notif('⚠️ Erro ao iniciar, recarregue a página',5000); }
     }
     iniciar();
