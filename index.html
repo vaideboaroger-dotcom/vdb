@@ -55,8 +55,6 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     gap: 22px;
     overflow: hidden;
 }
-
-/* Efeitos de fundo: partículas roxas flutuando */
 #loadingScreen::before {
     content: '';
     position: absolute;
@@ -77,16 +75,9 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     pointer-events: none;
     opacity: 0.6;
 }
-@keyframes bgPulseLoad {
-    0%, 100% { opacity: 0.7; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.05); }
-}
-@keyframes rotateBG {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+@keyframes bgPulseLoad { 0%, 100% { opacity: 0.7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
+@keyframes rotateBG { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-/* Container do favicon com efeitos */
 .loading-logo-wrapper {
     position: relative;
     width: 130px;
@@ -118,10 +109,7 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     animation: spin 3s linear infinite;
     box-shadow: 0 0 25px rgba(168, 85, 247, 0.6), inset 0 0 20px rgba(168, 85, 247, 0.3);
 }
-@keyframes auraGlow {
-    0%, 100% { transform: scale(1); opacity: 0.8; }
-    50% { transform: scale(1.25); opacity: 1; }
-}
+@keyframes auraGlow { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.25); opacity: 1; } }
 
 .loading-logo {
     width: 96px;
@@ -130,29 +118,16 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     object-fit: cover;
     border: 3px solid #a855f7;
     animation: pulseLogo 1.8s ease-in-out infinite;
-    box-shadow: 
-        0 0 40px rgba(168, 85, 247, 0.9),
-        0 0 80px rgba(168, 85, 247, 0.5),
-        inset 0 0 20px rgba(168, 85, 247, 0.3);
+    box-shadow: 0 0 40px rgba(168, 85, 247, 0.9), 0 0 80px rgba(168, 85, 247, 0.5), inset 0 0 20px rgba(168, 85, 247, 0.3);
     position: relative;
     z-index: 3;
 }
 @keyframes pulseLogo {
-    0%, 100% { 
-        transform: scale(1); 
-        box-shadow: 0 0 40px rgba(168, 85, 247, 0.9), 0 0 80px rgba(168, 85, 247, 0.5), inset 0 0 20px rgba(168, 85, 247, 0.3);
-    }
-    50% { 
-        transform: scale(1.08); 
-        box-shadow: 0 0 60px rgba(168, 85, 247, 1), 0 0 120px rgba(168, 85, 247, 0.7), inset 0 0 30px rgba(168, 85, 247, 0.5);
-    }
+    0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(168, 85, 247, 0.9), 0 0 80px rgba(168, 85, 247, 0.5), inset 0 0 20px rgba(168, 85, 247, 0.3); }
+    50% { transform: scale(1.08); box-shadow: 0 0 60px rgba(168, 85, 247, 1), 0 0 120px rgba(168, 85, 247, 0.7), inset 0 0 30px rgba(168, 85, 247, 0.5); }
 }
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-/* Anel externo pulsante */
 .loading-ring {
     position: absolute;
     inset: -30px;
@@ -162,14 +137,7 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     pointer-events: none;
 }
 
-.loading-spinner { 
-    font-size: 1.8rem; 
-    color: #a855f7; 
-    animation: spin 1.5s infinite; 
-    filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.9));
-    z-index: 2;
-    margin-top: 6px;
-}
+.loading-spinner { font-size: 1.8rem; color: #a855f7; animation: spin 1.5s infinite; filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.9)); z-index: 2; margin-top: 6px; }
 
 .loading-text {
     font-family: 'Audiowide', sans-serif;
@@ -186,10 +154,7 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     position: relative;
     filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.6));
 }
-@keyframes gradientText {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
+@keyframes gradientText { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
 
 .loading-sub {
     font-family: 'Rajdhani', sans-serif;
@@ -201,10 +166,7 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     z-index: 2;
     animation: fadeInOut 2s ease-in-out infinite;
 }
-@keyframes fadeInOut {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; }
-}
+@keyframes fadeInOut { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 
 .loading-progress-container {
     width: 220px;
@@ -227,19 +189,9 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     transition: width 0.4s ease;
     box-shadow: 0 0 15px rgba(168, 85, 247, 0.9), 0 0 30px rgba(168, 85, 247, 0.5);
 }
-@keyframes progressShineLoad {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 200% 50%; }
-}
+@keyframes progressShineLoad { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
 
-/* Partículas roxas caindo */
-.loading-particles {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    z-index: 1;
-    pointer-events: none;
-}
+.loading-particles { position: absolute; inset: 0; overflow: hidden; z-index: 1; pointer-events: none; }
 .loading-particles .particle {
     position: absolute;
     width: 4px;
@@ -267,10 +219,7 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
 .media-container .active { opacity:1; z-index:3; animation:mediaFadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
 .media-container .inactive { opacity:0; z-index:2; }
 .media-container .clickable { cursor:pointer; }
-@keyframes mediaFadeIn {
-    0% { opacity:0; transform:scale(1.05); filter:blur(8px); }
-    100% { opacity:1; transform:scale(1); filter:blur(0); }
-}
+@keyframes mediaFadeIn { 0% { opacity:0; transform:scale(1.05); filter:blur(8px); } 100% { opacity:1; transform:scale(1); filter:blur(0); } }
 
 .top-bar { position:fixed; top:0; left:0; right:0; z-index:35; display:flex; align-items:center; justify-content:space-between; padding:6px 12px; background:linear-gradient(180deg, rgba(0,0,0,0.95) 0%, transparent 100%); height:54px; }
 .top-left { display:flex; align-items:center; gap:10px; }
@@ -438,35 +387,13 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     min-height:40px; 
     transition: all 0.2s;
     font-weight: 500;
-    position: relative;
 }
-.menu-popup button i { 
-    width: 20px; 
-    text-align: center; 
-    font-size: 0.9rem; 
-    color: var(--primary);
-    filter: drop-shadow(0 0 6px rgba(168,85,247,0.4));
-}
-.menu-popup button:active { 
-    background:rgba(168,85,247,0.15); 
-    transform: scale(0.97);
-}
-.menu-popup button:hover {
-    background:rgba(168,85,247,0.08);
-}
-.menu-popup .menu-separator {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(168,85,247,0.3), transparent);
-    margin: 4px 8px;
-}
-.menu-popup .menu-magic {
-    background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(34,211,238,0.15));
-    border: 1px solid rgba(168,85,247,0.3);
-}
-.menu-popup .menu-magic i {
-    color: #fbbf24;
-    animation: spin 4s linear infinite;
-}
+.menu-popup button i { width: 20px; text-align: center; font-size: 0.9rem; color: var(--primary); filter: drop-shadow(0 0 6px rgba(168,85,247,0.4)); }
+.menu-popup button:active { background:rgba(168,85,247,0.15); transform: scale(0.97); }
+.menu-popup button:hover { background:rgba(168,85,247,0.08); }
+.menu-popup .menu-separator { height: 1px; background: linear-gradient(90deg, transparent, rgba(168,85,247,0.3), transparent); margin: 4px 8px; }
+.menu-popup .menu-magic { background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(34,211,238,0.15)); border: 1px solid rgba(168,85,247,0.3); }
+.menu-popup .menu-magic i { color: #fbbf24; animation: spin 4s linear infinite; }
 
 .genres-modal { position:fixed; inset:0; z-index:100; background:rgba(0,0,0,0.85); backdrop-filter:blur(20px); padding:20px 16px calc(20px + var(--safe-bottom)); display:none; flex-direction:column; }
 .genres-modal.open { display:flex; }
@@ -489,33 +416,10 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     box-shadow:0 4px 12px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.04); 
     transition:all .3s cubic-bezier(.34,1.3,.64,1); 
 }
-.genre-card::before { 
-    content:''; 
-    position:absolute; 
-    left:0; 
-    top:50%; 
-    transform:translateY(-50%); 
-    width:3px; 
-    height:45%; 
-    background:var(--c1, #22d3ee); 
-    border-radius:0 4px 4px 0; 
-    box-shadow:0 0 12px var(--c1, #22d3ee); 
-    transition:all .3s cubic-bezier(.34,1.3,.64,1); 
-}
+.genre-card::before { content:''; position:absolute; left:0; top:50%; transform:translateY(-50%); width:3px; height:45%; background:var(--c1, #22d3ee); border-radius:0 4px 4px 0; box-shadow:0 0 12px var(--c1, #22d3ee); transition:all .3s cubic-bezier(.34,1.3,.64,1); }
 .genre-card:active { transform:scale(0.96) translateY(-2px); border-color:var(--c1); }
 .genre-card:active::before { height:100%; width:4px; }
-.genre-card .genre-name { 
-    font-family:'Rajdhani', sans-serif; 
-    font-size:1.02rem; 
-    font-weight: 700;
-    letter-spacing:1.2px; 
-    text-transform:uppercase; 
-    color:#f0f0f0; 
-    white-space:nowrap; 
-    overflow:hidden; 
-    text-overflow:ellipsis; 
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-}
+.genre-card .genre-name { font-family:'Rajdhani', sans-serif; font-size:1.02rem; font-weight: 700; letter-spacing:1.2px; text-transform:uppercase; color:#f0f0f0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
 
 .close-genres { width:100%; padding:12px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:25px; color:#ccc; font-size:0.78rem; cursor:pointer; font-weight:700; margin-top:12px; letter-spacing:3px; text-transform:uppercase; flex-shrink:0; }
 
@@ -616,27 +520,31 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
 #adminPanel .total { font-size:0.5rem; color:#555; text-align:center; padding:4px; border-top:1px solid rgba(255,255,255,0.03); margin-top:4px; }
 #adminPanel .btn-fechar { background:rgba(255,255,255,0.03); border:none; padding:8px; border-radius:20px; color:#555; cursor:pointer; width:100%; font-size:0.75rem; margin-top:4px; }
 
+/* ═══════════════════════════════════════════════════════════
+   📢 BANNER PROMOCIONAL ROTATIVO — SAI DO BOTÃO +
+   ═══════════════════════════════════════════════════════════ */
 #bannerPromocional {
     position: fixed;
     top: 50%;
     right: 12px;
-    transform: translateY(-50%) translateX(120%);
+    transform: translateY(-50%) translateX(120%) scale(0.3);
+    transform-origin: bottom right;
     z-index: 9998;
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(244, 114, 182, 0.15) 50%, rgba(251, 191, 36, 0.2) 100%);
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.28) 0%, rgba(244, 114, 182, 0.18) 50%, rgba(251, 191, 36, 0.22) 100%);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.28);
     border-radius: 22px;
-    padding: 12px 16px;
+    padding: 14px 18px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 40px rgba(168, 85, 247, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    gap: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 40px rgba(168, 85, 247, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
     cursor: pointer;
     opacity: 0;
-    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
     pointer-events: none;
-    max-width: 190px;
+    max-width: 230px;
     overflow: hidden;
 }
 #bannerPromocional::before {
@@ -644,8 +552,8 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     position: absolute;
     top: 0; left: -100%;
     width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    animation: bannerShine 4s ease-in-out infinite;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+    animation: bannerShine 3.5s ease-in-out infinite;
     pointer-events: none;
 }
 #bannerPromocional::after {
@@ -653,29 +561,29 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     position: absolute;
     inset: -1px;
     border-radius: 22px;
-    padding: 1px;
-    background: linear-gradient(135deg, rgba(168,85,247,.8), rgba(34,211,238,.8), rgba(244,114,182,.8), rgba(251,191,36,.8), rgba(168,85,247,.8));
+    padding: 1.5px;
+    background: linear-gradient(135deg, rgba(168,85,247,.9), rgba(34,211,238,.9), rgba(244,114,182,.9), rgba(251,191,36,.9), rgba(168,85,247,.9));
     background-size: 400% 400%;
-    animation: fabGradient 5s ease infinite;
+    animation: fabGradient 4s ease infinite;
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
-    opacity: 0.7;
+    opacity: 0.9;
 }
 #bannerPromocional.mostrar {
     opacity: 1;
     transform: translateY(-50%) translateX(0) scale(1);
     pointer-events: auto;
-    animation: bannerFloat 3s ease-in-out infinite;
 }
-#bannerPromocional:active { transform: translateY(-50%) translateX(0) scale(0.95); }
+#bannerPromocional:active { transform: translateY(-50%) translateX(0) scale(0.95) !important; }
 #bannerPromocional img {
-    width: 36px; height: 36px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.7), 0 2px 8px rgba(0, 0, 0, 0.4);
     flex-shrink: 0;
     position: relative;
     z-index: 2;
@@ -683,32 +591,86 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
 }
 #bannerPromocional .banner-texto {
     color: #fff;
-    font-size: 0.78rem;
+    font-size: 0.82rem;
     font-weight: 800;
-    white-space: nowrap;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
-    line-height: 1.3;
+    white-space: normal;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+    line-height: 1.35;
     position: relative;
     z-index: 2;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.2px;
+    transition: opacity 0.3s ease;
 }
-#bannerPromocional .banner-texto span {
-    background: linear-gradient(135deg, #fbbf24, #f472b6);
+#bannerPromocional .banner-texto span:first-child {
+    background: linear-gradient(135deg, #fbbf24, #f472b6, #fbbf24);
+    background-size: 200% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    padding: 2px 6px;
+    padding: 2px 0;
     font-weight: 900;
     display: inline-block;
-    margin-bottom: 2px;
     letter-spacing: 1px;
-    filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.8));
-    animation: priceGlow 1.5s ease-in-out infinite alternate;
+    filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.9));
+    animation: priceGlow 1.5s ease-in-out infinite alternate, bannerTextGradient 3s linear infinite;
 }
-@keyframes bannerShine { 0%{left:-100%} 50%{left:100%} 100%{left:100%} }
-@keyframes bannerFloat { 0%,100%{transform:translateY(-50%) translateX(0) scale(1)} 50%{transform:translateY(-52%) translateX(0) scale(1.02)} }
-@keyframes bannerLogoPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
-@keyframes priceGlow { 0%{filter:drop-shadow(0 0 6px rgba(251,191,36,.6))} 100%{filter:drop-shadow(0 0 14px rgba(251,191,36,1))} }
+#bannerPromocional .banner-texto .clique-aqui {
+    display: inline-block;
+    background: linear-gradient(135deg, #22d3ee, #a855f7);
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 900;
+    margin-top: 4px;
+    letter-spacing: 1.2px;
+    box-shadow: 0 0 12px rgba(34, 211, 238, 0.7);
+    animation: cliqueAquiPulse 1.2s ease-in-out infinite;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+@keyframes bannerShine { 0%{left:-100%} 55%{left:100%} 100%{left:100%} }
+@keyframes bannerLogoPulse { 0%,100%{transform:scale(1); box-shadow:0 0 20px rgba(168,85,247,0.7)} 50%{transform:scale(1.1); box-shadow:0 0 30px rgba(168,85,247,1)} }
+@keyframes priceGlow { 0%{filter:drop-shadow(0 0 6px rgba(251,191,36,.7))} 100%{filter:drop-shadow(0 0 14px rgba(251,191,36,1))} }
+@keyframes bannerTextGradient { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
+@keyframes cliqueAquiPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 12px rgba(34, 211, 238, 0.7); }
+    50% { transform: scale(1.05); box-shadow: 0 0 22px rgba(34, 211, 238, 1), 0 0 32px rgba(168, 85, 247, 0.7); }
+}
+
+/* ─── Animação de saída do botão + ─── */
+@keyframes bannerFromFab {
+    0% {
+        opacity: 0;
+        transform: translateY(calc(100vh - 50% - 100px)) translateX(50px) scale(0.2);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(-50%) translateX(-10px) scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0) scale(1);
+    }
+}
+#bannerPromocional.saindo-do-fab {
+    animation: bannerFromFab 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ─── Animação de saída (hide) ─── */
+#bannerPromocional.escondendo {
+    animation: bannerToFab 0.6s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
+}
+@keyframes bannerToFab {
+    0% {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(calc(100vh - 50% - 100px)) translateX(50px) scale(0.2);
+    }
+}
 
 #btnSairModoTV { position:fixed; top:90px; right:12px; z-index:60; background:rgba(0,0,0,0.7); backdrop-filter:blur(8px); color:#fff; border:1px solid rgba(255,255,255,0.2); border-radius:50%; width:34px; height:34px; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; }
 
@@ -778,9 +740,10 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     .genres-modal .header .titulo { font-size:1rem; }
     .notification { font-size:0.8rem; padding:7px 14px; top:90px; }
     #btnInstalarFixo { padding:12px 18px; font-size:0.85rem; }
-    #bannerPromocional { right:8px; padding:8px 12px; max-width:150px; }
-    #bannerPromocional img { width:30px; height:30px; }
-    #bannerPromocional .banner-texto { font-size:0.65rem; }
+    #bannerPromocional { right:8px; padding: 12px 14px; max-width: 210px; }
+    #bannerPromocional img { width: 38px; height: 38px; }
+    #bannerPromocional .banner-texto { font-size: 0.76rem; }
+    #bannerPromocional .banner-texto .clique-aqui { font-size: 0.7rem; padding: 2px 8px; }
     .menu-popup { min-width: 210px; right: 8px; padding: 6px; }
     .menu-popup button { padding: 9px 12px; font-size: 0.78rem; min-height: 38px; }
     .loading-text { font-size: 1.1rem; letter-spacing: 3px; }
@@ -798,7 +761,6 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     <div class="particula-bg"></div>
 </div>
 
-<!-- 🎨 TELA PRETA COM FAVICON ROXO E EFEITOS -->
 <div id="loadingScreen">
     <div class="loading-particles" id="loadingParticles"></div>
     <div class="loading-logo-wrapper">
@@ -872,7 +834,6 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
         <div class="fab-main" id="fabMain"><i class="fas fa-plus"></i></div>
     </div>
 
-    <!-- MENU 3 PONTINHOS EXPANDIDO -->
     <div class="menu-popup" id="menuPopup">
         <button id="closeMenuBtn"><i class="fas fa-times"></i>Fechar</button>
         <div class="menu-separator"></div>
@@ -1027,10 +988,10 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
 </div>
 
 <div id="bannerPromocional">
-    <img src="favicon30.png" alt="VDB">
-    <div class="banner-texto">
-        <span>🔥 VITALÍCIO</span><br>
-        R$ 39,00
+    <img src="favicon30.png" alt="VDB" id="bannerImagem">
+    <div class="banner-texto" id="bannerTexto">
+        <span>🔥 VITALÍCIO R$39</span><br>
+        <span class="clique-aqui">CLIQUE AQUI</span>
     </div>
 </div>
 
@@ -1116,8 +1077,7 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
         p.style.animationDelay = (Math.random() * 5) + 's';
         p.style.width = (2 + Math.random() * 4) + 'px';
         p.style.height = p.style.width;
-        const opacity = 0.3 + Math.random() * 0.7;
-        p.style.opacity = opacity;
+        p.style.opacity = (0.3 + Math.random() * 0.7);
         container.appendChild(p);
     }
 })();
@@ -1125,7 +1085,7 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
 (function(){
     'use strict';
 
-    const APP_VERSION_LOCAL = 'v3';
+    const APP_VERSION_LOCAL = 'v4';
 
     console.log('%c🚀 VAI DE BOA! MUSIC', 'color:#a855f7; font-size:20px; font-weight:bold');
     console.log('%c📦 Versão: ' + APP_VERSION_LOCAL, 'color:#22d3ee; font-size:14px; font-weight:bold');
@@ -1155,6 +1115,7 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
             const data = await resp.json();
             if(data.version && data.version !== APP_VERSION_LOCAL) {
                 jaAvisouAtualizacao = true;
+                window.__vdb_nova_versao_disponivel = true;
                 mostrarBannerAtualizacao(data.version);
                 return true;
             } else if(!silencioso) {
@@ -1167,6 +1128,7 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     }
 
     function mostrarBannerAtualizacao(novaVersao) {
+        window.__vdb_nova_versao_disponivel = true;
         if(document.getElementById('bannerUpdate')) return;
         const banner = document.createElement('div');
         banner.id = 'bannerUpdate';
@@ -1202,6 +1164,25 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
             localStorage.removeItem('vdb_app_version');
         } catch(e) {}
         setTimeout(() => { window.location.href = window.location.pathname + '?hard=' + Date.now(); }, 1000);
+    }
+
+    async function atualizarAppMagico() {
+        if(!confirm('🪄 Atualizar o app agora?\n\nVai limpar o cache e recarregar.')) return;
+        notif('⏳ Atualizando...', 1500);
+        try {
+            if('caches' in window) {
+                const keys = await caches.keys();
+                await Promise.all(keys.map(k => caches.delete(k)));
+            }
+            if(navigator.serviceWorker) {
+                const regs = await navigator.serviceWorker.getRegistrations();
+                await Promise.all(regs.map(r => r.unregister()));
+            }
+            localStorage.removeItem('vdb_app_version');
+        } catch(e) { console.warn('Erro:', e); }
+        setTimeout(() => {
+            window.location.href = window.location.pathname + '?update=' + Date.now();
+        }, 800);
     }
 
     const EDITE_AQUI = {
@@ -1296,6 +1277,7 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
             this.sleepTimer = null; this.fabOpen = false; this.isBackgroundActive = false; this.playerAtivado = false;
             this.mediaTVTimer = null; this.mediaTimer = null; this.hideControlsTimeout = null;
             this.carregandoMusica = false; this.escolhaMostrada = false;
+            this.bannerTimeout = null; this.bannerInterval = null;
             this.bloqueadoPermanente = localStorage.getItem('vdb_bloqueado_permanente') === 'true';
             this._save();
         }
@@ -1412,29 +1394,20 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
         if(!appState.isBackgroundActive || appState.carregandoMusica || !appState.musicas.length) return;
         appState.carregandoMusica = true;
         dom.playBtn.classList.add('loading');
-        
-        if(!dom.audio.paused && dom.audio.src) {
-            await fadeOutAudio(400);
-        }
-        
+        if(!dom.audio.paused && dom.audio.src) { await fadeOutAudio(400); }
         const musica = atualizarPlaylist();
         if(!musica) { appState.carregandoMusica = false; dom.playBtn.classList.remove('loading'); return; }
-        
         atualizarLetreiro(musica); 
         updateHeart(musica.id); 
         appState.addHistorico(musica);
         aplicarTema(musica.genero);
         dom.equalizer.classList.remove('paused');
-        
         if('mediaSession' in navigator) { try { navigator.mediaSession.metadata = new MediaMetadata({ title: musica.title || 'VAI DE BOA! MUSIC', artist: musica.artist || 'Artista', album: musica.genero || 'Música', artwork: [{ src:'favicon30.png', sizes:'512x512', type:'image/png' }] }); navigator.mediaSession.setActionHandler('play', togglePlay); navigator.mediaSession.setActionHandler('pause', togglePlay); navigator.mediaSession.setActionHandler('previoustrack', prev); navigator.mediaSession.setActionHandler('nexttrack', next); } catch(e) {} }
-        
         dom.audio.pause(); 
         dom.audio.removeAttribute('src'); 
         dom.audio.load();
-        
         const urls = getUrls(musica).slice(0,8);
         let ok = false;
-        
         for(const url of urls) {
             try {
                 const loaded = await new Promise(res => { 
@@ -1447,7 +1420,6 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
                 if(loaded) { ok=true; break; }
             } catch(e) {}
         }
-        
         if(ok) { 
             try {
                 dom.audio.volume = 0;
@@ -1502,252 +1474,105 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
         try {
             dom.mediaContainer.innerHTML = '';
             let midias = [];
-            try { 
-                const response = await fetch(CONFIG.MIDIAS_PADRAO_URL + '?v='+CONFIG.CACHE_VERSION+'&t='+now()); 
-                if(!response.ok) throw new Error('HTTP '+response.status); 
-                const data = await response.json(); 
-                if(Array.isArray(data)) midias = data; 
-                else if(data.medias) midias = data.medias; 
-                else if(data.midias) midias = data.midias; 
-            } catch(e) {}
-            
+            try { const response = await fetch(CONFIG.MIDIAS_PADRAO_URL + '?v='+CONFIG.CACHE_VERSION+'&t='+now()); if(!response.ok) throw new Error('HTTP '+response.status); const data = await response.json(); if(Array.isArray(data)) midias = data; else if(data.medias) midias = data.medias; else if(data.midias) midias = data.midias; } catch(e) {}
             if(!midias.length) midias = CONFIG.FALLBACK_MIDIAS;
             midias = midias.filter(m=>m&&(m.tipo==='video'||m.tipo==='imagem')&&m.src);
             if(!midias.length) midias = CONFIG.FALLBACK_MIDIAS;
-            
             const fallbackDiv = document.createElement('div');
             fallbackDiv.style.cssText = 'position:absolute;inset:0;background:radial-gradient(circle at center,#1a1a1a,#0a0a0a);z-index:1;';
             dom.mediaContainer.appendChild(fallbackDiv);
-            
             const elementos = [];
-            
             midias.forEach((m,i) => {
                 let el;
                 const url = m.src + (m.src.includes('?')?'&':'?')+'v='+CONFIG.CACHE_VERSION;
-                
-                if(m.tipo==='video') {
-                    el = document.createElement('video');
-                    el.src = url;
-                    el.muted = true;
-                    el.playsInline = true;
-                    el.setAttribute('playsinline','');
-                    el.setAttribute('webkit-playsinline','');
-                    el.preload = 'auto';
-                    el.loop = false;
-                    el.load();
-                    el.onerror = () => { el.style.display = 'none'; };
-                } else {
-                    el = document.createElement('img');
-                    el.src = url;
-                    el.loading = 'eager';
-                    el.alt = 'VDB Music';
-                    el.onerror = () => { el.style.display = 'none'; };
-                }
-                
+                if(m.tipo==='video') { el = document.createElement('video'); el.src = url; el.muted = true; el.playsInline = true; el.setAttribute('playsinline',''); el.setAttribute('webkit-playsinline',''); el.preload = 'auto'; el.loop = false; el.load(); el.onerror = () => { el.style.display = 'none'; }; }
+                else { el = document.createElement('img'); el.src = url; el.loading = 'eager'; el.alt = 'VDB Music'; el.onerror = () => { el.style.display = 'none'; }; }
                 el.className = i === 0 ? 'active' : 'inactive';
                 el.style.zIndex = i === 0 ? '3' : '2';
-                
-                if(m.src && m.src.toLowerCase().includes('clik')) { 
-                    el.classList.add('clickable'); 
-                    el.style.cursor = 'pointer'; 
-                }
-                
+                if(m.src && m.src.toLowerCase().includes('clik')) { el.classList.add('clickable'); el.style.cursor = 'pointer'; }
                 dom.mediaContainer.appendChild(el);
                 elementos.push(el);
             });
-            
-            dom.mediaContainer.addEventListener('click', function(e) { 
-                const target = e.target.closest('video, img'); 
-                if(target && target.classList.contains('clickable')) abrirWhatsAppCompra(); 
-            });
-            
+            dom.mediaContainer.addEventListener('click', function(e) { const target = e.target.closest('video, img'); if(target && target.classList.contains('clickable')) abrirWhatsAppCompra(); });
             if(appState.mediaTimer) { clearTimeout(appState.mediaTimer); appState.mediaTimer = null; }
-            
             let idx = 0;
-            
             function proximaMidia() {
                 if(!elementos.length) return;
                 const atual = elementos[idx];
                 const proxIdx = (idx + 1) % elementos.length;
                 const prox = elementos[proxIdx];
                 if(!prox) return;
-                
-                if(prox.tagName === 'VIDEO') { 
-                    try { prox.currentTime = 0; } catch(e) {}
-                    prox.play().catch(()=>{}); 
-                }
-                
-                atual.classList.remove('active');
-                atual.classList.add('inactive');
-                prox.classList.add('active');
-                prox.classList.remove('inactive');
-                
-                if(atual.tagName === 'VIDEO') { 
-                    setTimeout(() => { 
-                        try { atual.pause(); atual.currentTime = 0; } catch(e) {}
-                    }, 800); 
-                }
-                
+                if(prox.tagName === 'VIDEO') { try { prox.currentTime = 0; } catch(e) {} prox.play().catch(()=>{}); }
+                atual.classList.remove('active'); atual.classList.add('inactive');
+                prox.classList.add('active'); prox.classList.remove('inactive');
+                if(atual.tagName === 'VIDEO') { setTimeout(() => { try { atual.pause(); atual.currentTime = 0; } catch(e) {} }, 800); }
                 idx = proxIdx;
             }
-            
-            if(elementos[0] && elementos[0].tagName === 'VIDEO') { 
-                elementos[0].play().catch(()=>{}); 
-            }
-            
+            if(elementos[0] && elementos[0].tagName === 'VIDEO') { elementos[0].play().catch(()=>{}); }
             function agendarProxima() {
                 if(!elementos.length) return;
                 const atual = elementos[idx];
-                
                 if(atual.tagName === 'VIDEO') {
-                    const onEnded = () => {
-                        atual.removeEventListener('ended', onEnded);
-                        clearTimeout(atual._fallbackTimer);
-                        proximaMidia();
-                        agendarProxima();
-                    };
+                    const onEnded = () => { atual.removeEventListener('ended', onEnded); clearTimeout(atual._fallbackTimer); proximaMidia(); agendarProxima(); };
                     atual.addEventListener('ended', onEnded, {once: true});
-                    
-                    atual._fallbackTimer = setTimeout(() => {
-                        atual.removeEventListener('ended', onEnded);
-                        proximaMidia();
-                        agendarProxima();
-                    }, 90000);
+                    atual._fallbackTimer = setTimeout(() => { atual.removeEventListener('ended', onEnded); proximaMidia(); agendarProxima(); }, 90000);
                 } else {
-                    appState.mediaTimer = setTimeout(() => {
-                        proximaMidia();
-                        agendarProxima();
-                    }, 5000);
+                    appState.mediaTimer = setTimeout(() => { proximaMidia(); agendarProxima(); }, 5000);
                 }
             }
-            
             agendarProxima();
-        } catch(erro) { 
-            console.error('Erro mídias padrão:', erro);
-            dom.mediaContainer.innerHTML = ''; 
-        }
+        } catch(erro) { console.error('Erro mídias padrão:', erro); dom.mediaContainer.innerHTML = ''; }
     }
 
     async function carregarMidiasTV() {
         try {
             dom.mediaContainer.innerHTML = '';
             let midias = [];
-            try { 
-                const response = await fetch(CONFIG.MIDIAS_TV_URL + '?v='+CONFIG.CACHE_VERSION+'&t='+now()); 
-                if(!response.ok) throw new Error('HTTP '+response.status); 
-                const data = await response.json(); 
-                if(Array.isArray(data)) midias = data; 
-                else if(data.medias) midias = data.medias; 
-                else if(data.midias) midias = data.midias; 
-            } catch(e) {}
-            
-            if(!midias.length) midias = [ 
-                { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/tvbob.mp4' }, 
-                { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/amytv.mp4' } 
-            ];
-            
+            try { const response = await fetch(CONFIG.MIDIAS_TV_URL + '?v='+CONFIG.CACHE_VERSION+'&t='+now()); if(!response.ok) throw new Error('HTTP '+response.status); const data = await response.json(); if(Array.isArray(data)) midias = data; else if(data.medias) midias = data.medias; else if(data.midias) midias = data.midias; } catch(e) {}
+            if(!midias.length) midias = [ { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/tvbob.mp4' }, { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/amytv.mp4' } ];
             midias = midias.filter(m=>m&&(m.tipo==='video'||m.tipo==='imagem')&&m.src);
-            if(!midias.length) midias = [ 
-                { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/tvbob.mp4' }, 
-                { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/amytv.mp4' } 
-            ];
-            
+            if(!midias.length) midias = [ { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/tvbob.mp4' }, { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/amytv.mp4' } ];
             const elementos = [];
-            
             midias.forEach((m,i) => {
                 let el;
                 const url = m.src + (m.src.includes('?')?'&':'?')+'v='+CONFIG.CACHE_VERSION;
-                
-                if(m.tipo==='video') { 
-                    el = document.createElement('video'); 
-                    el.src = url; 
-                    el.muted = true; 
-                    el.playsInline = true; 
-                    el.setAttribute('playsinline',''); 
-                    el.setAttribute('webkit-playsinline',''); 
-                    el.preload = 'auto'; 
-                    el.loop = false; 
-                    el.load(); 
-                    el.onerror = () => { el.style.display = 'none'; }; 
-                } else { 
-                    el = document.createElement('img'); 
-                    el.src = url; 
-                    el.loading = 'eager'; 
-                    el.alt = 'VDB TV'; 
-                    el.onerror = () => { el.style.display = 'none'; }; 
-                }
-                
+                if(m.tipo==='video') { el = document.createElement('video'); el.src = url; el.muted = true; el.playsInline = true; el.setAttribute('playsinline',''); el.setAttribute('webkit-playsinline',''); el.preload = 'auto'; el.loop = false; el.load(); el.onerror = () => { el.style.display = 'none'; }; }
+                else { el = document.createElement('img'); el.src = url; el.loading = 'eager'; el.alt = 'VDB TV'; el.onerror = () => { el.style.display = 'none'; }; }
                 el.className = i === 0 ? 'active' : 'inactive';
                 el.style.zIndex = i === 0 ? '3' : '2';
                 dom.mediaContainer.appendChild(el);
                 elementos.push(el);
             });
-            
             if(appState.mediaTVTimer) { clearTimeout(appState.mediaTVTimer); appState.mediaTVTimer = null; }
-            
             let idx = 0;
-            
             function proximaTV() {
                 if(!elementos.length) return;
                 const atual = elementos[idx];
                 const proxIdx = (idx + 1) % elementos.length;
                 const prox = elementos[proxIdx];
                 if(!prox) return;
-                
-                if(prox.tagName === 'VIDEO') { 
-                    try { prox.currentTime = 0; } catch(e) {}
-                    prox.play().catch(()=>{}); 
-                }
-                
-                atual.classList.remove('active');
-                atual.classList.add('inactive');
-                prox.classList.add('active');
-                prox.classList.remove('inactive');
-                
-                if(atual.tagName === 'VIDEO') { 
-                    setTimeout(() => { 
-                        try { atual.pause(); atual.currentTime = 0; } catch(e) {}
-                    }, 800); 
-                }
-                
+                if(prox.tagName === 'VIDEO') { try { prox.currentTime = 0; } catch(e) {} prox.play().catch(()=>{}); }
+                atual.classList.remove('active'); atual.classList.add('inactive');
+                prox.classList.add('active'); prox.classList.remove('inactive');
+                if(atual.tagName === 'VIDEO') { setTimeout(() => { try { atual.pause(); atual.currentTime = 0; } catch(e) {} }, 800); }
                 idx = proxIdx;
             }
-            
             if(elementos[0] && elementos[0].tagName === 'VIDEO') elementos[0].play().catch(()=>{});
-            
             function agendarTV() {
                 if(!elementos.length) return;
                 const atual = elementos[idx];
-                
                 if(atual.tagName === 'VIDEO') {
-                    const onEnded = () => {
-                        atual.removeEventListener('ended', onEnded);
-                        clearTimeout(atual._fallbackTimer);
-                        proximaTV();
-                        agendarTV();
-                    };
+                    const onEnded = () => { atual.removeEventListener('ended', onEnded); clearTimeout(atual._fallbackTimer); proximaTV(); agendarTV(); };
                     atual.addEventListener('ended', onEnded, {once: true});
-                    
-                    atual._fallbackTimer = setTimeout(() => {
-                        atual.removeEventListener('ended', onEnded);
-                        proximaTV();
-                        agendarTV();
-                    }, 90000);
+                    atual._fallbackTimer = setTimeout(() => { atual.removeEventListener('ended', onEnded); proximaTV(); agendarTV(); }, 90000);
                 } else {
-                    appState.mediaTVTimer = setTimeout(() => {
-                        proximaTV();
-                        agendarTV();
-                    }, 8000);
+                    appState.mediaTVTimer = setTimeout(() => { proximaTV(); agendarTV(); }, 8000);
                 }
             }
-            
             agendarTV();
             dom.infoScroll.classList.add('hidden');
             mostrarBotaoSairTV();
-        } catch(erro) { 
-            console.error('Erro mídias TV:', erro);
-            dom.mediaContainer.innerHTML = ''; 
-        }
+        } catch(erro) { console.error('Erro mídias TV:', erro); dom.mediaContainer.innerHTML = ''; }
     }
 
     function mostrarBotaoSairTV() { esconderBotaoSairTV(); const btn = document.createElement('button'); btn.id = 'btnSairModoTV'; btn.innerHTML = '✕'; btn.onclick = () => toggleModoTV(); document.body.appendChild(btn); }
@@ -1798,9 +1623,110 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     function liberarAgora() { const senha = prompt('🔑 Digite sua senha única para liberar permanentemente:'); if(!senha) return; const resultado = validarSenha(senha); if(resultado.valida) { appState.desbloqueado = true; dom.blockOverlay.classList.remove('active'); dom.blockOverlay.style.display = 'none'; dom.timerLib.textContent = '🔓 Lib'; dom.timerLib.className = 'timer-lib lib'; localStorage.setItem('vdb_desbloqueado','true'); localStorage.setItem('vdb_senha_permanente','true'); localStorage.removeItem('vdb_teste_expiracao'); localStorage.removeItem('vdb_bloqueado_permanente'); appState.bloqueadoPermanente = false; notif('✅ App liberado com sucesso!',3000); appState._save(); } else { notif('❌ Senha inválida!',2000); } }
     function handleLiberar() { const senha = dom.senhaInput.value.trim(); if(!senha) { dom.erroSenha.textContent='⚠️ Digite a senha'; return; } const resultado = validarSenha(senha); if(resultado.valida) { appState.desbloqueado = true; dom.blockOverlay.classList.remove('active'); dom.blockOverlay.style.display = 'none'; dom.erroSenha.textContent=''; dom.senhaInput.value=''; dom.senhaInput.blur(); localStorage.setItem('vdb_desbloqueado','true'); localStorage.setItem('vdb_senha_permanente','true'); localStorage.removeItem('vdb_teste_expiracao'); localStorage.removeItem('vdb_bloqueado_permanente'); appState.bloqueadoPermanente = false; notif(resultado.msg,3000); if(!appState.playerAtivado) setTimeout(ativarPlayer,500); appState._save(); } else { dom.erroSenha.innerHTML = '❌ Senha inválida!<br><small style="color:#888;font-size:0.7rem;">💡 Entre em contato com o suporte para receber sua senha</small>'; dom.senhaInput.value=''; notif('❌ Senha inválida!',2000); } }
 
-    function iniciarBannerPromocional() { setTimeout(mostrarBannerPromocional, 5000); appState.bannerInterval = setInterval(mostrarBannerPromocional, 120000); }
-    function mostrarBannerPromocional() { dom.bannerPromocional.classList.add('mostrar'); clearTimeout(appState.bannerTimeout); appState.bannerTimeout = setTimeout(() => dom.bannerPromocional.classList.remove('mostrar'), 8000); }
-    dom.bannerPromocional.addEventListener('click', abrirWhatsAppCompra);
+    /* ═══════════════════════════════════════════════════════════
+       📢 SISTEMA DE MENSAGENS PROMOCIONAIS ROTATIVAS
+       ═══════════════════════════════════════════════════════════ */
+    const MENSAGENS_PROMO = [
+        { texto: '🎵 <span>NOVA VERSÃO DISPONÍVEL!</span><br>Toque para atualizar agora', acao: 'update' },
+        { texto: '🎸 Você gosta de <span>MPB?</span><br>Temos as melhores!', acao: 'genero', genero: 'MPB' },
+        { texto: '🤠 Curte um <span>FORRÓ?</span><br>Ouça agora mesmo!', acao: 'genero', genero: 'FORRÓ' },
+        { texto: '✝️ Quer ouvir <span>GOSPEL?</span><br>Clique e aproveite!', acao: 'genero', genero: 'RELIGIOSA' },
+        { texto: '🎤 Bora de <span>POP/MIX?</span><br>Só hits atuais!', acao: 'genero', genero: 'POP/MIX' },
+        { texto: '🔥 Tá afim de <span>FUNK?</span><br>Do bom e do melhor!', acao: 'genero', genero: 'FUNK' },
+        { texto: '🤠 Modão <span>SERTANEJO?</span><br>Raiz e universitário!', acao: 'genero', genero: 'SERTANEJO' },
+        { texto: '🥁 Curtindo um <span>PAGODE?</span><br>Vem ouvir!', acao: 'genero', genero: 'PAGODE' },
+        { texto: '💜 Aproveite o <span>VITALÍCIO</span><br>por apenas R$ 39,00', acao: 'comprar' },
+        { texto: '🎼 Que tal um <span>SAMBA?</span><br>Clique e escute!', acao: 'genero', genero: 'SAMBA' },
+        { texto: '🌟 Experimente o <span>ROCK!</span><br>Clássicos e hits', acao: 'genero', genero: 'ROCK' },
+        { texto: '🎶 Bora de <span>ROMÂNTICA?</span><br>Ame e ouça!', acao: 'genero', genero: 'ROMÂNTICA' }
+    ];
+
+    let indiceMensagemAtual = 0;
+    let bannerJaMostrouAtualizacao = false;
+
+    function deveMostrarUpdate() {
+        if(bannerJaMostrouAtualizacao) return false;
+        return window.__vdb_nova_versao_disponivel === true;
+    }
+
+    function aplicarMensagemBanner(mensagem) {
+        if(!dom.bannerPromocional) return;
+        const textoEl = document.getElementById('bannerTexto');
+        if(!textoEl) return;
+        textoEl.style.opacity = '0';
+        setTimeout(() => {
+            textoEl.innerHTML = mensagem.texto + '<br><span class="clique-aqui">CLIQUE AQUI</span>';
+            textoEl.style.opacity = '1';
+        }, 300);
+        dom.bannerPromocional.dataset.acao = mensagem.acao;
+        dom.bannerPromocional.dataset.genero = mensagem.genero || '';
+    }
+
+    function proximaMensagem() {
+        if(deveMostrarUpdate()) {
+            bannerJaMostrouAtualizacao = true;
+            return MENSAGENS_PROMO[0];
+        }
+        indiceMensagemAtual++;
+        if(indiceMensagemAtual >= MENSAGENS_PROMO.length) {
+            indiceMensagemAtual = 1;
+        }
+        return MENSAGENS_PROMO[indiceMensagemAtual];
+    }
+
+    function mostrarBannerPromocional() {
+        if(!dom.bannerPromocional) return;
+        if(dom.bannerPromocional.classList.contains('mostrar')) return;
+        const mensagem = proximaMensagem();
+        aplicarMensagemBanner(mensagem);
+        dom.bannerPromocional.classList.add('saindo-do-fab', 'mostrar');
+        setTimeout(() => { dom.bannerPromocional.classList.remove('saindo-do-fab'); }, 900);
+        clearTimeout(appState.bannerTimeout);
+        appState.bannerTimeout = setTimeout(() => { esconderBannerPromocional(); }, 9000);
+    }
+
+    function esconderBannerPromocional() {
+        if(!dom.bannerPromocional) return;
+        if(!dom.bannerPromocional.classList.contains('mostrar')) return;
+        dom.bannerPromocional.classList.add('escondendo');
+        dom.bannerPromocional.classList.remove('mostrar');
+        setTimeout(() => { dom.bannerPromocional.classList.remove('escondendo'); }, 600);
+    }
+
+    function acaoBannerClick() {
+        const acao = dom.bannerPromocional.dataset.acao;
+        const genero = dom.bannerPromocional.dataset.genero;
+        if(acao === 'update') {
+            atualizarAppMagico();
+        } else if(acao === 'genero' && genero) {
+            esconderBannerPromocional();
+            notif('🎵 Carregando ' + genero + '...', 1500);
+            selecionarGenero(genero);
+        } else if(acao === 'comprar') {
+            abrirWhatsAppCompra();
+            esconderBannerPromocional();
+        }
+    }
+
+    function iniciarBannerPromocional() {
+        setTimeout(() => { mostrarBannerPromocional(); }, 6000);
+        appState.bannerInterval = setInterval(() => {
+            if(dom.bannerPromocional.classList.contains('mostrar')) {
+                esconderBannerPromocional();
+                setTimeout(() => { mostrarBannerPromocional(); }, 1200);
+            } else {
+                mostrarBannerPromocional();
+            }
+        }, 180000);
+    }
+
+    dom.bannerPromocional.addEventListener('click', acaoBannerClick);
+    let bannerTouchStartX = 0;
+    dom.bannerPromocional.addEventListener('touchstart', (e) => { bannerTouchStartX = e.touches[0].clientX; }, { passive: true });
+    dom.bannerPromocional.addEventListener('touchend', (e) => {
+        const diff = e.changedTouches[0].clientX - bannerTouchStartX;
+        if(Math.abs(diff) > 80) esconderBannerPromocional();
+    }, { passive: true });
 
     function renderizarFila() {
         dom.queueList.innerHTML = '';
@@ -1958,30 +1884,11 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
             dom.checkUpdateBtn.onclick = () => { dom.menuPopup.classList.remove('open'); checarAtualizacao(false); };
             dom.hardReloadBtn.onclick = () => { dom.menuPopup.classList.remove('open'); forcarRecarregarTudo(); };
 
-            // ── NOVOS HANDLERS DO MENU ──
             dom.playMenuBtn.onclick = () => { dom.menuPopup.classList.remove('open'); togglePlay(); };
             dom.nextMenuBtn.onclick = () => { dom.menuPopup.classList.remove('open'); next(); };
             dom.prevMenuBtn.onclick = () => { dom.menuPopup.classList.remove('open'); prev(); };
             dom.shuffleMenuBtn.onclick = () => { dom.menuPopup.classList.remove('open'); toggleShuffle(); };
-            dom.magicUpdateMenuBtn.onclick = async () => {
-                dom.menuPopup.classList.remove('open');
-                if(!confirm('🪄 Atualizar o app agora?\n\nVai limpar o cache e recarregar.')) return;
-                notif('⏳ Atualizando...', 1500);
-                try {
-                    if('caches' in window) {
-                        const keys = await caches.keys();
-                        await Promise.all(keys.map(k => caches.delete(k)));
-                    }
-                    if(navigator.serviceWorker) {
-                        const regs = await navigator.serviceWorker.getRegistrations();
-                        await Promise.all(regs.map(r => r.unregister()));
-                    }
-                    localStorage.removeItem('vdb_app_version');
-                } catch(e) { console.warn('Erro:', e); }
-                setTimeout(() => {
-                    window.location.href = window.location.pathname + '?update=' + Date.now();
-                }, 800);
-            };
+            dom.magicUpdateMenuBtn.onclick = () => { dom.menuPopup.classList.remove('open'); atualizarAppMagico(); };
 
             document.querySelectorAll('.speed-btn').forEach(btn => {
                 btn.onclick = () => {
@@ -2045,7 +1952,7 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
             dom.audio.onerror = () => { if(appState.carregandoMusica) return; errosConsec++; if(errosConsec >= 5) { errosConsec = 0; return; } next(); };
             dom.audio.oncanplay = () => { errosConsec = 0; };
             document.addEventListener('keydown', (e) => { if(e.target.tagName==='INPUT') return; if(e.key===' ') { e.preventDefault(); togglePlay(); } if(e.key==='ArrowRight') next(); if(e.key==='ArrowLeft') prev(); if(e.key==='s'||e.key==='S') toggleShuffle(); });
-            document.addEventListener('click', (e) => { if(e.target.closest('button') || e.target.closest('.genre-card') || e.target.closest('.fav-item-modal') || e.target.closest('#infoScroll') || e.target.closest('#btnInstalarFixo')) return; showControls(); });
+            document.addEventListener('click', (e) => { if(e.target.closest('button') || e.target.closest('.genre-card') || e.target.closest('.fav-item-modal') || e.target.closest('#infoScroll') || e.target.closest('#btnInstalarFixo') || e.target.closest('#bannerPromocional')) return; showControls(); });
             
             document.addEventListener('visibilitychange', () => { 
                 if(document.visibilityState==='visible') { 
@@ -2070,9 +1977,7 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
                         dom.backgroundAudio.volume=0.001; 
                         dom.backgroundAudio.play().catch(()=>{}); 
                     } 
-                    if('wakeLock' in navigator) {
-                        navigator.wakeLock.request('screen').catch(()=>{});
-                    }
+                    if('wakeLock' in navigator) { navigator.wakeLock.request('screen').catch(()=>{}); }
                 } else {
                     if('wakeLock' in navigator && appState.wakeLock) {
                         try { appState.wakeLock.release(); } catch(e) {}
