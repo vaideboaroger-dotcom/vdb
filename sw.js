@@ -1,66 +1,59 @@
-// ═══════════════════════════════════════════════════════════
-// SERVICE WORKER — VAI DE BOA! MUSIC
-// Versão: v3  ⬅️ Mude a cada atualização
-// ═══════════════════════════════════════════════════════════
-const CACHE_VERSION = 'v3';
-const CACHE_NAME = 'vdb-' + CACHE_VERSION;
+/* ═══════════════════════════════════════════════════════════
+   📲 SERVICE WORKER — VAI DE BOA! MUSIC
+   ═══════════════════════════════════════════════════════════ */
 
-self.addEventListener('install', event => {
-    console.log('📦 SW instalando:', CACHE_VERSION);
-    self.skipWaiting();
+const CACHE_NAME = 'vdb-music-v1';
+const CACHE_URLS = [
+  './',
+  './index.html',
+  './manifest.json'
+];
+
+// Instala e faz cache básico
+self.addEventListener('install', (event) => {
+  console.log('🔧 SW: instalando...');
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(CACHE_URLS))
+      .then(() => self.skipWaiting())
+  );
 });
 
-self.addEventListener('activate', event => {
-    console.log('✅ SW ativado:', CACHE_VERSION);
-    event.waitUntil(
-        caches.keys().then(keys =>
-            Promise.all(keys.map(k => {
-                if(k !== CACHE_NAME) return caches.delete(k);
-            }))
-        ).then(() => self.clients.claim())
-    );
+// Ativa e limpa caches antigos
+self.addEventListener('activate', (event) => {
+  console.log('✅ SW: ativado!');
+  event.waitUntil(
+    caches.keys().then((nomes) => {
+      return Promise.all(
+        nomes.filter((n) => n !== CACHE_NAME).map((n) => caches.delete(n))
+      );
+    }).then(() => self.clients.claim())
+  );
 });
 
-self.addEventListener('fetch', event => {
-    const req = event.request;
-    if(req.method !== 'GET') return;
-    if(!req.url.startsWith('http')) return;
+// Intercepta requisições
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
 
-    const url = new URL(req.url);
-    if(url.origin !== self.location.origin) return;
+  // Ignora requisições que não sejam GET
+  if (request.method !== 'GET') return;
 
-    const isHTML = url.pathname.endsWith('.html') || url.pathname === '/' || url.pathname.endsWith('/');
-    const isSW = url.pathname.endsWith('sw.js');
+  // Ignora requisições externas (deixa passar direto)
+  if (request.url.includes('raw.githubusercontent.com')) return;
+  if (request.url.includes('api.qrserver.com')) return;
+  if (request.url.includes('fonts.googleapis.com')) return;
+  if (request.url.includes('fonts.gstatic.com')) return;
+  if (request.url.includes('cdnjs.cloudflare.com')) return;
 
-    if(isHTML || isSW) {
-        event.respondWith(
-            fetch(req, { cache: 'no-store' })
-                .then(response => {
-                    if(response && response.status === 200) {
-                        const clone = response.clone();
-                        caches.open(CACHE_NAME).then(cache => cache.put(req, clone));
-                    }
-                    return response;
-                })
-                .catch(() => caches.match(req))
-        );
-        return;
-    }
-
-    event.respondWith(
-        caches.match(req).then(cached => {
-            if(cached) return cached;
-            return fetch(req).then(response => {
-                if(response && response.status === 200 && response.type === 'basic') {
-                    const clone = response.clone();
-                    caches.open(CACHE_NAME).then(cache => cache.put(req, clone));
-                }
-                return response;
-            }).catch(() => cached);
-        })
-    );
-});
-
-self.addEventListener('message', event => {
-    if(event.data === 'SKIP_WAITING') self.skipWaiting();
+  event.respondWith(
+    fetch(request)
+      .then((response) => {
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(request, clone).catch(() => {});
+        });
+        return response;
+      })
+      .catch(() => caches.match(request))
+  );
 });
