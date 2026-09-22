@@ -2,6 +2,6 @@
   "medias": [
     { "tipo": "video", "src": "https://raw.githubusercontent.com/rogervdb/vdb/main/mc1.mp4" },
     { "tipo": "video", "src": "https://raw.githubusercontent.com/vaideboaroger-dotcom/vdb/main/bv1.mp4" },
-    { "tipo": "video", "src": "https://raw.githubusercontent.com/vaideboaroger-dotcom/vdb/main/tvc.mp4" }
+    { "tipo": "video", "src": "https://raw.githubusercontent.com/vaideboaroger-dotcom/vdb/main/mc2.mp4" }
   ]
 }
