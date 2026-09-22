@@ -37,9 +37,6 @@
 * { margin:0; padding:0; box-sizing:border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color:transparent; user-select:none; }
 html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden; position:fixed; top:0; left:0; }
 
-#bannerUpdate { position:fixed; top:0; left:0; right:0; z-index:9999999; background:linear-gradient(90deg, #a855f7, #22d3ee); color:#fff; padding:12px 16px; text-align:center; font-weight:700; font-size:0.9rem; cursor:pointer; box-shadow:0 4px 20px rgba(168,85,247,0.6); }
-#bannerUpdate b { text-decoration: underline; }
-
 /* ═══════════════════════════════════════════════════════════
    🎨 LOADING SCREEN — TELA PRETA COM FAVICON ROXO E EFEITOS
    ═══════════════════════════════════════════════════════════ */
@@ -638,38 +635,20 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     50% { transform: scale(1.05); box-shadow: 0 0 22px rgba(34, 211, 238, 1), 0 0 32px rgba(168, 85, 247, 0.7); }
 }
 
-/* ─── Animação de saída do botão + ─── */
 @keyframes bannerFromFab {
-    0% {
-        opacity: 0;
-        transform: translateY(calc(100vh - 50% - 100px)) translateX(50px) scale(0.2);
-    }
-    60% {
-        opacity: 1;
-        transform: translateY(-50%) translateX(-10px) scale(1.05);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(-50%) translateX(0) scale(1);
-    }
+    0% { opacity: 0; transform: translateY(calc(100vh - 50% - 100px)) translateX(50px) scale(0.2); }
+    60% { opacity: 1; transform: translateY(-50%) translateX(-10px) scale(1.05); }
+    100% { opacity: 1; transform: translateY(-50%) translateX(0) scale(1); }
 }
 #bannerPromocional.saindo-do-fab {
     animation: bannerFromFab 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
-
-/* ─── Animação de saída (hide) ─── */
 #bannerPromocional.escondendo {
     animation: bannerToFab 0.6s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
 }
 @keyframes bannerToFab {
-    0% {
-        opacity: 1;
-        transform: translateY(-50%) translateX(0) scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(calc(100vh - 50% - 100px)) translateX(50px) scale(0.2);
-    }
+    0% { opacity: 1; transform: translateY(-50%) translateX(0) scale(1); }
+    100% { opacity: 0; transform: translateY(calc(100vh - 50% - 100px)) translateX(50px) scale(0.2); }
 }
 
 #btnSairModoTV { position:fixed; top:90px; right:12px; z-index:60; background:rgba(0,0,0,0.7); backdrop-filter:blur(8px); color:#fff; border:1px solid rgba(255,255,255,0.2); border-radius:50%; width:34px; height:34px; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; }
@@ -857,7 +836,6 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
         <div class="menu-separator"></div>
         <button id="reloadPlaylistBtn"><i class="fas fa-sync"></i>Recarregar Playlist</button>
         <button id="forceUpdateBtn"><i class="fas fa-sync-alt"></i>Atualizar Mídias</button>
-        <button id="checkUpdateBtn"><i class="fas fa-cloud-download-alt"></i>Verificar Atualização</button>
         <button id="magicUpdateMenuBtn" class="menu-magic"><i class="fas fa-magic"></i>🪄 Atualizar App</button>
         <button id="hardReloadBtn"><i class="fas fa-redo"></i>Forçar Recarregar TUDO</button>
     </div>
@@ -1043,9 +1021,6 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
 </div>
 
 <script>
-/* ═══════════════════════════════════════════════════════════════
-   FAVICON ANIMADO
-   ═══════════════════════════════════════════════════════════════ */
 (function(){
     const coresFavicon = ['#a855f7','#22d3ee','#f472b6','#fbbf24'];
     let frameFavicon = 0;
@@ -1063,9 +1038,6 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     setInterval(animarFavicon, 800);
 })();
 
-/* ═══════════════════════════════════════════════════════════════
-   PARTÍCULAS DA TELA DE LOADING
-   ═══════════════════════════════════════════════════════════════ */
 (function(){
     const container = document.getElementById('loadingParticles');
     if(!container) return;
@@ -1085,7 +1057,7 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
 (function(){
     'use strict';
 
-    const APP_VERSION_LOCAL = 'v4';
+    const APP_VERSION_LOCAL = 'v5';
 
     console.log('%c🚀 VAI DE BOA! MUSIC', 'color:#a855f7; font-size:20px; font-weight:bold');
     console.log('%c📦 Versão: ' + APP_VERSION_LOCAL, 'color:#22d3ee; font-size:14px; font-weight:bold');
@@ -1105,49 +1077,22 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
         } catch(e) {}
     })();
 
+    // Verificação silenciosa (sem notificação, sem banner)
     let jaAvisouAtualizacao = false;
-    async function checarAtualizacao(silencioso) {
-        if(jaAvisouAtualizacao) return true;
+    async function checarAtualizacao() {
+        if(jaAvisouAtualizacao) return;
         try {
             const url = './version.json?t=' + Date.now() + '&r=' + Math.random();
             const resp = await fetch(url, { cache: 'no-store' });
-            if(!resp.ok) throw new Error('HTTP ' + resp.status);
+            if(!resp.ok) return;
             const data = await resp.json();
             if(data.version && data.version !== APP_VERSION_LOCAL) {
                 jaAvisouAtualizacao = true;
                 window.__vdb_nova_versao_disponivel = true;
-                mostrarBannerAtualizacao(data.version);
-                return true;
-            } else if(!silencioso) {
-                notif('✅ Versão mais recente (' + APP_VERSION_LOCAL + ')', 2500, 'success');
+                window.__vdb_nova_versao_numero = data.version;
+                console.log('✨ Nova versão disponível:', data.version);
             }
-        } catch(e) {
-            if(!silencioso) notif('⚠️ Não foi possível verificar', 2000, 'warning');
-        }
-        return false;
-    }
-
-    function mostrarBannerAtualizacao(novaVersao) {
-        window.__vdb_nova_versao_disponivel = true;
-        if(document.getElementById('bannerUpdate')) return;
-        const banner = document.createElement('div');
-        banner.id = 'bannerUpdate';
-        banner.innerHTML = `✨ Nova versão <b>${novaVersao}</b> disponível! Toque para atualizar 🚀`;
-        banner.onclick = async () => {
-            banner.innerHTML = '⏳ Atualizando...';
-            try {
-                if(navigator.serviceWorker && navigator.serviceWorker.controller) {
-                    navigator.serviceWorker.controller.postMessage('SKIP_WAITING');
-                }
-                if('caches' in window) {
-                    const names = await caches.keys();
-                    await Promise.all(names.map(n => caches.delete(n)));
-                }
-                localStorage.setItem('vdb_app_version', novaVersao);
-            } catch(e) {}
-            setTimeout(() => { window.location.href = window.location.pathname + '?update=' + Date.now(); }, 400);
-        };
-        document.body.appendChild(banner);
+        } catch(e) {}
     }
 
     async function forcarRecarregarTudo() {
@@ -1320,7 +1265,7 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
         fabFeedback: $('fabFeedback'), fabYoutube: $('fabYoutube'), fabShare: $('fabShare'), fabQrCode: $('fabQrCode'), fabMain: $('fabMain'), fabSub: $('fabSub'),
         sendFeedbackBtn: $('sendFeedbackBtn'), closeFeedbackBtn: $('closeFeedbackBtn'), closeMenuBtn: $('closeMenuBtn'), fullscreenMenuBtn: $('fullscreenMenuBtn'),
         modoTVMenuBtn: $('modoTVMenuBtn'), liberarAgoraBtn: $('liberarAgoraBtn'), cadastroMenuBtn: $('cadastroMenuBtn'), reloadPlaylistBtn: $('reloadPlaylistBtn'),
-        feedbackMenuBtn: $('feedbackMenuBtn'), sleepMenuBtn: $('sleepMenuBtn'), qrCodeMenuBtn: $('qrCodeMenuBtn'), forceUpdateBtn: $('forceUpdateBtn'), checkUpdateBtn: $('checkUpdateBtn'), hardReloadBtn: $('hardReloadBtn'),
+        feedbackMenuBtn: $('feedbackMenuBtn'), sleepMenuBtn: $('sleepMenuBtn'), qrCodeMenuBtn: $('qrCodeMenuBtn'), forceUpdateBtn: $('forceUpdateBtn'), hardReloadBtn: $('hardReloadBtn'),
         playMenuBtn: $('playMenuBtn'), nextMenuBtn: $('nextMenuBtn'), prevMenuBtn: $('prevMenuBtn'), shuffleMenuBtn: $('shuffleMenuBtn'), magicUpdateMenuBtn: $('magicUpdateMenuBtn'),
         qrCodeModal: $('qrCodeModal'), qrCodeImage: $('qrCodeImage'), qrCloseBtn: $('qrCloseBtn'), prevBtn: $('prevBtn'), nextBtn: $('nextBtn'),
         closeFavBtn: $('closeFavBtn'), starRating: $('starRating'), feedbackText: $('feedbackText'), bannerPromocional: $('bannerPromocional'),
@@ -1627,7 +1572,6 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
        📢 SISTEMA DE MENSAGENS PROMOCIONAIS ROTATIVAS
        ═══════════════════════════════════════════════════════════ */
     const MENSAGENS_PROMO = [
-        { texto: '🎵 <span>NOVA VERSÃO DISPONÍVEL!</span><br>Toque para atualizar agora', acao: 'update' },
         { texto: '🎸 Você gosta de <span>MPB?</span><br>Temos as melhores!', acao: 'genero', genero: 'MPB' },
         { texto: '🤠 Curte um <span>FORRÓ?</span><br>Ouça agora mesmo!', acao: 'genero', genero: 'FORRÓ' },
         { texto: '✝️ Quer ouvir <span>GOSPEL?</span><br>Clique e aproveite!', acao: 'genero', genero: 'RELIGIOSA' },
@@ -1642,12 +1586,6 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     ];
 
     let indiceMensagemAtual = 0;
-    let bannerJaMostrouAtualizacao = false;
-
-    function deveMostrarUpdate() {
-        if(bannerJaMostrouAtualizacao) return false;
-        return window.__vdb_nova_versao_disponivel === true;
-    }
 
     function aplicarMensagemBanner(mensagem) {
         if(!dom.bannerPromocional) return;
@@ -1663,15 +1601,12 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     }
 
     function proximaMensagem() {
-        if(deveMostrarUpdate()) {
-            bannerJaMostrouAtualizacao = true;
-            return MENSAGENS_PROMO[0];
-        }
+        const m = MENSAGENS_PROMO[indiceMensagemAtual];
         indiceMensagemAtual++;
         if(indiceMensagemAtual >= MENSAGENS_PROMO.length) {
-            indiceMensagemAtual = 1;
+            indiceMensagemAtual = 0;
         }
-        return MENSAGENS_PROMO[indiceMensagemAtual];
+        return m;
     }
 
     function mostrarBannerPromocional() {
@@ -1696,9 +1631,7 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
     function acaoBannerClick() {
         const acao = dom.bannerPromocional.dataset.acao;
         const genero = dom.bannerPromocional.dataset.genero;
-        if(acao === 'update') {
-            atualizarAppMagico();
-        } else if(acao === 'genero' && genero) {
+        if(acao === 'genero' && genero) {
             esconderBannerPromocional();
             notif('🎵 Carregando ' + genero + '...', 1500);
             selecionarGenero(genero);
@@ -1848,7 +1781,7 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
             await carregarMidiasPadrao();
             updateProgress(30);
             if(localStorage.getItem('vdb_desbloqueado')==='true' || localStorage.getItem('vdb_senha_permanente')==='true') { appState.desbloqueado = true; dom.blockOverlay.classList.remove('active'); dom.blockOverlay.style.display = 'none'; dom.timerLib.textContent = '🔓 Lib'; dom.timerLib.className = 'timer-lib lib'; updateProgress(60); setTimeout(ativarPlayer,1000); }
-            else if(localStorage.getItem('vdb_bloqueado_permanente')==='true') { dom.blockOverlay.classList.add('active'); dom.blockOverlay.style.display = 'flex'; notif('⏰ Teste expirado!',3000); }
+            else if(localStorage.getItem('vdb_bloqueado_permanente')==='true') { dom.blockOverlay.classList.add('active'); dom.blockOverlay.style.display = 'flex'; }
             else { if(calcularTempoRestante()>0) { dom.blockOverlay.style.display = 'none'; updateProgress(60); setTimeout(ativarPlayer,500); } else { dom.blockOverlay.classList.add('active'); dom.blockOverlay.style.display = 'flex'; } }
             updateProgress(70);
             let primeira = false;
@@ -1881,7 +1814,6 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
             dom.queueMenuBtn.onclick = () => { dom.menuPopup.classList.remove('open'); renderizarFila(); dom.queueSheet.classList.add('open'); };
             dom.recentMenuBtn.onclick = () => { dom.menuPopup.classList.remove('open'); renderizarRecentes(); dom.recentSheet.classList.add('open'); };
             dom.speedMenuBtn.onclick = () => { dom.menuPopup.classList.remove('open'); dom.speedSheet.classList.add('open'); };
-            dom.checkUpdateBtn.onclick = () => { dom.menuPopup.classList.remove('open'); checarAtualizacao(false); };
             dom.hardReloadBtn.onclick = () => { dom.menuPopup.classList.remove('open'); forcarRecarregarTudo(); };
 
             dom.playMenuBtn.onclick = () => { dom.menuPopup.classList.remove('open'); togglePlay(); };
@@ -1991,9 +1923,8 @@ html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden
             iniciarBannerPromocional();
             mostrarBotaoInstalar();
 
-            console.log('🔄 Verificando atualizações...');
-            setTimeout(() => checarAtualizacao(true), 2000);
-            setInterval(() => checarAtualizacao(true), 15000);
+            console.log('🔄 Verificando atualizações (silencioso)...');
+            setTimeout(() => checarAtualizacao(), 3000);
         } catch(erro) { console.error('❌ Erro ao iniciar:', erro); dom.loadingScreen.style.display='none'; dom.playerContainer.classList.add('visible'); notif('⚠️ Erro ao iniciar, recarregue a página',5000); }
     }
     iniciar();
