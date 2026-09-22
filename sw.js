@@ -1,11 +1,9 @@
 // ═══════════════════════════════════════════════════════════
-// SERVICE WORKER REFORÇADO — VAI DE BOA! MUSIC
-// ⚠️ MUDE ESSA VERSÃO a cada atualização
+// SERVICE WORKER — VAI DE BOA! MUSIC
+// Versão: v3  ⬅️ Mude a cada atualização
 // ═══════════════════════════════════════════════════════════
-const CACHE_VERSION = 'v5';
+const CACHE_VERSION = 'v3';
 const CACHE_NAME = 'vdb-' + CACHE_VERSION;
-
-console.log('🔧 SW carregado:', CACHE_VERSION);
 
 self.addEventListener('install', event => {
     console.log('📦 SW instalando:', CACHE_VERSION);
@@ -17,10 +15,7 @@ self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys().then(keys =>
             Promise.all(keys.map(k => {
-                if(k !== CACHE_NAME) {
-                    console.log('🗑️ Removendo cache antigo:', k);
-                    return caches.delete(k);
-                }
+                if(k !== CACHE_NAME) return caches.delete(k);
             }))
         ).then(() => self.clients.claim())
     );
@@ -32,19 +27,12 @@ self.addEventListener('fetch', event => {
     if(!req.url.startsWith('http')) return;
 
     const url = new URL(req.url);
-
-    // Ignora requisições de terceiros (CDN, GitHub raw, etc)
     if(url.origin !== self.location.origin) return;
 
-    const isHTML = url.pathname.endsWith('.html') ||
-                   url.pathname === '/' ||
-                   url.pathname.endsWith('/') ||
-                   url.pathname.endsWith('index.html');
-    const isVersion = url.pathname.endsWith('version.json');
+    const isHTML = url.pathname.endsWith('.html') || url.pathname === '/' || url.pathname.endsWith('/');
     const isSW = url.pathname.endsWith('sw.js');
 
-    // HTML, version.json, sw.js → SEMPRE da rede (network-only)
-    if(isHTML || isVersion || isSW) {
+    if(isHTML || isSW) {
         event.respondWith(
             fetch(req, { cache: 'no-store' })
                 .then(response => {
@@ -59,7 +47,6 @@ self.addEventListener('fetch', event => {
         return;
     }
 
-    // Resto → cache first
     event.respondWith(
         caches.match(req).then(cached => {
             if(cached) return cached;
@@ -75,8 +62,5 @@ self.addEventListener('fetch', event => {
 });
 
 self.addEventListener('message', event => {
-    if(event.data === 'SKIP_WAITING') {
-        console.log('⚡ Ativando nova versão');
-        self.skipWaiting();
-    }
+    if(event.data === 'SKIP_WAITING') self.skipWaiting();
 });
