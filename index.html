@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>VAI DE BOA! MUSIC</title>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <link rel="icon" type="image/png" sizes="192x192" href="favicon192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="favicon30.png">
     <link rel="apple-touch-icon" sizes="192x192" href="favicon192.png">
@@ -26,9 +24,7 @@
         :root {
             --primary: #a855f7; --secondary: #22d3ee; --accent: #f472b6; --gold: #fbbf24;
             --black-0: #000000; --black-1: #0a0a0a; --black-2: #121212; --black-3: #1a1a1a;
-            --text-primary: #ffffff; --text-secondary: #a0a0a0; --text-tertiary: #666666;
             --safe-bottom: env(safe-area-inset-bottom, 0px);
-            --genre-blue: #22d3ee;
             --theme-1: #a855f7;
             --theme-2: #22d3ee;
             --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -36,10 +32,6 @@
         }
         * { margin:0; padding:0; box-sizing:border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color:transparent; user-select:none; }
         html, body { height:100%; width:100%; background:var(--black-1); overflow:hidden; position:fixed; top:0; left:0; }
-
-        #bannerUpdate { position:fixed; top:0; left:0; right:0; z-index:9999999; background:linear-gradient(90deg, #a855f7, #22d3ee); color:#fff; padding:12px 16px; text-align:center; font-weight:700; font-size:0.9rem; cursor:pointer; box-shadow:0 4px 20px rgba(168,85,247,0.6); animation:slideDown 0.4s ease-out; }
-        #bannerUpdate b { text-decoration: underline; }
-        @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
 
         #loadingScreen { position:fixed; inset:0; background:var(--black-1); display:flex; align-items:center; justify-content:center; z-index:99999; flex-direction:column; gap:16px; }
         .loading-logo { width:72px; height:72px; border-radius:50%; object-fit:cover; border:3px solid var(--primary); animation:pulse 1.5s infinite; }
@@ -67,7 +59,7 @@
         .genero-nome { font-family:'Audiowide', sans-serif; font-size:0.85rem; letter-spacing:1.2px; text-transform:uppercase; color:var(--theme-2); transition: color 0.5s ease; }
         .separador { color:rgba(255,255,255,0.15); font-size:0.7rem; }
         .coracao-icon { font-size:0.8rem; color:var(--accent); }
-        .fav-badge { background:var(--accent); color:#fff; border-radius:50%; padding:0 7px; font-size:0.65rem; font-weight:900; min-width:18px; text-align:center; line-height:18px; transition: transform 0.2s var(--ease-spring); }
+        .fav-badge { background:var(--accent); color:#fff; border-radius:50%; padding:0 7px; font-size:0.65rem; font-weight:900; min-width:18px; text-align:center; line-height:18px; }
         .fav-badge.pop { animation: badgePop 0.4s var(--ease-spring); }
         @keyframes badgePop { 0%,100%{transform:scale(1)} 50%{transform:scale(1.4)} }
         .top-right { display:flex; align-items:center; gap:8px; }
@@ -151,16 +143,17 @@
         .fab-sub-btn { background:transparent; border:none; color:#ccc; padding:8px 14px; border-radius:12px; font-size:0.75rem; cursor:pointer; display:flex; align-items:center; gap:8px; min-height:36px; white-space:nowrap; transition: background 0.2s; }
         .fab-sub-btn:active { background: rgba(255,255,255,0.08); }
 
-        .menu-popup { position:fixed; top:54px; right:10px; background: rgba(15,15,20,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius:16px; padding:6px; z-index:32; display:none; flex-direction:column; gap:3px; border:1px solid rgba(255,255,255,0.05); min-width:180px; transform-origin: top right; max-height: 85vh; overflow-y: auto; }
+        .menu-popup { position:fixed; top:54px; right:10px; background: rgba(15,15,20,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius:16px; padding:6px; z-index:32; display:none; flex-direction:column; gap:3px; border:1px solid rgba(255,255,255,0.05); min-width:190px; transform-origin: top right; max-height: 85vh; overflow-y: auto; }
         .menu-popup.open { display:flex; animation: menuIn 0.25s var(--ease-spring); }
         @keyframes menuIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .menu-popup button { background:transparent; border:none; color:#ccc; padding:8px 12px; border-radius:12px; font-size:0.8rem; cursor:pointer; text-align:left; display:flex; align-items:center; gap:8px; min-height:36px; transition: background 0.2s; }
         .menu-popup button:active { background: rgba(255,255,255,0.08); }
+        .menu-popup button.destaque { background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(34,211,238,0.2)); border: 1px solid rgba(34,211,238,0.3); color: #fff; font-weight: 700; }
 
         .genres-modal { position:fixed; inset:0; z-index:100; background:rgba(0,0,0,0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); padding:20px 16px calc(20px + var(--safe-bottom)); display:none; flex-direction:column; opacity:0; transition:opacity 0.4s var(--ease-smooth); overflow:hidden; }
         .genres-modal.open { display:flex; opacity:1; }
         .genres-modal .header { text-align:center; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.06); flex-shrink:0; }
-        .genres-modal .header .titulo { font-family:'Audiowide', sans-serif; font-size:1.05rem; color:var(--genre-blue); letter-spacing:3px; }
+        .genres-modal .header .titulo { font-family:'Audiowide', sans-serif; font-size:1.05rem; color:var(--secondary); letter-spacing:3px; }
         .genres-modal .header .sub-titulo { font-size:0.55rem; color:rgba(255,255,255,0.25); letter-spacing:4px; text-transform:uppercase; margin-top:2px; }
         .genres-grid { display:grid; grid-template-columns:repeat(2, 1fr); gap:8px; padding:6px 2px; flex:1; overflow-y:auto; }
         .genres-grid::-webkit-scrollbar { display:none; }
@@ -169,8 +162,7 @@
         .genre-card:active { transform: scale(0.96); border-color: var(--c1); }
         .genre-card:active::before { height:100%; width:4px; }
         .genre-card .genre-name { font-family:'Rajdhani', sans-serif; font-size:0.85rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#e8e8e8; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-        .close-genres { width:100%; padding:12px; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:25px; color:#ccc; font-size:0.78rem; cursor:pointer; font-weight:700; margin-top:12px; letter-spacing:3px; text-transform:uppercase; flex-shrink:0; transition: all 0.2s var(--ease-spring); }
-        .close-genres:active { transform: scale(0.97); background: rgba(255,255,255,0.12); }
+        .close-genres { width:100%; padding:12px; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:25px; color:#ccc; font-size:0.78rem; cursor:pointer; font-weight:700; margin-top:12px; letter-spacing:3px; text-transform:uppercase; flex-shrink:0; }
 
         .fav-modal { position:fixed; bottom:0; left:0; right:0; background: rgba(15,15,20,0.98); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-radius:25px 25px 0 0; padding:14px 12px 18px; z-index:2001; transform:translateY(100%); transition: transform 0.4s var(--ease-spring); max-height:70vh; overflow:hidden; border-top:1px solid rgba(255,255,255,0.05); }
         .fav-modal.open { transform:translateY(0); }
@@ -178,23 +170,21 @@
         .fav-modal h3 { text-align:center; margin-bottom:4px; font-size:1.1rem; color:var(--accent); }
         .fav-modal .sub-titulo { text-align:center; font-size:0.65rem; color:#666; margin-bottom:6px; }
         .fav-list-modal { display:flex; flex-direction:column; overflow-y:auto; gap:5px; padding:4px 0; max-height:50vh; }
-        .fav-item-modal { min-height:40px; border-radius:14px; cursor:pointer; border:1px solid rgba(255,255,255,0.05); padding:6px 12px; background: rgba(255,255,255,0.03); display:flex; align-items:center; justify-content:space-between; color:#fff; font-weight:600; font-size:0.85rem; transition: all 0.2s var(--ease-spring); }
-        .fav-item-modal:active { transform: scale(0.98); background: rgba(255,255,255,0.08); }
+        .fav-item-modal { min-height:40px; border-radius:14px; cursor:pointer; border:1px solid rgba(255,255,255,0.05); padding:6px 12px; background: rgba(255,255,255,0.03); display:flex; align-items:center; justify-content:space-between; color:#fff; font-weight:600; font-size:0.85rem; }
         .fav-item-modal .fav-info { flex:1; cursor:pointer; display:flex; flex-direction:column; overflow:hidden; }
         .fav-item-modal .fav-info .title { color:#fff; font-weight:600; font-size:0.85rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
         .fav-item-modal .fav-info .artist { color:#888; font-size:0.7rem; }
         .fav-item-modal .remove-fav { background:transparent; border:none; color:var(--accent); font-size:1rem; cursor:pointer; padding:0 6px; }
         .fav-empty-modal { color:#555; padding:20px; text-align:center; font-size:0.85rem; }
-        .close-fav { width:100%; padding:10px; background: linear-gradient(135deg, var(--accent), var(--primary)); border:none; border-radius:25px; color:#fff; font-size:0.85rem; cursor:pointer; font-weight:700; margin-top:6px; transition: all 0.2s var(--ease-spring); }
+        .close-fav { width:100%; padding:10px; background: linear-gradient(135deg, var(--accent), var(--primary)); border:none; border-radius:25px; color:#fff; font-size:0.85rem; cursor:pointer; font-weight:700; margin-top:6px; }
 
         .choice-menu { position:fixed; bottom:0; left:0; right:0; background: rgba(15,15,20,0.98); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-radius:25px 25px 0 0; padding:14px 12px 18px; z-index:1999; transform:translateY(100%); transition: transform 0.4s var(--ease-spring); max-height:60vh; overflow:hidden; border-top:1px solid rgba(255,255,255,0.05); }
         .choice-menu.open { transform:translateY(0); }
         .choice-menu::before { content:''; display:block; width:40px; height:4px; background: rgba(255,255,255,0.2); border-radius:2px; margin: 0 auto 10px; }
         .choice-menu h3 { text-align:center; margin-bottom:10px; font-size:1.1rem; color:var(--secondary); }
-        .choice-menu .choice-btn { width:100%; padding:12px; border-radius:14px; cursor:pointer; border:1px solid rgba(255,255,255,0.05); background: rgba(255,255,255,0.03); display:flex; align-items:center; justify-content:space-between; color:#fff; font-weight:700; font-size:1rem; margin-bottom:6px; transition: all 0.2s var(--ease-spring); }
-        .choice-menu .choice-btn:active { transform: scale(0.98); background: rgba(255,255,255,0.08); }
+        .choice-menu .choice-btn { width:100%; padding:12px; border-radius:14px; cursor:pointer; border:1px solid rgba(255,255,255,0.05); background: rgba(255,255,255,0.03); display:flex; align-items:center; justify-content:space-between; color:#fff; font-weight:700; font-size:1rem; margin-bottom:6px; }
         .choice-menu .choice-btn .badge { background:var(--accent); color:#fff; border-radius:50%; padding:0 7px; font-size:0.7rem; font-weight:900; min-width:20px; text-align:center; line-height:20px; }
-        .choice-menu .choice-close { width:100%; padding:8px; background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.05); border-radius:25px; color:#666; font-size:0.8rem; cursor:pointer; font-weight:600; transition: all 0.2s; }
+        .choice-menu .choice-close { width:100%; padding:8px; background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.05); border-radius:25px; color:#666; font-size:0.8rem; cursor:pointer; font-weight:600; }
 
         .feedback-modal { position:fixed; top:50%; left:50%; transform: translate(-50%,-50%) scale(0.9); background: rgba(15,15,20,0.98); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-radius:20px; padding:18px; z-index:5000; width:90%; max-width:360px; text-align:center; display:none; border:1px solid rgba(168,85,247,0.2); opacity: 0; transition: all 0.3s var(--ease-spring); }
         .feedback-modal.open { display:block; opacity: 1; transform: translate(-50%,-50%) scale(1); }
@@ -204,7 +194,7 @@
         .feedback-modal .star:active { transform: scale(1.3); }
         .feedback-modal .star.active { color:var(--gold); }
         .feedback-modal textarea { width:100%; height:50px; background: rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:8px 12px; color:#fff; resize:none; font-size:0.8rem; margin-top:6px; outline:none; }
-        .feedback-modal .btn-feedback { background: linear-gradient(135deg, var(--primary), var(--secondary)); border:none; padding:10px; border-radius:25px; color:#fff; font-weight:700; cursor:pointer; width:100%; margin-top:6px; font-size:0.95rem; transition: all 0.2s var(--ease-spring); }
+        .feedback-modal .btn-feedback { background: linear-gradient(135deg, var(--primary), var(--secondary)); border:none; padding:10px; border-radius:25px; color:#fff; font-weight:700; cursor:pointer; width:100%; margin-top:6px; font-size:0.95rem; }
         #closeFeedbackBtn { background:transparent; border:none; color:#555; padding:8px; cursor:pointer; font-size:0.8rem; }
 
         .notification { position:fixed; top:100px; left:50%; transform: translateX(-50%) translateY(-20px); background: rgba(15,15,20,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); color:var(--secondary); padding:8px 20px; border-radius:30px; font-size:0.9rem; z-index:100003; opacity:0; transition: all 0.3s var(--ease-spring); pointer-events:none; border:1px solid rgba(168,85,247,0.2); white-space:nowrap; font-weight:600; max-width:90vw; }
@@ -213,6 +203,7 @@
         #loadingOverlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9998; align-items:center; justify-content:center; }
         #loadingOverlay.active { display:flex; }
         #loadingOverlay i { font-size:2.2rem; color:var(--secondary); animation:spin 1s infinite; }
+
         #qrCodeModal { position:fixed; inset:0; background:rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index:99999; display:none; align-items:center; justify-content:center; padding:20px; }
         #qrCodeModal.active { display:flex; }
         .qr-content { background:linear-gradient(145deg,#1a1a1a,#0a0a0a); border-radius:25px; padding:20px; max-width:360px; width:100%; text-align:center; border:1px solid rgba(168,85,247,0.2); }
@@ -226,6 +217,7 @@
         .qr-content .qr-info span { font-size:0.65rem; color:#888; display:flex; align-items:center; gap:4px; }
         .qr-content .qr-info span i { color:var(--gold); }
         .qr-content .qr-btn-close { background:linear-gradient(135deg,var(--primary),var(--secondary)); border:none; padding:10px; border-radius:25px; color:#fff; font-weight:700; font-size:0.95rem; cursor:pointer; width:100%; margin-top:6px; }
+
         #blockOverlay { position:fixed; inset:0; background:rgba(0,0,0,0.97); z-index:10000; display:none; flex-direction:column; align-items:center; justify-content:center; padding:20px; text-align:center; }
         #blockOverlay.active { display:flex; }
         .block-content { max-width:420px; width:100%; padding:24px 20px; }
@@ -251,7 +243,7 @@
         #adminPanel .fp-cliente label { font-size:0.8rem; color:#aaa; display:block; }
         #adminPanel .fp-cliente input { width:100%; padding:10px 14px; border-radius:25px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.05); color:#fff; font-size:0.8rem; font-family:monospace; outline:none; margin-top:4px; }
         #adminPanel .row-btns { display:flex; gap:5px; margin-bottom:8px; }
-        #adminPanel .row-btns button { flex:1; padding:10px; border-radius:20px; border:none; font-weight:700; cursor:pointer; font-size:0.85rem; transition: all 0.2s var(--ease-spring); }
+        #adminPanel .row-btns button { flex:1; padding:10px; border-radius:20px; border:none; font-weight:700; cursor:pointer; font-size:0.85rem; }
         #adminPanel .btn-gerar { background:linear-gradient(135deg,var(--gold),#f0932b); color:#000; }
         #adminPanel .btn-universal { background:linear-gradient(135deg,#00b894,#00a86b); color:#fff; }
         #adminPanel .btn-limpar { background:rgba(255,255,255,0.05); color:#666; border:1px solid rgba(255,255,255,0.05); }
@@ -377,7 +369,6 @@
     <span class="loading-text">VAI DE BOA! MUSIC</span>
     <div class="loading-progress-container"><div class="loading-progress-fill" id="loadingProgressFill"></div></div>
 </div>
-
 <div id="playerContainer">
     <div class="media-container" id="mediaContainer"></div>
     <div class="top-bar">
@@ -458,8 +449,7 @@
         <button id="feedbackMenuBtn"><i class="fas fa-star"></i>Feedback</button>
         <button id="sleepMenuBtn"><i class="fas fa-moon"></i>Sleep Timer</button>
         <button id="qrCodeMenuBtn"><i class="fas fa-qrcode"></i>QR Code</button>
-        <button id="checkUpdateBtn"><i class="fas fa-cloud-download-alt"></i>Verificar Atualização</button>
-        <button id="hardReloadBtn"><i class="fas fa-redo"></i>🔄 Forçar Recarregar TUDO</button>
+        <button id="atualizarAppBtn" class="destaque"><i class="fas fa-cloud-download-alt"></i>🔄 Atualizar App</button>
         <button id="forceUpdateBtn"><i class="fas fa-sync-alt"></i>Atualizar Mídias</button>
     </div>
 </div>
@@ -640,117 +630,10 @@
     <button class="sheet-option" data-sleep="0">🚫 Cancelar timer</button>
     <button class="sheet-close" data-close="sleepSheet">✕ FECHAR</button>
 </div>
-
 <script>
 (function(){
     'use strict';
 
-    // ═══════════════════════════════════════════════════════════
-    // 🔄 VERSÃO DO APP — MUDE A CADA ATUALIZAÇÃO
-    // ═══════════════════════════════════════════════════════════
-    const APP_VERSION_LOCAL = 'v5';
-    console.log('%c🚀 VAI DE BOA! MUSIC', 'color:#a855f7; font-size:20px; font-weight:bold');
-    console.log('%c📦 Versão: ' + APP_VERSION_LOCAL, 'color:#22d3ee; font-size:14px; font-weight:bold');
-
-    // ═══════════════════════════════════════════════════════════
-    // 🛡️ ANTI-CACHE: Limpa cache se a versão mudou
-    // ═══════════════════════════════════════════════════════════
-    (async function limparCacheSeMudou() {
-        try {
-            const versaoSalva = localStorage.getItem('vdb_app_version');
-            if(versaoSalva && versaoSalva !== APP_VERSION_LOCAL) {
-                console.log('🔄 Versão mudou de', versaoSalva, 'para', APP_VERSION_LOCAL);
-                console.log('🗑️ Limpando caches antigos...');
-                if('caches' in window) {
-                    const names = await caches.keys();
-                    await Promise.all(names.map(n => caches.delete(n)));
-                    console.log('✅ Cache limpo');
-                }
-                localStorage.setItem('vdb_app_version', APP_VERSION_LOCAL);
-            } else if(!versaoSalva) {
-                localStorage.setItem('vdb_app_version', APP_VERSION_LOCAL);
-            }
-        } catch(e) { console.warn('Erro limpeza:', e); }
-    })();
-
-    // ═══════════════════════════════════════════════════════════
-    // 🔄 VERIFICADOR DE ATUALIZAÇÃO (3 camadas)
-    // ═══════════════════════════════════════════════════════════
-    let jaAvisouAtualizacao = false;
-
-    async function checarAtualizacao(silencioso) {
-        if(jaAvisouAtualizacao) return true;
-        try {
-            const url = './version.json?t=' + Date.now() + '&r=' + Math.random();
-            const resp = await fetch(url, { cache: 'no-store' });
-            if(!resp.ok) throw new Error('HTTP ' + resp.status);
-            const data = await resp.json();
-            console.log('🔍 Versão remota:', data.version, '| Local:', APP_VERSION_LOCAL);
-
-            if(data.version && data.version !== APP_VERSION_LOCAL) {
-                console.log('✨ NOVA VERSÃO DETECTADA!');
-                jaAvisouAtualizacao = true;
-                mostrarBannerAtualizacao(data.version);
-                return true;
-            } else if(!silencioso) {
-                notif('✅ Você está na versão mais recente (' + APP_VERSION_LOCAL + ')', 2500, 'success');
-            }
-        } catch(e) {
-            console.warn('⚠️ Erro ao verificar:', e);
-            if(!silencioso) notif('⚠️ Não foi possível verificar', 2000, 'warning');
-        }
-        return false;
-    }
-
-    function mostrarBannerAtualizacao(novaVersao) {
-        if(document.getElementById('bannerUpdate')) return;
-        const banner = document.createElement('div');
-        banner.id = 'bannerUpdate';
-        banner.innerHTML = `✨ Nova versão <b>${novaVersao}</b> disponível! Toque para atualizar 🚀`;
-        banner.onclick = async () => {
-            banner.innerHTML = '⏳ Atualizando...';
-            try {
-                if(navigator.serviceWorker && navigator.serviceWorker.controller) {
-                    navigator.serviceWorker.controller.postMessage('SKIP_WAITING');
-                }
-                if('caches' in window) {
-                    const names = await caches.keys();
-                    await Promise.all(names.map(n => caches.delete(n)));
-                }
-                localStorage.setItem('vdb_app_version', novaVersao);
-            } catch(e) {}
-            setTimeout(() => {
-                window.location.href = window.location.pathname + '?update=' + Date.now();
-            }, 400);
-        };
-        document.body.appendChild(banner);
-    }
-
-    // 🆕 FORÇA RECARGA HARD (limpa TUDO)
-    async function forcarRecarregarTudo() {
-        notif('🔄 Limpando tudo...', 2000, 'info');
-        try {
-            if(navigator.serviceWorker) {
-                const regs = await navigator.serviceWorker.getRegistrations();
-                await Promise.all(regs.map(r => r.unregister()));
-                console.log('✅ SW removido');
-            }
-            if('caches' in window) {
-                const names = await caches.keys();
-                await Promise.all(names.map(n => caches.delete(n)));
-                console.log('✅ Cache removido');
-            }
-            // Não apaga localStorage pra preservar senhas/estado
-            localStorage.removeItem('vdb_app_version');
-        } catch(e) {}
-        setTimeout(() => {
-            window.location.href = window.location.pathname + '?hard=' + Date.now();
-        }, 1000);
-    }
-
-    // ═══════════════════════════════════════════════════════════
-    // CONFIGURAÇÕES
-    // ═══════════════════════════════════════════════════════════
     const EDITE_AQUI = {
         LETREIRO: '🎵 VAI DE BOA! MUSIC 🎵 + DE 5 MIL MÚSICAS • VITALÍCIO R$39,00 🐵 • SERTANEJO • MPB • ROCK • FORRÓ • PAGODE • ROMÂNTICA • FLASHBACK • GOSPEL • FUNK • REGGAE • BREGA • MODA RAIZ • SAMBA • POP/MIX 🎶',
         TEMPO_TESTE_SEGUNDOS: 86400,
@@ -777,7 +660,6 @@
     const DEFAULT_COLORS = { c1: '#22d3ee', c2: '#a855f7' };
     const SENHA_ADMIN = String.fromCharCode(112,97,116,105,99,111,49,54,56,53);
     const SENHA_MESTRA = String.fromCharCode(80,97,116,105,99,111,49,54,56,53,64);
-    const GENRE_COLOR = '#22d3ee';
     const LETREIRO_PROMO = EDITE_AQUI.LETREIRO;
     const TEMPO_TESTE = EDITE_AQUI.TEMPO_TESTE_SEGUNDOS;
 
@@ -901,7 +783,7 @@
         fabFeedback: $('fabFeedback'), fabYoutube: $('fabYoutube'), fabShare: $('fabShare'), fabQrCode: $('fabQrCode'), fabMain: $('fabMain'), fabSub: $('fabSub'),
         sendFeedbackBtn: $('sendFeedbackBtn'), closeFeedbackBtn: $('closeFeedbackBtn'), closeMenuBtn: $('closeMenuBtn'), fullscreenMenuBtn: $('fullscreenMenuBtn'),
         modoTVMenuBtn: $('modoTVMenuBtn'), liberarAgoraBtn: $('liberarAgoraBtn'), cadastroMenuBtn: $('cadastroMenuBtn'), reloadPlaylistBtn: $('reloadPlaylistBtn'),
-        feedbackMenuBtn: $('feedbackMenuBtn'), sleepMenuBtn: $('sleepMenuBtn'), qrCodeMenuBtn: $('qrCodeMenuBtn'), forceUpdateBtn: $('forceUpdateBtn'), checkUpdateBtn: $('checkUpdateBtn'), hardReloadBtn: $('hardReloadBtn'),
+        feedbackMenuBtn: $('feedbackMenuBtn'), sleepMenuBtn: $('sleepMenuBtn'), qrCodeMenuBtn: $('qrCodeMenuBtn'), atualizarAppBtn: $('atualizarAppBtn'), forceUpdateBtn: $('forceUpdateBtn'),
         qrCodeModal: $('qrCodeModal'), qrCodeImage: $('qrCodeImage'), qrCloseBtn: $('qrCloseBtn'), prevBtn: $('prevBtn'), nextBtn: $('nextBtn'),
         closeFavBtn: $('closeFavBtn'), starRating: $('starRating'), feedbackText: $('feedbackText'), bannerPromocional: $('bannerPromocional'),
         searchInputLetreiro: $('searchInputLetreiro'), searchClearLetreiro: $('searchClearLetreiro'), logoMacaco: $('logoMacaco'),
@@ -1010,7 +892,7 @@
 
     async function carregarMidiasPadrao() { try { dom.mediaContainer.innerHTML = ''; let midias = []; try { const response = await fetch(CONFIG.MIDIAS_PADRAO_URL + '?v='+CONFIG.CACHE_VERSION+'&t='+now()); if(!response.ok) throw new Error('HTTP '+response.status); const data = await response.json(); if(Array.isArray(data)) midias = data; else if(data.medias) midias = data.medias; else if(data.midias) midias = data.midias; } catch(e) {} if(!midias.length) midias = CONFIG.FALLBACK_MIDIAS; midias = midias.filter(m=>m&&(m.tipo==='video'||m.tipo==='imagem')&&m.src); if(!midias.length) midias = CONFIG.FALLBACK_MIDIAS; const fallbackDiv = document.createElement('div'); fallbackDiv.style.cssText = 'position:absolute;inset:0;background:radial-gradient(circle at center,#1a1a1a,#0a0a0a);z-index:1;'; dom.mediaContainer.appendChild(fallbackDiv); midias.forEach((m,i) => { let el; if(m.tipo==='video') { el = document.createElement('video'); el.src = m.src + (m.src.includes('?')?'&':'?')+'v='+CONFIG.CACHE_VERSION; el.muted = true; el.playsInline = true; el.loop = true; el.load(); el.onerror = ()=>el.style.display='none'; } else { el = document.createElement('img'); el.src = m.src + (m.src.includes('?')?'&':'?')+'v='+CONFIG.CACHE_VERSION; el.loading='lazy'; el.alt='VDB Music'; el.onerror = ()=>el.style.display='none'; } el.className = i===0 ? 'active' : 'inactive'; if(m.src && m.src.toLowerCase().includes('clik')) { el.classList.add('clickable'); el.style.cursor='pointer'; } dom.mediaContainer.appendChild(el); if(i===0 && m.tipo==='video') el.play().catch(()=>{}); }); dom.mediaContainer.addEventListener('click', function(e) { const target = e.target.closest('video, img'); if(target && target.classList.contains('clickable')) abrirWhatsAppCompra(); }); const children = dom.mediaContainer.querySelectorAll('video, img'); if(children.length > 1) { if(appState.mediaTimer) clearInterval(appState.mediaTimer); let idx = 0; appState.mediaTimer = setInterval(() => { const atual = children[idx]; const prox = children[(idx+1) % children.length]; if(!atual || !prox) return; atual.className = 'inactive'; if(atual.tagName === 'VIDEO') atual.pause(); prox.className = 'active'; if(prox.tagName === 'VIDEO') prox.play().catch(()=>{}); idx = (idx+1) % children.length; }, 5000); } } catch(erro) { dom.mediaContainer.innerHTML = ''; } }
 
-    async function carregarMidiasTV() { try { dom.mediaContainer.innerHTML = ''; let midias = []; try { const response = await fetch(CONFIG.MIDIAS_TV_URL + '?v='+CONFIG.CACHE_VERSION+'&t='+now()); if(!response.ok) throw new Error('HTTP '+response.status); const data = await response.json(); if(Array.isArray(data)) midias = data; else if(data.medias) midias = data.medias; else if(data.midias) midias = data.midias; } catch(e) {} if(!midias.length) midias = [ { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/tvbob.mp4' }, { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/amytv.mp4' } ]; midias = midias.filter(m=>m&&(m.tipo==='video'||m.tipo==='imagem')&&m.src); if(!midias.length) midias = [ { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/tvbob.mp4' }, { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/amytv.mp4' } ]; midias.forEach((m,i) => { let el; if(m.tipo==='video') { el = document.createElement('video'); el.src = m.src + (m.src.includes('?')?'&':'?')+'v='+CONFIG.CACHE_VERSION; el.muted = true; el.playsInline = true; el.loop = true; el.load(); el.onerror = ()=>el.style.display='none'; } else { el = document.createElement('img'); el.src = m.src + (m.src.includes('?')?'&':'?')+'v='+CONFIG.CACHE_VERSION; el.loading='lazy'; el.alt='VDB TV'; el.onerror = ()=>el.style.display='none'; } el.className = i===0 ? 'active' : 'inactive'; dom.mediaContainer.appendChild(el); if(i===0 && m.tipo==='video') el.play().catch(()=>{}); }); if(appState.mediaTVTimer) clearInterval(appState.mediaTVTimer); let idx=0; const children = dom.mediaContainer.querySelectorAll('video, img'); if(children.length > 1) { appState.mediaTVTimer = setInterval(() => { const atual = children[idx]; const prox = children[(idx+1) % children.length]; if(!atual || !prox) return; atual.className = 'inactive'; if(atual.tagName === 'VIDEO') atual.pause(); prox.className = 'active'; if(prox.tagName === 'VIDEO') prox.play().catch(()=>{}); idx = (idx+1) % children.length; }, 8000); } dom.infoScroll.classList.add('hidden'); mostrarBotaoSairTV(); } catch(erro) { dom.mediaContainer.innerHTML = ''; } }
+    async function carregarMidiasTV() { try { dom.mediaContainer.innerHTML = ''; let midias = []; try { const response = await fetch(CONFIG.MIDIAS_TV_URL + '?v='+CONFIG.CACHE_VERSION+'&t='+now()); if(!response.ok) throw new Error('HTTP '+response.status); const data = await response.json(); if(Array.isArray(data)) midias = data; else if(data.medias) midias = data.medias; else if(data.midias) midias = data.midias; } catch(e) {} if(!midias.length) midias = [ { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/tvbob.mp4' }, { tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/amytv.mp4' } ]; midias = midias.filter(m=>m&&(m.tipo==='video'||m.tipo==='imagem')&&m.src); midias.forEach((m,i) => { let el; if(m.tipo==='video') { el = document.createElement('video'); el.src = m.src + (m.src.includes('?')?'&':'?')+'v='+CONFIG.CACHE_VERSION; el.muted = true; el.playsInline = true; el.loop = true; el.load(); el.onerror = ()=>el.style.display='none'; } else { el = document.createElement('img'); el.src = m.src + (m.src.includes('?')?'&':'?')+'v='+CONFIG.CACHE_VERSION; el.loading='lazy'; el.alt='VDB TV'; el.onerror = ()=>el.style.display='none'; } el.className = i===0 ? 'active' : 'inactive'; dom.mediaContainer.appendChild(el); if(i===0 && m.tipo==='video') el.play().catch(()=>{}); }); if(appState.mediaTVTimer) clearInterval(appState.mediaTVTimer); let idx=0; const children = dom.mediaContainer.querySelectorAll('video, img'); if(children.length > 1) { appState.mediaTVTimer = setInterval(() => { const atual = children[idx]; const prox = children[(idx+1) % children.length]; if(!atual || !prox) return; atual.className = 'inactive'; if(atual.tagName === 'VIDEO') atual.pause(); prox.className = 'active'; if(prox.tagName === 'VIDEO') prox.play().catch(()=>{}); idx = (idx+1) % children.length; }, 8000); } dom.infoScroll.classList.add('hidden'); mostrarBotaoSairTV(); } catch(erro) { dom.mediaContainer.innerHTML = ''; } }
     function mostrarBotaoSairTV() { esconderBotaoSairTV(); const btn = document.createElement('button'); btn.id = 'btnSairModoTV'; btn.innerHTML = '✕'; btn.onclick = () => toggleModoTV(); document.body.appendChild(btn); }
     function esconderBotaoSairTV() { const btn = document.getElementById('btnSairModoTV'); if(btn) btn.remove(); }
     async function toggleModoTV() { appState.modoTV = !appState.modoTV; if(appState.modoTV) { notif('📺 Modo TV ATIVADO',2000); await carregarMidiasTV(); } else { notif('📺 Modo TV DESATIVADO',2000); if(appState.mediaTVTimer) { clearInterval(appState.mediaTVTimer); appState.mediaTVTimer = null; } dom.infoScroll.classList.remove('hidden'); esconderBotaoSairTV(); await carregarMidiasPadrao(); } appState._save(); }
@@ -1054,7 +936,7 @@
     function carregarHistorico() { const historico = appState.getSenhasHistorico(); dom.historicoSenhas.innerHTML = ''; historico.forEach(item => { const div = document.createElement('div'); div.className = 'historico-item'; const tipoIcon = item.tipo==='universal' ? '🌍' : '📱'; const senhaOculta = item.senha.slice(0,4)+'••••'+item.senha.slice(-4); div.innerHTML = `<span>${tipoIcon} ${item.data}</span><span class="senha-hash">${senhaOculta}</span>`; dom.historicoSenhas.appendChild(div); }); }
     function atualizarTotalSenhas() { const historico = appState.getSenhasHistorico(); dom.totalSenhas.textContent = historico.length; }
     function gerarQrCode() { const url = encodeURIComponent(window.location.href); dom.qrCodeImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=400x400&data='+url+'&margin=20&format=png&bgcolor=ffffff&color=000000'; dom.qrCodeModal.classList.add('active'); }
-    function forcarTelaCheia() { try { const el = document.documentElement; if(el.requestFullscreen) el.requestFullscreen().catch(()=>{}); else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen(); else if(el.msRequestFullscreen) el.msRequestFullscreen(); } catch(e) {} }
+    function forcarTelaCheia() { try { const el = document.documentElement; if(el.requestFullscreen) el.requestFullscreen().catch(()=>{}); else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen(); } catch(e) {} }
     function showLoad(show) { dom.loadingOverlay.classList.toggle('active', show); }
     function liberarAgora() { const senha = prompt('🔑 Digite sua senha única para liberar permanentemente:'); if(!senha) return; const resultado = validarSenha(senha); if(resultado.valida) { appState.desbloqueado = true; dom.blockOverlay.classList.remove('active'); dom.blockOverlay.style.display = 'none'; dom.timerLib.textContent = '🔓 Lib'; dom.timerLib.className = 'timer-lib lib'; localStorage.setItem('vdb_desbloqueado','true'); localStorage.setItem('vdb_senha_permanente','true'); localStorage.removeItem('vdb_teste_expiracao'); localStorage.removeItem('vdb_bloqueado_permanente'); appState.bloqueadoPermanente = false; notif('✅ App liberado com sucesso!',3000); appState._save(); } else { notif('❌ Senha inválida!',2000); } }
     function handleLiberar() { const senha = dom.senhaInput.value.trim(); if(!senha) { dom.erroSenha.textContent='⚠️ Digite a senha'; return; } const resultado = validarSenha(senha); if(resultado.valida) { appState.desbloqueado = true; dom.blockOverlay.classList.remove('active'); dom.blockOverlay.style.display = 'none'; dom.erroSenha.textContent=''; dom.senhaInput.value=''; dom.senhaInput.blur(); localStorage.setItem('vdb_desbloqueado','true'); localStorage.setItem('vdb_senha_permanente','true'); localStorage.removeItem('vdb_teste_expiracao'); localStorage.removeItem('vdb_bloqueado_permanente'); appState.bloqueadoPermanente = false; notif(resultado.msg,3000); if(!appState.playerAtivado) setTimeout(ativarPlayer,500); appState._save(); } else { dom.erroSenha.innerHTML = '❌ Senha inválida!<br><small style="color:#888;font-size:0.7rem;">💡 Entre em contato com o suporte para receber sua senha</small>'; dom.senhaInput.value=''; notif('❌ Senha inválida!',2000); } }
@@ -1124,7 +1006,6 @@
     function jaEstaInstalado(){ return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
     function ehIOS(){ return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; }
     function ehAndroid(){ return /Android/i.test(navigator.userAgent); }
-    function ehPC(){ return !ehIOS() && !ehAndroid() && !/Mobile/i.test(navigator.userAgent); }
 
     function forcarBotao(){
         if(!btnInstalarFixo) return;
@@ -1144,7 +1025,6 @@
     setTimeout(forcarBotao, 1000);
     setTimeout(forcarBotao, 2500);
     setTimeout(forcarBotao, 5000);
-    setTimeout(forcarBotao, 8000);
     document.addEventListener('visibilitychange', () => { if(!document.hidden) setTimeout(forcarBotao, 500); });
 
     if(btnInstalarFixo) {
@@ -1156,7 +1036,7 @@
                     if(resultado.outcome === 'accepted') { notif('✅ Instalando app...', 2500); esconderBotao(); }
                     else { notif('❌ Instalação cancelada', 2000); }
                     deferredInstallPrompt = null;
-                } catch(e) { console.warn(e); }
+                } catch(e) {}
                 return;
             }
             let html = '';
@@ -1176,25 +1056,11 @@
 
     window.addEventListener('appinstalled', () => { esconderBotao(); notif('🎉 App instalado com sucesso!', 3000); });
 
-    // ═══════════════════════════════════════════════════════════
-    // SERVICE WORKER
-    // ═══════════════════════════════════════════════════════════
     if('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js?v=' + APP_VERSION_LOCAL, { scope: './' })
-                .then((reg) => {
-                    console.log('✅ SW registrado:', reg.scope);
-                    reg.addEventListener('updatefound', () => {
-                        const newWorker = reg.installing;
-                        newWorker.addEventListener('statechange', () => {
-                            if(newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                console.log('🔄 Novo SW instalado');
-                                mostrarBannerAtualizacao('nova');
-                            }
-                        });
-                    });
-                })
-                .catch((err) => console.warn('⚠️ SW falhou:', err));
+            navigator.serviceWorker.register('./sw.js', { scope: './' })
+                .then((reg) => { console.log('✅ Service Worker registrado:', reg.scope); })
+                .catch((err) => console.warn('⚠️ Service Worker falhou:', err));
         });
     }
 
@@ -1250,8 +1116,27 @@
             dom.queueMenuBtn.onclick = () => { dom.menuPopup.classList.remove('open'); renderizarFila(); dom.queueSheet.classList.add('open'); };
             dom.recentMenuBtn.onclick = () => { dom.menuPopup.classList.remove('open'); renderizarRecentes(); dom.recentSheet.classList.add('open'); };
             dom.speedMenuBtn.onclick = () => { dom.menuPopup.classList.remove('open'); dom.speedSheet.classList.add('open'); };
-            dom.checkUpdateBtn.onclick = () => { dom.menuPopup.classList.remove('open'); checarAtualizacao(false); };
-            dom.hardReloadBtn.onclick = () => { dom.menuPopup.classList.remove('open'); forcarRecarregarTudo(); };
+
+            // ⭐ ATUALIZAR APP — só no menu dos 3 pontinhos
+            dom.atualizarAppBtn.onclick = async () => {
+                dom.menuPopup.classList.remove('open');
+                if(!confirm('🔄 Atualizar o app agora?\n\nVai limpar o cache e recarregar. Depois é só usar normalmente!')) return;
+                notif('⏳ Atualizando... aguarde', 2500, 'info');
+                try {
+                    if('caches' in window) {
+                        const keys = await caches.keys();
+                        await Promise.all(keys.map(k => caches.delete(k)));
+                    }
+                    if(navigator.serviceWorker) {
+                        const regs = await navigator.serviceWorker.getRegistrations();
+                        await Promise.all(regs.map(r => r.unregister()));
+                    }
+                    localStorage.removeItem('vdb_app_version');
+                } catch(e) { console.warn('Erro:', e); }
+                setTimeout(() => {
+                    window.location.href = window.location.pathname + '?update=' + Date.now();
+                }, 1000);
+            };
 
             document.querySelectorAll('.speed-btn').forEach(btn => {
                 btn.onclick = () => {
@@ -1316,16 +1201,11 @@
             dom.audio.oncanplay = () => { errosConsec = 0; };
             document.addEventListener('keydown', (e) => { if(e.target.tagName==='INPUT') return; if(e.key===' ') { e.preventDefault(); togglePlay(); } if(e.key==='ArrowRight') next(); if(e.key==='ArrowLeft') prev(); if(e.key==='s'||e.key==='S') toggleShuffle(); });
             document.addEventListener('click', (e) => { if(e.target.closest('button') || e.target.closest('.genre-card') || e.target.closest('.fav-item-modal') || e.target.closest('#infoScroll') || e.target.closest('#btnInstalarFixo') || e.target.closest('.mini-player')) return; showControls(); });
-            document.addEventListener('visibilitychange', () => { if(document.visibilityState==='visible') { forcarTelaCheia(); if(!appState.desbloqueado) { const tr=calcularTempoRestante(); appState.tempoRestante=tr; updateTimerDisplay(); if(tr<=0 && !appState.escolhaMostrada) { bloquear(); appState.escolhaMostrada = true; mostrarEscolha(); } } if(appState.isPlaying && dom.audio && dom.audio.paused && dom.audio.src && !appState.carregandoMusica) { dom.audio.play().then(()=>{ dom.playBtn.innerHTML='<i class="fas fa-pause"></i>'; dom.miniPlayBtn.innerHTML='<i class="fas fa-pause"></i>'; if('mediaSession' in navigator) navigator.mediaSession.playbackState='playing'; }).catch(()=>{ if(appState.playlistAtual.length) tocar(); }); } if(appState.isBackgroundActive && dom.backgroundAudio.paused) { dom.backgroundAudio.src = getSilentAudioUrl(); dom.backgroundAudio.loop=true; dom.backgroundAudio.volume=0.001; dom.backgroundAudio.play().catch(()=>{}); } if('wakeLock' in navigator) navigator.wakeLock.request('screen').catch(()=>{}); checarAtualizacao(true); } else { if('wakeLock' in navigator && appState.wakeLock) { try { appState.wakeLock.release(); } catch(e) {} appState.wakeLock = null; } } });
+            document.addEventListener('visibilitychange', () => { if(document.visibilityState==='visible') { forcarTelaCheia(); if(!appState.desbloqueado) { const tr=calcularTempoRestante(); appState.tempoRestante=tr; updateTimerDisplay(); if(tr<=0 && !appState.escolhaMostrada) { bloquear(); appState.escolhaMostrada = true; mostrarEscolha(); } } if(appState.isPlaying && dom.audio && dom.audio.paused && dom.audio.src && !appState.carregandoMusica) { dom.audio.play().then(()=>{ dom.playBtn.innerHTML='<i class="fas fa-pause"></i>'; dom.miniPlayBtn.innerHTML='<i class="fas fa-pause"></i>'; if('mediaSession' in navigator) navigator.mediaSession.playbackState='playing'; }).catch(()=>{ if(appState.playlistAtual.length) tocar(); }); } if(appState.isBackgroundActive && dom.backgroundAudio.paused) { dom.backgroundAudio.src = getSilentAudioUrl(); dom.backgroundAudio.loop=true; dom.backgroundAudio.volume=0.001; dom.backgroundAudio.play().catch(()=>{}); } if('wakeLock' in navigator) navigator.wakeLock.request('screen').catch(()=>{}); } else { if('wakeLock' in navigator && appState.wakeLock) { try { appState.wakeLock.release(); } catch(e) {} appState.wakeLock = null; } } });
             dom.forceUpdateBtn.onclick = async () => { dom.menuPopup.classList.remove('open'); notif('🔄 Atualizando mídias...',1500); CONFIG.CACHE_VERSION++; localStorage.setItem('vdb_cache_version', String(CONFIG.CACHE_VERSION)); if(appState.modoTV) await carregarMidiasTV(); else await carregarMidiasPadrao(); notif('✅ Mídias atualizadas!',2000); };
             new TouchManager();
             iniciarBannerPromocional();
             forcarBotao();
-
-            // ⭐ AUTO-ATUALIZAÇÃO REFORÇADA
-            console.log('🔄 Iniciando verificações de atualização...');
-            setTimeout(() => checarAtualizacao(true), 2000);
-            setInterval(() => checarAtualizacao(true), 15000); // a cada 15s
         } catch(erro) { console.error('❌ Erro ao iniciar:', erro); dom.loadingScreen.style.display='none'; dom.playerContainer.classList.add('visible'); notif('⚠️ Erro ao iniciar, recarregue a página',5000); }
     }
     iniciar();
