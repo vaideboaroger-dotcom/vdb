@@ -1,53 +1,355 @@
-/* =====<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-  <style>
-    /* TODO O CSS AQUI */
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>VAI DE BOA! MUSIC</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#000000">
+<meta name="application-name" content="VDB Music">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="VDB Music">
+<meta name="mobile-web-app-capable" content="yes">
+
+<link rel="icon" type="image/png" sizes="192x192" href="favicon192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon30.png">
+<link rel="apple-touch-icon" sizes="192x192" href="favicon192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="favicon30.png">
+<link rel="manifest" href="./manifest.json">
+
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <!-- TODO O HTML AQUI (player, modais, botões...) -->
-  
-  <script>
-    /* TODO O JS AQUI */
-  </script>
+
+<!-- OFFLINE BANNER -->
+<div class="offline-banner" id="offlineBanner" role="alert">⚠️ Você está OFFLINE — tocando do cache</div>
+
+<!-- LOADING -->
+<div id="loadingScreen" class="loading-screen">
+  <img src="favicon30.png" alt="" class="loading-logo">
+  <i class="fas fa-spinner loading-spinner" aria-hidden="true"></i>
+  <span class="loading-text">VAI DE BOA! MUSIC</span>
+  <div class="loading-progress-container"><div class="loading-progress-fill" id="loadingProgressFill"></div></div>
+</div>
+
+<!-- PLAYER -->
+<main id="playerContainer" class="player-container" hidden>
+  <div class="media-container" id="mediaContainer" aria-hidden="true"></div>
+
+  <header class="top-bar">
+    <div class="top-left">
+      <img src="favicon30.png" alt="VDB Music" class="logo-macaco" id="logoMacaco">
+      <button class="btn-genero-fav" id="btnGeneroFav" aria-label="Abrir menu de gêneros e favoritos">
+        <span class="genero-nome" id="generoNome">BÔNUS</span>
+        <span class="separador" aria-hidden="true">|</span>
+        <i class="fas fa-heart coracao-icon" aria-hidden="true"></i>
+        <span class="fav-badge" id="favBadge">0</span>
+      </button>
+    </div>
+    <div class="top-right">
+      <span class="timer-lib" id="timerLib">24:00:00</span>
+      <span class="audio-status" id="audioStatus" aria-hidden="true">●</span>
+      <button class="menu-btn" id="menuButton" aria-label="Menu"><i class="fas fa-ellipsis-v"></i></button>
+    </div>
+  </header>
+
+  <div class="info-scroll" id="infoScroll" role="button" tabindex="0" aria-label="Toque para pesquisar">
+    <p class="letreiro" id="scrollText"></p>
+    <div class="search-input-container">
+      <input type="search" id="searchInputLetreiro" placeholder="🔍 Pesquisar música..." aria-label="Pesquisar música">
+      <button id="searchClearLetreiro" aria-label="Limpar busca" hidden>✕</button>
+    </div>
+  </div>
+
+  <div class="fav-heart-center">
+    <button class="fav-heart" id="heartBtn" aria-label="Favoritar música">
+      <i class="far fa-heart"></i>
+    </button>
+  </div>
+
+  <div class="equalizer on" id="equalizer" aria-hidden="true">
+    <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+  </div>
+
+  <div class="mini-player" id="miniPlayer" hidden>
+    <div class="mini-cover" aria-hidden="true">🎵</div>
+    <div class="mini-info">
+      <div class="mini-title" id="miniTitle">Sem música</div>
+      <div class="mini-artist" id="miniArtist">VAI DE BOA! MUSIC</div>
+    </div>
+    <button class="mini-btn" id="miniPlayBtn" aria-label="Play/Pause"><i class="fas fa-play"></i></button>
+    <div class="mini-progress"><div class="mini-progress-fill" id="miniProgressFill"></div></div>
+  </div>
+
+  <div class="bottom-controls" id="bottomControls">
+    <div class="progress-time">
+      <span id="currentTime">0:00</span>
+      <span id="totalTime">0:00</span>
+    </div>
+    <div class="progress-bar" id="progressBar" role="slider" aria-label="Progresso" tabindex="0">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="buttons-row">
+      <button class="ctrl-btn" id="prevBtn" aria-label="Anterior"><i class="fas fa-backward-step"></i></button>
+      <button class="ctrl-btn play-big" id="playBtn" aria-label="Play"><i class="fas fa-play"></i></button>
+      <button class="ctrl-btn" id="nextBtn" aria-label="Próxima"><i class="fas fa-forward-step"></i></button>
+      <button class="shuffle-btn" id="shuffleBtn" aria-label="Aleatório"><i class="fas fa-random"></i></button>
+    </div>
+  </div>
+
+  <div class="fab-container">
+    <div class="fab-sub" id="fabSub" hidden>
+      <button class="fab-sub-btn" id="fabGeneros"><i class="fas fa-guitar"></i>Gêneros</button>
+      <button class="fab-sub-btn" id="fabModoTV"><i class="fas fa-tv"></i>Modo TV</button>
+      <button class="fab-sub-btn" id="fabCadastro"><i class="fas fa-user"></i>Cadastro</button>
+      <button class="fab-sub-btn" id="fabFeedback"><i class="fas fa-star"></i>Feedback</button>
+      <button class="fab-sub-btn" id="fabYoutube"><i class="fab fa-youtube"></i>YouTube</button>
+      <button class="fab-sub-btn" id="fabShare"><i class="fas fa-share-alt"></i>Compartilhar</button>
+      <button class="fab-sub-btn" id="fabQrCode"><i class="fas fa-qrcode"></i>QR Code</button>
+    </div>
+    <button class="fab-main" id="fabMain" aria-label="Mais opções"><i class="fas fa-plus"></i></button>
+  </div>
+
+  <nav class="menu-popup" id="menuPopup" aria-label="Menu principal">
+    <button id="closeMenuBtn"><i class="fas fa-times"></i>Fechar</button>
+    <button id="fullscreenMenuBtn"><i class="fas fa-expand"></i>Tela Cheia</button>
+    <button id="modoTVMenuBtn"><i class="fas fa-tv"></i>Modo TV</button>
+    <button id="queueMenuBtn"><i class="fas fa-list"></i>Ver Fila</button>
+    <button id="recentMenuBtn"><i class="fas fa-history"></i>Recentes</button>
+    <button id="speedMenuBtn"><i class="fas fa-tachometer-alt"></i>Velocidade</button>
+    <button id="liberarAgoraBtn"><i class="fas fa-unlock"></i>Liberar Agora</button>
+    <button id="cadastroMenuBtn"><i class="fas fa-user"></i>Cadastro</button>
+    <button id="reloadPlaylistBtn"><i class="fas fa-sync"></i>Recarregar</button>
+    <button id="feedbackMenuBtn"><i class="fas fa-star"></i>Feedback</button>
+    <button id="sleepMenuBtn"><i class="fas fa-moon"></i>Sleep Timer</button>
+    <button id="qrCodeMenuBtn"><i class="fas fa-qrcode"></i>QR Code</button>
+    <button id="atualizarAppBtn" class="destaque"><i class="fas fa-cloud-download-alt"></i>🔄 Atualizar App</button>
+    <button id="forceUpdateBtn"><i class="fas fa-sync-alt"></i>Atualizar Mídias</button>
+  </nav>
+</main>
+
+<!-- BLOQUEIO -->
+<div id="blockOverlay" class="block-overlay active">
+  <div class="block-content">
+    <img src="favicon30.png" alt="VDB" class="block-logo-img" onerror="this.style.display='none'">
+    <h1>VAI DE BOA!</h1>
+    <div class="sub">🔒 DIGITE SUA SENHA</div>
+    <input type="password" id="senhaInput" placeholder="Digite sua senha" autocomplete="off">
+    <button class="btn-liberar" id="btnLiberar">🔓 LIBERAR ACESSO</button>
+    <div class="erro" id="erroSenha"></div>
+    <div class="dica">
+      <div class="titulo">💡 NÃO TEM SENHA?</div>
+      <div class="texto">📱 Entre em contato com o suporte para receber sua senha</div>
+    </div>
+    <div class="fingerprint-area">
+      <span class="fp-text" id="infoDispositivo">🆔 Aguardando...</span>
+      <button class="btn-copiar-fp" id="btnCopiarFingerprint">📋 Copiar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ESCOLHA -->
+<div id="escolhaOverlay" class="escolha-overlay">
+  <div class="escolha-box">
+    <div class="escolha-emoji">🎵</div>
+    <div class="escolha-titulo">ACABOU O TESTE!</div>
+    <div class="escolha-sub">Gostou do app? Continue ouvindo <b>+3 mil músicas</b> para sempre!</div>
+    <div class="escolha-oferta">
+      <div class="oferta-tag">🔥 OFERTA ESPECIAL</div>
+      <div class="oferta-preco">R$ 39,00</div>
+      <div class="oferta-lista">✓ Acesso <b>VITALÍCIO</b><br>✓ Sem mensalidade<br>✓ Todas as músicas liberadas<br>✓ Atualizações grátis</div>
+    </div>
+    <button id="btnComprarEscolha" class="btn-escolha btn-whats"><i class="fab fa-whatsapp"></i> COMPRAR AGORA</button>
+    <button id="btnTenhoSenhaEscolha" class="btn-escolha btn-senha"><i class="fas fa-key"></i> JÁ TENHO SENHA</button>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="adminPanel" role="dialog" aria-modal="true" aria-label="Painel Admin">
+  <h2><img src="favicon30.png" alt="VDB">GERENCIADOR DE SENHAS</h2>
+  <div class="sub">Gere senhas para seus clientes</div>
+  <div class="fp-cliente">
+    <label for="adminFingerprintInput">🆔 Fingerprint do cliente (cole aqui):</label>
+    <input type="text" id="adminFingerprintInput" placeholder="Cole o fingerprint do cliente">
+    <div class="helper">📋 O fingerprint aparece na tela de bloqueio do cliente</div>
+  </div>
+  <div class="row-btns">
+    <button class="btn-gerar" id="adminGerarBtn">🎲 GERAR SENHA</button>
+    <button class="btn-universal" id="adminGerarUniversalBtn">🌍 UNIVERSAL</button>
+    <button class="btn-limpar" id="adminLimparBtn">🗑️ Limpar</button>
+  </div>
+  <div class="senha-box">
+    <label>🔑 SENHA GERADA:</label>
+    <div class="row">
+      <div class="favicon-wrapper"><img src="favicon30.png" alt="VDB"></div>
+      <input type="text" id="adminSenhaGerada" readonly placeholder="Clique em gerar">
+      <button class="btn-copiar" id="btnCopiarSenha">📋 Copiar</button>
+    </div>
+    <div class="info-senha" id="infoSenha"></div>
+  </div>
+  <div class="actions">
+    <button class="btn-whats" id="adminEnviarWhatsBtn">📱 Enviar WhatsApp</button>
+    <button class="btn-copiar-senha" id="adminCopiarSenhaBtn">📋 Copiar Senha</button>
+  </div>
+  <div class="historico" id="historicoSenhas"></div>
+  <div class="total">📊 <span id="totalSenhas">0</span> senhas geradas</div>
+  <button class="btn-fechar" id="adminCloseBtn">✕ Fechar Painel</button>
+</div>
+
+<!-- QR CODE -->
+<div id="qrCodeModal" role="dialog" aria-modal="true" aria-label="QR Code">
+  <div class="qr-content">
+    <div class="qr-titulo">📱 VAI DE BOA! MUSIC</div>
+    <div class="qr-sub">Escaneie e ouça as melhores músicas!</div>
+    <div class="qr-wrapper">
+      <img id="qrCodeImage" src="" alt="QR Code">
+      <div class="qr-logo-overlay"><img src="favicon30.png" alt="VDB"></div>
+    </div>
+    <div class="qr-info">
+      <span><i class="fas fa-music"></i> +3 mil músicas</span>
+      <span><i class="fas fa-star"></i> Grátis</span>
+      <span><i class="fas fa-sync"></i> Atualiza</span>
+    </div>
+    <button class="qr-btn-close" id="qrCloseBtn">✕ FECHAR</button>
+  </div>
+</div>
+
+<!-- BANNER PROMO -->
+<button id="bannerPromocional" aria-label="Oferta vitalícia por R$ 39,00">
+  <span class="banner-shine" aria-hidden="true"></span>
+  <img src="favicon30.png" alt="" class="banner-icon">
+  <span class="banner-texto">
+    <span class="banner-tag">VITALÍCIO</span>
+    <span class="banner-preco">R$&nbsp;39<span class="banner-centavos">,00</span></span>
+  </span>
+  <i class="fas fa-chevron-right banner-seta" aria-hidden="true"></i>
+</button>
+
+<!-- INSTALAR -->
+<button id="btnInstalarFixo" hidden><i class="fas fa-download"></i> INSTALAR APP</button>
+
+<div id="instrucoesInstalar" role="dialog" aria-modal="true" aria-label="Instruções para instalar">
+  <div class="instrucoes-box" id="instrucoesBox"></div>
+</div>
+
+<!-- BOTTOM SHEETS -->
+<section class="bottom-sheet" id="queueSheet" aria-hidden="true">
+  <h3>🎵 PRÓXIMAS NA FILA</h3>
+  <div class="sheet-list" id="queueList"></div>
+  <button class="sheet-close" data-close="queueSheet">✕ FECHAR</button>
+</section>
+
+<section class="bottom-sheet" id="recentSheet" aria-hidden="true">
+  <h3>🕐 TOCADAS RECENTEMENTE</h3>
+  <div class="sheet-list" id="recentList"></div>
+  <button class="sheet-close" data-close="recentSheet">✕ FECHAR</button>
+</section>
+
+<section class="bottom-sheet" id="speedSheet" aria-hidden="true">
+  <h3>⚡ VELOCIDADE</h3>
+  <div class="speed-control">
+    <button class="speed-btn" data-speed="0.5">0.5x</button>
+    <button class="speed-btn active" data-speed="1">1x</button>
+    <button class="speed-btn" data-speed="1.25">1.25x</button>
+    <button class="speed-btn" data-speed="1.5">1.5x</button>
+    <button class="speed-btn" data-speed="2">2x</button>
+  </div>
+  <button class="sheet-close" data-close="speedSheet">✕ FECHAR</button>
+</section>
+
+<section class="bottom-sheet" id="sleepSheet" aria-hidden="true">
+  <h3>😴 TEMPORIZADOR</h3>
+  <button class="sheet-option" data-sleep="15">⏱️ 15 minutos</button>
+  <button class="sheet-option" data-sleep="30">⏱️ 30 minutos</button>
+  <button class="sheet-option" data-sleep="60">⏱️ 1 hora</button>
+  <button class="sheet-option" data-sleep="120">⏱️ 2 horas</button>
+  <button class="sheet-option" data-sleep="0">🚫 Cancelar timer</button>
+  <button class="sheet-close" data-close="sleepSheet">✕ FECHAR</button>
+</section>
+
+<!-- GÊNEROS -->
+<div class="genres-modal" id="genresModal" role="dialog" aria-modal="true" aria-label="Gêneros musicais">
+  <div class="header">
+    <div class="titulo">ESTILOS MUSICAIS</div>
+    <div class="sub-titulo">✦ ESCOLHA E OUÇA ✦</div>
+  </div>
+  <div class="genres-grid" id="genresGrid"></div>
+  <button class="close-genres" id="closeGenresBtn">✕ FECHAR</button>
+</div>
+
+<!-- FAVORITAS -->
+<section class="fav-modal" id="favModal" aria-hidden="true">
+  <h3>❤️ SUAS FAVORITAS</h3>
+  <div class="sub-titulo" id="favSubTitulo">Suas músicas favoritas</div>
+  <div class="sheet-list" id="favListModal"></div>
+  <button class="close-fav" id="closeFavBtn">FECHAR</button>
+</section>
+
+<!-- ESCOLHA RÁPIDA -->
+<section class="choice-menu" id="choiceMenu" aria-hidden="true">
+  <h3>🎯 O QUE VOCÊ QUER?</h3>
+  <button class="choice-btn" id="choiceGenres"><span><i class="fas fa-guitar"></i> GÊNEROS</span><span class="info-text">29 estilos</span></button>
+  <button class="choice-btn" id="choiceFavorites"><span><i class="fas fa-heart coracao-icon"></i> FAVORITAS</span><span class="badge" id="choiceBadge">0</span></button>
+  <button class="choice-close" id="choiceClose">✕ CANCELAR</button>
+</section>
+
+<!-- FEEDBACK -->
+<div class="feedback-modal" id="feedbackModal" role="dialog" aria-modal="true" aria-label="Avaliar app">
+  <h3>⭐ Avalie o App</h3>
+  <div class="stars" id="starRating">
+    <button class="star" data-rating="1" aria-label="1 estrela"><i class="far fa-star"></i></button>
+    <button class="star" data-rating="2" aria-label="2 estrelas"><i class="far fa-star"></i></button>
+    <button class="star" data-rating="3" aria-label="3 estrelas"><i class="far fa-star"></i></button>
+    <button class="star" data-rating="4" aria-label="4 estrelas"><i class="far fa-star"></i></button>
+    <button class="star" data-rating="5" aria-label="5 estrelas"><i class="far fa-star"></i></button>
+  </div>
+  <textarea id="feedbackText" placeholder="Sua opinião..."></textarea>
+  <button class="btn-feedback" id="sendFeedbackBtn">Enviar</button>
+  <button id="closeFeedbackBtn">Cancelar</button>
+</div>
+
+<!-- NOTIFICATION -->
+<div class="notification" id="notification" role="status" aria-live="polite"></div>
+<div id="loadingOverlay" aria-hidden="true"><i class="fas fa-spinner fa-spin"></i></div>
+
+<!-- ÁUDIO -->
+<audio id="musicPlayer" preload="none"></audio>
+<audio id="backgroundAudio" preload="auto" style="display:none;"></audio>
+
+<script src="./app.js" defer></script>
 </body>
-</html>====================================================
+</html>
+/* =========================================================
    VAI DE BOA! MUSIC — Design System
    ========================================================= */
 
 :root {
-  /* Marca */
   --primary: #a855f7;
   --secondary: #22d3ee;
   --accent: #f472b6;
   --gold: #fbbf24;
-
-  /* Superfícies */
   --black-0: #000;
   --black-1: #0a0a0a;
   --black-2: #121212;
   --black-3: #1a1a1a;
-
-  /* Tema dinâmico (muda por gênero) */
   --theme-1: var(--primary);
   --theme-2: var(--secondary);
-
-  /* Utilitários */
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* Tipografia */
   --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Audiowide', sans-serif;
   --font-alt: 'Rajdhani', sans-serif;
 }
 
-/* ============ RESET ============ */
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -66,10 +368,7 @@ html, body {
   color: #fff;
 }
 
-button {
-  font-family: inherit;
-  cursor: pointer;
-}
+button { font-family: inherit; cursor: pointer; }
 
 button:focus-visible,
 input:focus-visible,
@@ -111,9 +410,7 @@ textarea:focus-visible {
   animation: spin 1.5s infinite;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 .loading-text {
   font-family: var(--font-display);
@@ -141,7 +438,7 @@ textarea:focus-visible {
   transition: width 0.4s ease;
 }
 
-/* ============ PLAYER CONTAINER ============ */
+/* ============ PLAYER ============ */
 .player-container { position: fixed; inset: 0; z-index: 10; }
 
 .media-container {
@@ -261,10 +558,7 @@ textarea:focus-visible {
   border-radius: 20px;
   display: none;
 }
-.audio-status.active {
-  display: inline-block;
-  animation: blink 2s infinite;
-}
+.audio-status.active { display: inline-block; animation: blink 2s infinite; }
 
 @keyframes blink {
   0%, 100% { opacity: 1; }
@@ -284,10 +578,7 @@ textarea:focus-visible {
   justify-content: center;
   transition: all 0.3s var(--ease-spring);
 }
-.menu-btn:active {
-  transform: scale(0.9);
-  background: rgba(255, 255, 255, 0.15);
-}
+.menu-btn:active { transform: scale(0.9); background: rgba(255, 255, 255, 0.15); }
 
 /* ============ INFO SCROLL ============ */
 .info-scroll {
@@ -305,16 +596,8 @@ textarea:focus-visible {
   background: rgba(0, 0, 0, 0.3);
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
-.info-scroll.modo-pesquisa {
-  height: 44px;
-  background: rgba(0, 0, 0, 0.5);
-}
-.info-scroll.hidden {
-  opacity: 0;
-  pointer-events: none;
-  height: 0;
-  padding: 0;
-}
+.info-scroll.modo-pesquisa { height: 44px; background: rgba(0, 0, 0, 0.5); }
+.info-scroll.hidden { opacity: 0; pointer-events: none; height: 0; padding: 0; }
 
 .letreiro {
   font-size: 0.85rem;
@@ -327,10 +610,7 @@ textarea:focus-visible {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-.info-scroll.modo-pesquisa .letreiro {
-  animation: none;
-  white-space: normal;
-}
+.info-scroll.modo-pesquisa .letreiro { animation: none; white-space: normal; }
 
 @keyframes scrollText {
   0%   { transform: translateX(100vw); }
@@ -373,7 +653,7 @@ textarea:focus-visible {
   padding: 4px 8px;
 }
 
-/* ============ CORAÇÃO CENTRAL ============ */
+/* ============ CORAÇÃO ============ */
 .fav-heart-center {
   position: fixed;
   top: 50%;
@@ -395,13 +675,8 @@ textarea:focus-visible {
   color: rgba(255, 255, 255, 0.55);
   font-size: 4.2rem;
   pointer-events: auto;
-  text-shadow:
-    0 2px 12px rgba(0, 0, 0, 0.6),
-    0 0 20px rgba(255, 255, 255, 0.15);
-  transition:
-    color 0.35s var(--ease-smooth),
-    text-shadow 0.35s var(--ease-smooth),
-    transform 0.35s var(--ease-spring);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 255, 255, 0.15);
+  transition: color 0.35s var(--ease-smooth), text-shadow 0.35s var(--ease-smooth), transform 0.35s var(--ease-spring);
   animation: heartFloat 3.4s ease-in-out infinite;
 }
 .fav-heart i { display: inline-block; line-height: 1; }
@@ -411,16 +686,11 @@ textarea:focus-visible {
   50%      { transform: translateY(-5px) scale(1.02); }
 }
 
-.fav-heart.paused {
-  animation: none;
-  color: rgba(255, 255, 255, 0.35);
-}
+.fav-heart.paused { animation: none; color: rgba(255, 255, 255, 0.35); }
 
 .fav-heart.active {
   color: var(--accent);
-  text-shadow:
-    0 2px 12px rgba(0, 0, 0, 0.6),
-    0 0 22px rgba(244, 114, 182, 0.55);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6), 0 0 22px rgba(244, 114, 182, 0.55);
   animation: heartBeat 1.4s ease-in-out infinite;
 }
 
@@ -453,17 +723,8 @@ textarea:focus-visible {
 }
 
 @keyframes particleFly {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(
-      calc(-50% + var(--dx, 0px)),
-      calc(-50% + var(--dy, 0px))
-    ) scale(0.3);
-  }
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px))) scale(0.3); }
 }
 
 /* ============ EQUALIZER ============ */
@@ -504,16 +765,8 @@ textarea:focus-visible {
   70%      { height: 10px; }
 }
 
-.equalizer.paused .bar {
-  animation: none;
-  height: 3px;
-  opacity: 0.5;
-}
-
-.equalizer.loading .bar {
-  animation-duration: 1.8s;
-  opacity: 0.6;
-}
+.equalizer.paused .bar { animation: none; height: 3px; opacity: 0.5; }
+.equalizer.loading .bar { animation-duration: 1.8s; opacity: 0.6; }
 
 /* ============ CONTROLES ============ */
 .bottom-controls {
@@ -601,10 +854,7 @@ textarea:focus-visible {
   transition: all 0.2s var(--ease-spring);
 }
 .shuffle-btn:active { transform: scale(0.88); }
-.shuffle-btn.active {
-  background: rgba(168, 85, 247, 0.2);
-  color: var(--secondary);
-}
+.shuffle-btn.active { background: rgba(168, 85, 247, 0.2); color: var(--secondary); }
 
 .ripple {
   position: absolute;
@@ -615,9 +865,7 @@ textarea:focus-visible {
   pointer-events: none;
 }
 
-@keyframes rippleAnim {
-  to { transform: scale(4); opacity: 0; }
-}
+@keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
 
 /* ============ MINI PLAYER ============ */
 .mini-player {
@@ -726,11 +974,7 @@ textarea:focus-visible {
   font-size: 1.1rem;
   border: 1px solid rgba(255, 255, 255, 0.06);
   isolation: isolate;
-  transition:
-    transform 0.4s var(--ease-spring),
-    background 0.3s ease,
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: transform 0.4s var(--ease-spring), background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   animation: fabIdle 3.2s ease-in-out infinite;
 }
 
@@ -761,11 +1005,7 @@ textarea:focus-visible {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: radial-gradient(
-    circle at center,
-    color-mix(in srgb, var(--theme-1) 35%, transparent),
-    transparent 65%
-  );
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--theme-1) 35%, transparent), transparent 65%);
   opacity: 0;
   pointer-events: none;
   z-index: -1;
@@ -789,13 +1029,9 @@ textarea:focus-visible {
   border-color: rgba(255, 255, 255, 0.15);
   box-shadow: 0 6px 24px rgba(168, 85, 247, 0.45);
 }
-.fab-main.open::before,
-.fab-main.open::after { animation: none; opacity: 0; }
+.fab-main.open::before, .fab-main.open::after { animation: none; opacity: 0; }
 
-.fab-main:active {
-  transform: scale(0.9) rotate(90deg);
-  animation: none;
-}
+.fab-main:active { transform: scale(0.9) rotate(90deg); animation: none; }
 .fab-main.open:active { transform: scale(0.92) rotate(45deg); }
 
 .fab-sub {
@@ -852,10 +1088,7 @@ textarea:focus-visible {
   max-height: 85vh;
   overflow-y: auto;
 }
-.menu-popup.open {
-  display: flex;
-  animation: menuIn 0.25s var(--ease-spring);
-}
+.menu-popup.open { display: flex; animation: menuIn 0.25s var(--ease-spring); }
 
 @keyframes menuIn {
   from { transform: scale(0.85); opacity: 0; }
@@ -957,10 +1190,7 @@ textarea:focus-visible {
   border-radius: 0 4px 4px 0;
   transition: all 0.3s;
 }
-.genre-card:active {
-  transform: scale(0.96);
-  border-color: var(--c1);
-}
+.genre-card:active { transform: scale(0.96); border-color: var(--c1); }
 .genre-card:active::before { height: 100%; width: 4px; }
 
 .genre-card .genre-name {
@@ -991,9 +1221,7 @@ textarea:focus-visible {
 }
 
 /* ============ BOTTOM SHEETS ============ */
-.bottom-sheet,
-.fav-modal,
-.choice-menu {
+.bottom-sheet, .fav-modal, .choice-menu {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -1013,13 +1241,9 @@ textarea:focus-visible {
 .fav-modal    { z-index: 2001; }
 .choice-menu  { z-index: 1999; max-height: 60vh; }
 
-.bottom-sheet.open,
-.fav-modal.open,
-.choice-menu.open { transform: translateY(0); }
+.bottom-sheet.open, .fav-modal.open, .choice-menu.open { transform: translateY(0); }
 
-.bottom-sheet::before,
-.fav-modal::before,
-.choice-menu::before {
+.bottom-sheet::before, .fav-modal::before, .choice-menu::before {
   content: '';
   display: block;
   width: 40px;
@@ -1029,9 +1253,7 @@ textarea:focus-visible {
   margin: 0 auto 10px;
 }
 
-.bottom-sheet h3,
-.fav-modal h3,
-.choice-menu h3 {
+.bottom-sheet h3, .fav-modal h3, .choice-menu h3 {
   text-align: center;
   margin-bottom: 10px;
   font-size: 1.1rem;
@@ -1069,14 +1291,8 @@ textarea:focus-visible {
   font-size: 0.85rem;
   transition: all 0.2s var(--ease-spring);
 }
-.sheet-item:active {
-  transform: scale(0.98);
-  background: rgba(255, 255, 255, 0.08);
-}
-.sheet-item.now {
-  border-color: var(--theme-2);
-  background: rgba(34, 211, 238, 0.08);
-}
+.sheet-item:active { transform: scale(0.98); background: rgba(255, 255, 255, 0.08); }
+.sheet-item.now { border-color: var(--theme-2); background: rgba(34, 211, 238, 0.08); }
 
 .sheet-item .num {
   width: 24px;
@@ -1124,9 +1340,7 @@ textarea:focus-visible {
   font-size: 0.85rem;
 }
 
-.sheet-close,
-.close-fav,
-.choice-close {
+.sheet-close, .close-fav, .choice-close {
   width: 100%;
   padding: 8px;
   background: rgba(255, 255, 255, 0.05);
@@ -1160,12 +1374,8 @@ textarea:focus-visible {
   margin-bottom: 6px;
   transition: all 0.2s var(--ease-spring);
 }
-.sheet-option:active {
-  transform: scale(0.98);
-  background: rgba(255, 255, 255, 0.08);
-}
+.sheet-option:active { transform: scale(0.98); background: rgba(255, 255, 255, 0.08); }
 
-/* Choice menu */
 .choice-menu .choice-btn {
   width: 100%;
   padding: 12px;
@@ -1197,7 +1407,6 @@ textarea:focus-visible {
   font-weight: 500;
 }
 
-/* Speed control */
 .speed-control {
   display: flex;
   gap: 6px;
@@ -1267,8 +1476,7 @@ textarea:focus-visible {
   transition: all 0.2s var(--ease-spring);
 }
 .feedback-modal .star:active { transform: scale(1.3); }
-.feedback-modal .star.active,
-.feedback-modal .star i.active { color: var(--gold); }
+.feedback-modal .star.active, .feedback-modal .star i.active { color: var(--gold); }
 .feedback-modal textarea {
   width: 100%;
   height: 50px;
@@ -1324,12 +1532,9 @@ textarea:focus-visible {
   font-weight: 600;
   max-width: 90vw;
 }
-.notification.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
+.notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* ============ LOADING OVERLAY ============ */
+/* ============ OVERLAYS ============ */
 #loadingOverlay {
   display: none;
   position: fixed;
@@ -1340,13 +1545,8 @@ textarea:focus-visible {
   justify-content: center;
 }
 #loadingOverlay.active { display: flex; }
-#loadingOverlay i {
-  font-size: 2.2rem;
-  color: var(--secondary);
-  animation: spin 1s infinite;
-}
+#loadingOverlay i { font-size: 2.2rem; color: var(--secondary); animation: spin 1s infinite; }
 
-/* ============ QR CODE ============ */
 #qrCodeModal {
   position: fixed;
   inset: 0;
@@ -1369,17 +1569,8 @@ textarea:focus-visible {
   text-align: center;
   border: 1px solid rgba(168, 85, 247, 0.2);
 }
-.qr-titulo {
-  color: #fff;
-  font-size: 1.2rem;
-  font-weight: 900;
-  margin-bottom: 4px;
-}
-.qr-sub {
-  color: #666;
-  font-size: 0.7rem;
-  margin-bottom: 10px;
-}
+.qr-titulo { color: #fff; font-size: 1.2rem; font-weight: 900; margin-bottom: 4px; }
+.qr-sub { color: #666; font-size: 0.7rem; margin-bottom: 10px; }
 .qr-wrapper {
   background: #fff;
   border-radius: 16px;
@@ -1388,12 +1579,7 @@ textarea:focus-visible {
   margin: 0 auto;
   position: relative;
 }
-.qr-wrapper img {
-  width: 180px;
-  height: 180px;
-  display: block;
-  border-radius: 12px;
-}
+.qr-wrapper img { width: 180px; height: 180px; display: block; border-radius: 12px; }
 .qr-logo-overlay {
   position: absolute;
   top: 50%;
@@ -1409,19 +1595,8 @@ textarea:focus-visible {
   justify-content: center;
 }
 .qr-logo-overlay img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
-.qr-info {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-  margin: 8px 0 6px;
-}
-.qr-info span {
-  font-size: 0.65rem;
-  color: #888;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
+.qr-info { display: flex; justify-content: center; gap: 14px; margin: 8px 0 6px; }
+.qr-info span { font-size: 0.65rem; color: #888; display: flex; align-items: center; gap: 4px; }
 .qr-info span i { color: var(--gold); }
 .qr-btn-close {
   background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -1435,7 +1610,7 @@ textarea:focus-visible {
   margin-top: 6px;
 }
 
-/* ============ BLOCK OVERLAY (senha) ============ */
+/* ============ BLOQUEIO ============ */
 .block-overlay {
   position: fixed;
   inset: 0;
@@ -1556,12 +1731,7 @@ textarea:focus-visible {
   letter-spacing: 2px;
   margin-bottom: 8px;
 }
-.escolha-sub {
-  color: #888;
-  font-size: 0.8rem;
-  margin-bottom: 20px;
-  line-height: 1.5;
-}
+.escolha-sub { color: #888; font-size: 0.8rem; margin-bottom: 20px; line-height: 1.5; }
 .escolha-sub b { color: var(--accent); }
 .escolha-oferta {
   background: rgba(251, 191, 36, 0.08);
@@ -1571,12 +1741,7 @@ textarea:focus-visible {
   margin-bottom: 16px;
   text-align: left;
 }
-.oferta-tag {
-  color: var(--gold);
-  font-size: 0.8rem;
-  font-weight: 800;
-  margin-bottom: 6px;
-}
+.oferta-tag { color: var(--gold); font-size: 0.8rem; font-weight: 800; margin-bottom: 6px; }
 .oferta-preco {
   font-size: 1.5rem;
   font-weight: 900;
@@ -1586,11 +1751,7 @@ textarea:focus-visible {
   background-clip: text;
   margin: 6px 0;
 }
-.oferta-lista {
-  color: #ccc;
-  font-size: 0.72rem;
-  line-height: 1.6;
-}
+.oferta-lista { color: #ccc; font-size: 0.72rem; line-height: 1.6; }
 .btn-escolha {
   width: 100%;
   padding: 16px;
@@ -1664,7 +1825,6 @@ textarea:focus-visible {
 .btn-gerar { background: linear-gradient(135deg, var(--gold), #f0932b); color: #000; }
 .btn-universal { background: linear-gradient(135deg, #00b894, #00a86b); color: #fff; }
 .btn-limpar { background: rgba(255, 255, 255, 0.05); color: #666; border: 1px solid rgba(255, 255, 255, 0.05); }
-
 .senha-box {
   background: rgba(168, 85, 247, 0.03);
   border: 1px solid rgba(168, 85, 247, 0.08);
@@ -1709,14 +1869,9 @@ textarea:focus-visible {
   white-space: nowrap;
 }
 .info-senha { font-size: 0.5rem; color: #555; margin-top: 3px; }
-
 #adminPanel .actions { display: flex; gap: 5px; margin-bottom: 6px; }
 #adminPanel .actions button { flex: 1; padding: 8px; border-radius: 20px; border: none; font-weight: 700; font-size: 0.65rem; }
-.btn-copiar-senha {
-  background: rgba(168, 85, 247, 0.15);
-  border: 1px solid var(--primary);
-  color: var(--primary);
-}
+.btn-copiar-senha { background: rgba(168, 85, 247, 0.15); border: 1px solid var(--primary); color: var(--primary); }
 .historico { max-height: 70px; overflow-y: auto; margin-bottom: 4px; }
 .historico-item {
   display: flex;
@@ -1767,11 +1922,7 @@ textarea:focus-visible {
   overflow: hidden;
   opacity: 0;
   transform: translateY(20px) scale(0.96);
-  transition:
-    opacity 0.35s var(--ease-smooth),
-    transform 0.45s var(--ease-spring),
-    border-color 0.25s ease,
-    background 0.25s ease;
+  transition: opacity 0.35s var(--ease-smooth), transform 0.45s var(--ease-spring), border-color 0.25s ease, background 0.25s ease;
   pointer-events: none;
 }
 #bannerPromocional.mostrar {
@@ -1784,18 +1935,10 @@ textarea:focus-visible {
   background: rgba(30, 26, 18, 0.85);
   border-color: rgba(251, 191, 36, 0.45);
 }
-
 .banner-shine {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    115deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.12) 45%,
-    rgba(251, 191, 36, 0.18) 50%,
-    rgba(255, 255, 255, 0.12) 55%,
-    transparent 70%
-  );
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.12) 45%, rgba(251, 191, 36, 0.18) 50%, rgba(255, 255, 255, 0.12) 55%, transparent 70%);
   transform: translateX(-120%);
   animation: bannerShine 5s ease-in-out infinite;
   pointer-events: none;
@@ -1804,7 +1947,6 @@ textarea:focus-visible {
   0%, 60%   { transform: translateX(-120%); }
   85%, 100% { transform: translateX(120%); }
 }
-
 .banner-icon {
   width: 30px;
   height: 30px;
@@ -1871,12 +2013,10 @@ textarea:focus-visible {
 }
 #btnInstalarFixo.mostrar { display: flex !important; }
 #btnInstalarFixo i { font-size: 1.2rem; }
-
 @keyframes pulseInstall {
   0%, 100% { transform: scale(1); }
   50%      { transform: scale(1.08); }
 }
-
 #instrucoesInstalar {
   position: fixed;
   inset: 0;
@@ -1888,7 +2028,6 @@ textarea:focus-visible {
   padding: 20px;
 }
 #instrucoesInstalar.active { display: flex; }
-
 .instrucoes-box {
   background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
   border-radius: 24px;
@@ -2196,7 +2335,7 @@ textarea:focus-visible {
   }
 
   /* =========================================================
-     3. CACHE MANAGER (localStorage - mantido)
+     3. CACHE MANAGER
      ========================================================= */
   class CacheManager {
     constructor(maxBytes = 5 * 1024 * 1024) {
@@ -2270,7 +2409,7 @@ textarea:focus-visible {
   const cacheManager = new CacheManager();
 
   /* =========================================================
-     4. APP STATE (⚠️ sistema de senhas intacto)
+     4. APP STATE
      ========================================================= */
   class AppState {
     constructor() {
@@ -2534,7 +2673,7 @@ textarea:focus-visible {
   const notif = (msg, dur = 2000, type = 'info') => notifier.show(msg, dur, type);
 
   /* =========================================================
-     7. OFFLINE DETECTION
+     7. OFFLINE
      ========================================================= */
   function setupOfflineDetection() {
     window.addEventListener('online', () => {
@@ -2944,7 +3083,7 @@ textarea:focus-visible {
   }
 
   /* =========================================================
-     11. SILENT AUDIO / KEEP ALIVE
+     11. SILENT AUDIO
      ========================================================= */
   function criarSilentAudio() {
     const sr = 44100, ns = sr * 5;
@@ -3323,7 +3462,7 @@ textarea:focus-visible {
   }
 
   /* =========================================================
-     15. LOGO → ADMIN (⚠️ INTACTO)
+     15. LOGO → ADMIN
      ========================================================= */
   let clickTimestamps = [];
   dom.logoMacaco.addEventListener('click', function (e) {
@@ -3338,7 +3477,7 @@ textarea:focus-visible {
   });
 
   /* =========================================================
-     16. WHATSAPP / CADASTRO / ADMIN (⚠️ INTACTO)
+     16. WHATSAPP / CADASTRO / ADMIN
      ========================================================= */
   function abrirWhatsAppCompra() {
     const msg = encodeURIComponent('Olá! Quero adquirir o VAI DE BOA! MUSIC VITALÍCIO por R$ 39,00');
@@ -3567,7 +3706,7 @@ textarea:focus-visible {
   }
 
   /* =========================================================
-     20. TOUCH MANAGER (swipe + tap)
+     20. TOUCH MANAGER
      ========================================================= */
   class TouchManager {
     constructor() {
@@ -3801,7 +3940,6 @@ textarea:focus-visible {
       await carregarMidiasPadrao();
       updateProgress(30);
 
-      /* ⚠️ Bloqueio/liberação intactos */
       if (localStorage.getItem('vdb_desbloqueado') === 'true' || localStorage.getItem('vdb_senha_permanente') === 'true') {
         appState.desbloqueado = true;
         dom.blockOverlay.classList.remove('active');
@@ -3866,12 +4004,10 @@ textarea:focus-visible {
       forcarTelaCheia();
       if (appState.desbloqueado) setTimeout(ativarPlayer, 1500);
 
-      /* Ripple */
       document.querySelectorAll('button, .genre-card, .choice-btn, .sheet-item, .fab-sub-btn, .menu-popup button, .ctrl-btn, .sheet-option, .speed-btn').forEach((el) => {
         el.addEventListener('click', addRipple);
       });
 
-      /* Controles principais */
       dom.playBtn.onclick = togglePlay;
       dom.miniPlayBtn.onclick = togglePlay;
       dom.prevBtn.onclick = prev;
@@ -3904,7 +4040,6 @@ textarea:focus-visible {
       dom.closeGenresBtn.onclick = () => dom.genresModal.classList.remove('open');
       dom.closeFavBtn.onclick = () => dom.favModal.classList.remove('open');
 
-      /* Bottom sheets close */
       document.querySelectorAll('.sheet-close').forEach((btn) => {
         btn.onclick = () => {
           const target = btn.dataset.close;
@@ -3927,7 +4062,6 @@ textarea:focus-visible {
         dom.speedSheet.classList.add('open');
       };
 
-      /* Atualizar App */
       dom.atualizarAppBtn.onclick = async () => {
         dom.menuPopup.classList.remove('open');
         if (!confirm('🔄 Atualizar o app agora?\n\nVai limpar o cache e recarregar. Depois é só usar normalmente!')) return;
@@ -3976,7 +4110,6 @@ textarea:focus-visible {
         };
       });
 
-      /* FAB principal */
       dom.fabMain.onclick = () => {
         appState.fabOpen = !appState.fabOpen;
         dom.fabSub.hidden = !appState.fabOpen;
@@ -4009,7 +4142,6 @@ textarea:focus-visible {
       };
       dom.fabQrCode.onclick = () => { fecharFab(); gerarQrCode(); };
 
-      /* Menu popup */
       dom.menuButton.onclick = (e) => {
         e.stopPropagation();
         dom.menuPopup.classList.toggle('open');
@@ -4024,11 +4156,9 @@ textarea:focus-visible {
       dom.sleepMenuBtn.onclick = () => { dom.menuPopup.classList.remove('open'); dom.sleepSheet.classList.add('open'); };
       dom.qrCodeMenuBtn.onclick = () => { dom.menuPopup.classList.remove('open'); gerarQrCode(); };
 
-      /* QR */
       dom.qrCloseBtn.onclick = () => dom.qrCodeModal.classList.remove('active');
       dom.qrCodeModal.onclick = (e) => { if (e.target === dom.qrCodeModal) dom.qrCodeModal.classList.remove('active'); };
 
-      /* Feedback */
       document.querySelectorAll('.star').forEach((star) => {
         star.onclick = () => {
           const r = parseInt(star.dataset.rating);
@@ -4047,12 +4177,10 @@ textarea:focus-visible {
       };
       dom.closeFeedbackBtn.onclick = () => dom.feedbackModal.classList.remove('open');
 
-      /* Senha */
       dom.senhaInput.onkeydown = (e) => { if (e.key === 'Enter') handleLiberar(); };
       dom.btnLiberar.onclick = handleLiberar;
       dom.btnCopiarFingerprint.onclick = () => copiarTexto(appState.fingerprint, '📋 ID copiado!');
 
-      /* Admin (⚠️ INTACTO) */
       dom.adminGerarBtn.onclick = () => {
         const fp = dom.adminFingerprintInput.value.trim();
         if (!fp || fp.length < 10) {
@@ -4094,7 +4222,6 @@ textarea:focus-visible {
       };
       dom.adminCloseBtn.onclick = () => dom.adminPanel.classList.remove('open');
 
-      /* Áudio events */
       dom.audio.ontimeupdate = () => {
         if (dom.audio.duration) {
           const pct = (dom.audio.currentTime / dom.audio.duration) * 100;
@@ -4114,7 +4241,6 @@ textarea:focus-visible {
       };
       dom.audio.oncanplay = () => { errosConsec = 0; };
 
-      /* Teclado */
       document.addEventListener('keydown', (e) => {
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
         if (e.key === ' ') { e.preventDefault(); togglePlay(); }
@@ -4123,7 +4249,6 @@ textarea:focus-visible {
         if (e.key === 's' || e.key === 'S') toggleShuffle();
       });
 
-      /* Toque na tela mostra controles */
       document.addEventListener('click', (e) => {
         if (e.target.closest('button') || e.target.closest('.genre-card') ||
             e.target.closest('.sheet-item') || e.target.closest('#infoScroll') ||
@@ -4131,7 +4256,6 @@ textarea:focus-visible {
         showControls();
       });
 
-      /* Visibilidade */
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') {
           forcarTelaCheia();
@@ -4183,7 +4307,6 @@ textarea:focus-visible {
       iniciarBannerPromocional();
       forcarBotao();
 
-      /* Mini player visível se já tem música */
       if (appState.playlistAtual.length > 0) {
         dom.miniPlayer.hidden = false;
         requestAnimationFrame(() => dom.miniPlayer.classList.add('visible'));
@@ -4198,4 +4321,3 @@ textarea:focus-visible {
 
   iniciar();
 })();
-               
