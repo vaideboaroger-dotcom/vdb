@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>VDB - Exemplo de Mídias</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  html,body{width:100%;height:100%;background:#000;overflow:hidden;position:fixed;top:0;left:0}
+
+  .media-container{
+    position:fixed;inset:0;z-index:0;background:#000;overflow:hidden;
+  }
+
+  .media-container video,
+  .media-container img{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:cover;opacity:0;transition:opacity 1.2s ease-in-out;
+  }
+
+  .media-container .active{opacity:1;z-index:3}
+  .media-container .inactive{opacity:0;z-index:2}
+
+  .info-overlay{
+    position:fixed;top:20px;left:20px;z-index:10;
+    color:#fff;font-size:.85rem;
+    background:rgba(0,0,0,.7);
+    padding:8px 16px;border-radius:20px;
+    border:1px solid rgba(168,85,247,.4);
+    backdrop-filter:blur(10px);
+    font-family:monospace;
+    max-width:90vw;
+    word-break:break-all;
+  }
+  .info-overlay .tipo{color:#22d3ee;font-weight:700}
+  .info-overlay .contador{color:#f472b6;font-weight:700}
+
+  .fallback-aviso{
+    position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+    z-index:10;color:#fbbf24;font-size:.7rem;
+    background:rgba(0,0,0,.85);
+    padding:6px 14px;border-radius:20px;
+    border:1px solid rgba(251,191,36,.5);
+    display:none;
+  }
+  .fallback-aviso.ativo{display:block}
+
+  .bg-reserva{
+    position:fixed;inset:0;z-index:1;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(168,85,247,.5), transparent 55%),
+      radial-gradient(circle at 80% 80%, rgba(34,211,238,.4), transparent 55%),
+      linear-gradient(135deg,#0a0616 0%,#1a0a2e 50%,#0a0616 100%);
+    display:none;
+  }
+  .bg-reserva.ativo{display:block}
+</style>
+</head>
+<body>
+
+<div class="media-container" id="mediaContainer"></div>
+<div class="bg-reserva" id="bgReserva"></div>
+
+<div class="info-overlay">
+  <span>🎬 Mostrando:</span>
+  <span class="tipo" id="infoTipo">—</span>
+  <span>|</span>
+  <span class="contador" id="infoContador">0/0</span>
+</div>
+
+<div class="fallback-aviso" id="fallbackAviso">
+  ⚠️ Mídias não carregaram. Verifique os links.
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ═══════════════════════════════════════════════════════════
+   🎬 URL DO SEU JSON (que está no GitHub)
+   ═══════════════════════════════════════════════════════════ */
+const MIDIAS_URL = 'https://raw.githack.com/vaideboaroger-dotcom/vdb/main/midias.json';
+
+/* ⏱️ Tempo que cada imagem fica (ms) */
+const DURACAO_IMAGEM = 5000;
+
+/* ⏱️ Tempo máximo de vídeo (ms) — se travar, pula */
+const DURACAO_MAX_VIDEO = 60000;
+
+/* ═══════════════════════════════════════════════════════════
+   🎬 INICIALIZAÇÃO
+   ═══════════════════════════════════════════════════════════ */
+const container = document.getElementById('mediaContainer');
+const bgReserva = document.getElementById('bgReserva');
+const infoTipo = document.getElementById('infoTipo');
+const infoContador = document.getElementById('infoContador');
+const fallbackAviso = document.getElementById('fallbackAviso');
+
+let elementos = [];
+let idxAtual = 0;
+
+async function iniciar() {
+  console.log('🎬 Buscando mídias em:', MIDIAS_URL);
+  
+  let lista = [];
+  
+  try {
+    const r = await fetch(MIDIAS_URL + '?t=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    
+    console.log('📦 JSON recebido:', d);
+    
+    // Aceita tanto { medias: [...] } quanto [...]
+    if (Array.isArray(d)) lista = d;
+    else if (d.medias) lista = d.medias;
+    else if (d.midias) lista = d.midias;
+    else if (d.videos) lista = d.videos;
+    
+    console.log('✅ Encontradas', lista.length, 'mídias');
+  } catch(e) {
+    console.error('❌ Erro ao buscar JSON:', e);
+  }
+  
+  if (!lista.length) {
+    console.log('⚠️ Sem mídias. Ativando fundo reserva.');
+    fallbackAviso.classList.add('ativo');
+    bgReserva.classList.add('ativo');
+    return;
+  }
+  
+  // Filtra só o que é válido
+  lista = lista.filter(m => m && (m.tipo === 'video' || m.tipo === 'imagem') && m.src);
+  console.log('🎬 Válidas:', lista.length);
+  
+  if (!lista.length) {
+    bgReserva.classList.add('ativo');
+    return;
+  }
+  
+  // Carrega os elementos
+  await criarElementos(lista);
+  
+  if (elementos.length === 0) {
+    console.log('❌ Nada carregou. Ativando fundo reserva.');
+    fallbackAviso.classList.add('ativo');
+    bgReserva.classList.add('ativo');
+    return;
+  }
+  
+  // Começa a rodar
+  mostrarMidia(0);
+}
+
+async function criarElementos(lista) {
+  for (let i = 0; i < lista.length; i++) {
+    const m = lista[i];
+    console.log(`🔍 [${i+1}/${lista.length}]`, m.tipo, '-', m.src);
+    
+    let el = null;
+    let carregou = false;
+    
+    if (m.tipo === 'video') {
+      el = document.createElement('video');
+      el.src = m.src;
+      el.muted = true;
+      el.playsInline = true;
+      el.setAttribute('playsinline', '');
+      el.setAttribute('webkit-playsinline', '');
+      el.preload = 'auto';
+      el.loop = false;
+      carregou = await esperarCarregamento(el, 'video');
+    } else {
+      el = document.createElement('img');
+      el.src = m.src;
+      el.loading = 'eager';
+      el.alt = 'VDB';
+      carregou = await esperarCarregamento(el, 'imagem');
+    }
+    
+    if (carregou) {
+      el.className = i === 0 ? 'active' : 'inactive';
+      el.style.zIndex = i === 0 ? '3' : '2';
+      el.setAttribute('data-tipo', m.tipo);
+      el.setAttribute('data-src', m.src);
+      container.appendChild(el);
+      elementos.push(el);
+      console.log(`✅ [${i+1}] OK:`, m.src);
+    } else {
+      console.log(`❌ [${i+1}] FALHOU:`, m.src);
+    }
+  }
+  console.log('📦 Total carregado:', elementos.length);
+}
+
+function esperarCarregamento(el, tipo) {
+  return new Promise((resolve) => {
+    const timeout = setTimeout(() => resolve(false), 10000);
+    const ok = () => { clearTimeout(timeout); resolve(true); };
+    const erro = () => { clearTimeout(timeout); resolve(false); };
+    
+    if (tipo === 'video') {
+      if (el.readyState >= 3) { ok(); return; }
+      el.onloadeddata = ok;
+      el.oncanplay = ok;
+      el.onerror = erro;
+    } else {
+      if (el.complete && el.naturalWidth > 0) { ok(); return; }
+      el.onload = ok;
+      el.onerror = erro;
+    }
+  });
+}
+
+function mostrarMidia(indice) {
+  if (elementos.length === 0) return;
+  
+  idxAtual = indice % elementos.length;
+  const atual = elementos[idxAtual];
+  
+  elementos.forEach((el, i) => {
+    if (i === idxAtual) {
+      el.classList.add('active');
+      el.classList.remove('inactive');
+      el.style.zIndex = '3';
+    } else {
+      el.classList.remove('active');
+      el.classList.add('inactive');
+      el.style.zIndex = '2';
+    }
+  });
+  
+  const tipo = atual.getAttribute('data-tipo');
+  const src = atual.getAttribute('data-src');
+  infoTipo.textContent = tipo === 'video' ? '🎬 Vídeo' : '🖼️ Imagem';
+  infoTipo.textContent += ' — ' + src.split('/').pop();
+  infoContador.textContent = (idxAtual + 1) + '/' + elementos.length;
+  
+  console.log(`🎬 [${idxAtual + 1}/${elementos.length}]`, tipo, '-', src);
+  
+  if (tipo === 'video') {
+    atual.currentTime = 0;
+    atual.play().catch(() => {});
+    
+    const onEnded = () => {
+      atual.removeEventListener('ended', onEnded);
+      setTimeout(() => mostrarMidia(idxAtual + 1), 500);
+    };
+    atual.addEventListener('ended', onEnded, { once: true });
+    
+    setTimeout(() => {
+      if (elementos[idxAtual] === atual) {
+        mostrarMidia(idxAtual + 1);
+      }
+    }, DURACAO_MAX_VIDEO);
+  } else {
+    setTimeout(() => {
+      if (elementos[idxAtual] === atual) {
+        mostrarMidia(idxAtual + 1);
+      }
+    }, DURACAO_IMAGEM);
+  }
+}
+
+iniciar();
+
+})();
+</script>
+
+</body>
+</html>
