@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#2563eb">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<link rel="manifest" href="./manifest.json">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Rajdhani:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -18,13 +18,11 @@
 input,textarea{user-select:text!important;-webkit-user-select:text!important}
 button{touch-action:manipulation;font-family:inherit;cursor:pointer}
 html,body{height:100%;width:100%;background:#000;overflow:hidden;position:fixed;top:0;left:0}
-::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-thumb{background:var(--c1);border-radius:5px}
 
 #loading{position:fixed;inset:0;background:linear-gradient(135deg,var(--c2),var(--c1));display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;z-index:99999}
 #loading img{width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.3);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-#loading h1{font-family:'Audiowide';font-size:1.6rem;color:#fff;letter-spacing:6px;text-shadow:0 3px 15px rgba(0,0,0,.5)}
+#loading h1{font-family:'Audiowide';font-size:1.6rem;color:#fff;letter-spacing:6px}
 #loading p{color:rgba(255,255,255,.8);letter-spacing:6px;font-size:.7rem;font-weight:800}
 .loadbar{width:220px;height:5px;background:rgba(0,0,0,.35);border-radius:5px;overflow:hidden}
 .loadbar div{height:100%;width:0%;background:#fff;transition:width .3s;border-radius:5px}
@@ -37,84 +35,60 @@ html,body{height:100%;width:100%;background:#000;overflow:hidden;position:fixed;
 
 #topo{position:relative;z-index:30;padding:calc(10px + var(--st)) 16px 12px;background:linear-gradient(180deg,rgba(0,0,0,.75),transparent);display:flex;flex-direction:column;gap:8px}
 .linha-topo{display:flex;align-items:center;justify-content:space-between;gap:10px;height:36px}
-.timer{font-size:.78rem;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;min-width:76px;text-shadow:0 2px 6px rgba(0,0,0,.7)}
+.timer{font-size:.78rem;font-weight:800;color:#fff;min-width:76px}
 .logo{font-family:'Audiowide';font-size:1.25rem;font-weight:900;letter-spacing:6px;color:#fff;text-align:center;flex:1;text-shadow:0 0 16px var(--c3);cursor:pointer}
-.btn-mini{background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.2);border-radius:50%;width:36px;height:36px;color:#fff;font-size:.95rem;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px)}
+.btn-mini{background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.2);border-radius:50%;width:36px;height:36px;color:#fff;font-size:.95rem;display:flex;align-items:center;justify-content:center}
 .letreiro{display:flex;align-items:center;gap:10px;height:38px;overflow:hidden;cursor:pointer}
 .letreiro i{color:#fff;opacity:.85;flex-shrink:0}
-.letreiro p{font-size:1rem;font-weight:800;color:#fff;white-space:nowrap;animation:scroll 70s linear infinite;text-shadow:0 2px 6px rgba(0,0,0,.8);flex:1;overflow:hidden}
+.letreiro p{font-size:1rem;font-weight:800;color:#fff;white-space:nowrap;animation:scroll 70s linear infinite;flex:1;overflow:hidden}
 @keyframes scroll{0%{transform:translateX(100vw)}100%{transform:translateX(-100%)}}
 
 #meio{flex:1;position:relative;z-index:1}
 
 #player{position:relative;z-index:20;padding:18px 20px 14px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.5) 40%,rgba(0,0,0,.85));display:flex;flex-direction:column;gap:12px;text-align:center}
-.coracao{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);border-radius:50%;width:44px;height:44px;color:#fff;font-size:1.3rem;display:flex;align-items:center;justify-content:center;margin:0 auto;backdrop-filter:blur(10px)}
+.coracao{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);border-radius:50%;width:44px;height:44px;color:#fff;font-size:1.3rem;display:flex;align-items:center;justify-content:center;margin:0 auto}
 .coracao.on{color:#f472b6;background:rgba(244,114,182,.25);border-color:#f472b6}
 .label{font-size:.65rem;font-weight:800;letter-spacing:4px;color:rgba(255,255,255,.7);text-transform:uppercase}
-.nome{font-family:'Rajdhani';font-size:1.6rem;font-weight:800;color:#fff;line-height:1.15;text-shadow:0 3px 12px rgba(0,0,0,.8);word-break:break-word}
-.artista{font-size:.9rem;font-weight:600;color:rgba(255,255,255,.85);text-shadow:0 2px 6px rgba(0,0,0,.6)}
+.nome{font-family:'Rajdhani';font-size:1.6rem;font-weight:800;color:#fff;line-height:1.15;word-break:break-word}
+.artista{font-size:.9rem;font-weight:600;color:rgba(255,255,255,.85)}
 .controles{display:flex;justify-content:center;align-items:center;gap:32px;margin-top:4px}
-.btn-play{background:transparent;border:none;color:#fff;font-size:1.7rem;padding:8px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.7))}
+.btn-play{background:transparent;border:none;color:#fff;font-size:1.7rem;padding:8px}
 .btn-play.big{font-size:2.1rem}
 .btn-play:active{transform:scale(.85)}
 .progresso{margin-top:6px}
-.tempos{display:flex;justify-content:space-between;font-size:.7rem;font-weight:700;color:rgba(255,255,255,.85);margin-bottom:6px;font-variant-numeric:tabular-nums}
+.tempos{display:flex;justify-content:space-between;font-size:.7rem;font-weight:700;color:rgba(255,255,255,.85);margin-bottom:6px}
 .barra{height:5px;background:rgba(0,0,0,.45);border-radius:5px;overflow:hidden;cursor:pointer}
 .barra div{height:100%;width:0%;background:#fff;border-radius:5px;transition:width .2s linear}
 
 #acoes{position:relative;z-index:25;padding:0 12px calc(10px + var(--sb));background:rgba(0,0,0,.85);border-top:1px solid rgba(255,255,255,.08);display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding-top:10px}
-.acao{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:12px 6px;color:#fff;display:flex;flex-direction:column;align-items:center;gap:5px;font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;transition:transform .15s,background .15s;min-height:62px;justify-content:center}
+.acao{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:12px 6px;color:#fff;display:flex;flex-direction:column;align-items:center;gap:5px;font-size:.62rem;font-weight:800;text-transform:uppercase;min-height:62px;justify-content:center}
 .acao i{font-size:1.3rem}
 .acao:active{transform:scale(.94);background:rgba(255,255,255,.14)}
 
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.96);backdrop-filter:blur(20px);z-index:100;display:none;align-items:flex-end;justify-content:center;padding:0}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:100;display:none;align-items:flex-end;justify-content:center}
 .modal.on{display:flex}
-.sheet{background:rgba(15,15,25,.98);border-radius:28px 28px 0 0;width:100%;padding:20px 18px calc(20px + var(--sb));border-top:1px solid rgba(255,255,255,.15);max-height:88vh;overflow-y:auto;animation:up .35s cubic-bezier(.25,.8,.35,1)}
+.sheet{background:rgba(15,15,25,.98);border-radius:28px 28px 0 0;width:100%;padding:20px 18px calc(20px + var(--sb));border-top:1px solid rgba(255,255,255,.15);max-height:88vh;overflow-y:auto;animation:up .35s}
 @keyframes up{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .sheet-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.1)}
 .sheet-header h2{font-family:'Audiowide';font-size:1.1rem;color:#fff;letter-spacing:3px}
 .sheet-close{background:rgba(255,255,255,.08);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:1rem}
 
-.opc-cat{font-size:.65rem;font-weight:800;letter-spacing:3px;color:rgba(255,255,255,.5);text-transform:uppercase;margin:16px 0 8px 4px}
-.opc{width:100%;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:#fff;font-size:.9rem;font-weight:600;display:flex;align-items:center;gap:14px;text-align:left;margin-bottom:8px;transition:background .15s}
+.opc{width:100%;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:#fff;font-size:.9rem;font-weight:600;display:flex;align-items:center;gap:14px;text-align:left;margin-bottom:8px}
 .opc:active{background:rgba(255,255,255,.12)}
 .opc i{width:24px;text-align:center;font-size:1rem;color:var(--c3)}
 
 .gen-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;padding-bottom:16px}
-.gen{position:relative;min-height:96px;border-radius:18px;padding:16px 14px 14px 20px;background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1.5px solid rgba(255,255,255,.12);display:flex;flex-direction:column;justify-content:center;align-items:flex-start;overflow:hidden;text-align:left;width:100%;transition:transform .15s,border-color .15s,box-shadow .15s}
+.gen{position:relative;min-height:96px;border-radius:18px;padding:16px 14px 14px 20px;background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1.5px solid rgba(255,255,255,.12);display:flex;flex-direction:column;justify-content:center;align-items:flex-start;overflow:hidden;text-align:left;width:100%}
 .gen::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:5px;height:60%;background:var(--gc,#22d3ee);border-radius:0 5px 5px 0;box-shadow:0 0 12px var(--gc,#22d3ee)}
-.gen:active{transform:scale(.95);border-color:var(--gc);box-shadow:0 0 20px var(--gc)}
-.gen-nome{font-family:'Rajdhani';font-size:1.2rem;font-weight:800;color:#fff;text-transform:uppercase;text-shadow:0 2px 8px rgba(0,0,0,.7),0 0 16px var(--gc);letter-spacing:.5px;position:relative;z-index:2}
+.gen:active{transform:scale(.95)}
+.gen-nome{font-family:'Rajdhani';font-size:1.2rem;font-weight:800;color:#fff;text-transform:uppercase;position:relative;z-index:2}
 .gen-qtd{font-size:.68rem;color:rgba(255,255,255,.55);font-weight:700;margin-top:4px;position:relative;z-index:2}
-.gen.ok::after{content:'✓';position:absolute;top:8px;right:10px;background:linear-gradient(135deg,#10b981,#059669);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:900;z-index:3}
+.gen.ok::after{content:'✓';position:absolute;top:8px;right:10px;background:#10b981;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:900}
 
-.busca-top{display:flex;gap:8px;margin-bottom:12px}
-.busca-top input{flex:1;padding:14px 18px;border-radius:30px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff;font-size:.95rem;outline:none}
-.busca-top input:focus{border-color:var(--c3)}
-.busca-top button{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:50%;width:46px;height:46px;color:#fff;font-size:1rem}
-.busca-filtros{display:flex;gap:8px;margin-bottom:10px}
-.busca-filtros select{flex:1;padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff;font-size:.82rem;font-weight:700;outline:none}
-.busca-info{text-align:center;font-size:.72rem;color:rgba(255,255,255,.6);font-weight:700;margin-bottom:10px}
-.busca-lista{display:flex;flex-direction:column;gap:8px;max-height:55vh;overflow-y:auto}
-.busca-item{padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:12px;cursor:pointer}
-.busca-item:active{background:rgba(255,255,255,.12)}
-.busca-item .ic{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--c1),var(--c3));display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
-.busca-item .info{flex:1;min-width:0}
-.busca-item .t{color:#fff;font-weight:700;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.busca-item .a{color:rgba(255,255,255,.6);font-size:.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.busca-item .g{font-size:.65rem;color:var(--c3);font-weight:800;padding:4px 10px;background:rgba(59,130,246,.15);border-radius:10px}
-
-.fav-lista{display:flex;flex-direction:column;gap:8px;max-height:55vh;overflow-y:auto}
-.fav-item{padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between}
-.fav-item .t{color:#fff;font-weight:700;font-size:.88rem;display:block}
-.fav-item .a{color:rgba(255,255,255,.6);font-size:.75rem;display:block}
-.fav-item .x{background:transparent;border:none;color:#f472b6;font-size:1.1rem;cursor:pointer}
-.fav-vazio{text-align:center;color:#aaa;padding:30px 20px}
-
-#notif{position:fixed;top:calc(90px + var(--st));left:50%;transform:translateX(-50%);background:rgba(15,15,20,.97);color:#fff;padding:11px 20px;border-radius:22px;font-size:.82rem;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;border:1px solid rgba(255,255,255,.15);font-weight:700;max-width:calc(100vw - 40px);text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+#notif{position:fixed;top:calc(90px + var(--st));left:50%;transform:translateX(-50%);background:rgba(15,15,20,.97);color:#fff;padding:11px 20px;border-radius:22px;font-size:.82rem;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;border:1px solid rgba(255,255,255,.15);font-weight:700}
 #notif.on{opacity:1}
 
-#loadOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9998;align-items:center;justify-content:center;color:#fff;font-size:2rem;backdrop-filter:blur(10px)}
+#loadOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9998;align-items:center;justify-content:center;color:#fff;font-size:2rem}
 #loadOverlay.on{display:flex}
 #loadOverlay i{animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -125,48 +99,52 @@ html,body{height:100%;width:100%;background:#000;overflow:hidden;position:fixed;
 #block h1{font-family:'Audiowide';color:#fff;font-size:2rem;letter-spacing:6px;margin-bottom:6px}
 #block p{color:rgba(255,255,255,.7);margin-bottom:18px;letter-spacing:2px;font-weight:700}
 #block input{width:100%;max-width:380px;padding:16px;border-radius:30px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff;font-size:1rem;text-align:center;margin-bottom:12px;outline:none}
-#block input:focus{border-color:var(--c3)}
-#block .ok{width:100%;max-width:380px;padding:16px;background:linear-gradient(135deg,var(--c1),var(--c3));border:none;border-radius:30px;color:#fff;font-weight:900;font-size:1rem;letter-spacing:2px}
+#block .ok{width:100%;max-width:380px;padding:16px;background:linear-gradient(135deg,var(--c1),var(--c3));border:none;border-radius:30px;color:#fff;font-weight:900;font-size:1rem}
 #block .zap{background:#25d366;border:none;padding:14px;border-radius:30px;color:#fff;font-weight:900;font-size:.9rem;width:100%;max-width:380px;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:8px}
 #block .err{color:#ec4899;font-size:.82rem;min-height:28px;font-weight:700;margin-top:8px}
 #block .fp{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);padding:10px;border-radius:12px;margin-top:12px;max-width:380px;width:100%}
 #block .fp span{font-size:.6rem;color:rgba(255,255,255,.6);font-family:monospace;word-break:break-all;flex:1;text-align:left}
 #block .fp button{background:rgba(255,255,255,.1);border:none;color:#fff;padding:8px 12px;border-radius:10px;font-size:.65rem;font-weight:700}
 
-#sairTV{position:fixed;top:calc(20px + var(--st));right:20px;z-index:99999;width:48px;height:48px;background:rgba(0,0,0,.75);border:2px solid rgba(255,255,255,.35);border-radius:50%;color:#fff;font-size:1.3rem;cursor:pointer;display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(0,0,0,.6)}
-body.tv #sairTV{display:flex}
-body.tv #topo,body.tv #player,body.tv #acoes,body.tv #meio{display:none!important}
-
-/* ═══ TELA DE ANÚNCIOS ═══ */
-#telaAds{position:fixed;inset:0;z-index:90;background:#000;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .5s}
-#telaAds.on{opacity:1;visibility:visible;pointer-events:auto}
-#mediaAds{position:absolute;inset:0;overflow:hidden;background:#000}
-#mediaAds video,#mediaAds img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s}
-#mediaAds .on{opacity:1;z-index:2}
-#btnVoltarAds{position:fixed;bottom:calc(30px + var(--sb));left:50%;transform:translateX(-50%);z-index:95;padding:14px 30px;background:rgba(0,0,0,.85);border:2px solid rgba(255,255,255,.35);border-radius:40px;color:#fff;font-weight:800;font-size:.9rem;letter-spacing:2px;display:flex;align-items:center;gap:10px;backdrop-filter:blur(10px);opacity:0;transition:opacity .4s;cursor:pointer}
-#telaAds.on #btnVoltarAds{opacity:1}
-#btnVoltarAds:active{transform:translateX(-50%) scale(.95);background:var(--c1)}
-
-/* ═══ BANNER PROPAGANDA ═══ */
-#bannerFull{position:fixed;inset:0;z-index:200;background:#000;display:none;align-items:center;justify-content:center;padding:24px;overflow-y:auto}
-#bannerFull.on{display:flex}
-#bannerFechar{position:fixed;top:calc(20px + var(--st));right:20px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10}
-.banner-box{text-align:center;max-width:380px;width:100%}
-.banner-logo{width:96px;height:96px;margin:0 auto 18px;border-radius:50%;background:linear-gradient(135deg,var(--c1),var(--c3));display:flex;align-items:center;justify-content:center;font-size:2.4rem;box-shadow:0 12px 40px rgba(0,0,0,.6)}
-.banner-titulo{font-family:'Audiowide';font-size:1.7rem;letter-spacing:6px;color:#fff;font-weight:900;margin-bottom:8px}
-.banner-sub{color:rgba(255,255,255,.7);letter-spacing:6px;margin-bottom:24px;font-weight:800;font-size:.88rem}
-.banner-preco{background:linear-gradient(135deg,#fbbf24,#f59e0b);border-radius:22px;padding:20px 30px;margin-bottom:24px}
-.banner-valor{font-family:'Audiowide';font-size:2.6rem;color:#000;font-weight:900}
-.banner-label{font-size:.75rem;color:#000;font-weight:800;letter-spacing:2px;margin-top:6px}
-.banner-beneficio{display:flex;align-items:center;justify-content:center;gap:10px;padding:12px 16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:14px;color:#fff;font-weight:700;margin-bottom:10px;font-size:.85rem}
-.banner-cta{background:#25d366;border:none;border-radius:42px;padding:20px 34px;width:100%;font-family:'Audiowide';font-size:1.02rem;color:#fff;font-weight:900;letter-spacing:2px;margin-top:18px;cursor:pointer;box-shadow:0 8px 30px rgba(37,211,102,.4)}
-.banner-cta:active{transform:scale(.97)}
-
-@media(max-width:400px){
-  .nome{font-size:1.35rem}
-  .acao{font-size:.58rem}
-  .gen-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+/* ═══════ BOTÃO INSTALAR APP ═══════ */
+#btnInstalar{
+  position:fixed;
+  bottom:calc(90px + var(--sb));
+  right:16px;
+  z-index:9998;
+  background:linear-gradient(135deg,var(--c1),var(--c3));
+  color:#fff;
+  border:none;
+  border-radius:34px;
+  padding:14px 22px;
+  font-weight:900;
+  font-size:.78rem;
+  letter-spacing:.06em;
+  cursor:pointer;
+  display:none;
+  align-items:center;
+  gap:10px;
+  text-transform:uppercase;
+  box-shadow:0 10px 30px rgba(0,0,0,.7), 0 0 20px rgba(59,130,246,.5);
+  animation:pulseInstalar 2s infinite;
 }
+#btnInstalar.on{display:flex}
+#btnInstalar:active{transform:scale(.94)}
+#btnInstalar i{font-size:1rem}
+@keyframes pulseInstalar{
+  0%,100%{box-shadow:0 10px 30px rgba(0,0,0,.7), 0 0 20px rgba(59,130,246,.5)}
+  50%{box-shadow:0 10px 30px rgba(0,0,0,.7), 0 0 35px rgba(59,130,246,.9)}
+}
+
+/* MODAL INSTRUÇÕES */
+#modalInstalar{position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:100003;display:none;align-items:center;justify-content:center;padding:20px}
+#modalInstalar.on{display:flex}
+.instalar-box{background:#111;border-radius:26px;padding:26px 22px;max-width:400px;width:100%;border:1px solid rgba(255,255,255,.15);text-align:center}
+.instalar-box h3{color:#fff;margin-bottom:18px;font-family:'Audiowide';letter-spacing:3px;font-size:1.15rem}
+.passo{background:rgba(255,255,255,.06);border-radius:16px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:14px;text-align:left}
+.passo .num{background:linear-gradient(135deg,var(--c1),var(--c3));color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.88rem;flex-shrink:0}
+.passo div{color:#fff;font-weight:600;font-size:.85rem}
+#fecharInstalar{background:linear-gradient(135deg,var(--c1),var(--c3));border:none;padding:15px;border-radius:28px;color:#fff;font-weight:900;font-size:.92rem;cursor:pointer;width:100%;margin-top:14px;letter-spacing:2px}
 </style>
 </head>
 <body>
@@ -182,7 +160,7 @@ body.tv #topo,body.tv #player,body.tv #acoes,body.tv #meio{display:none!importan
   <img src="favicon30.png" alt="VDB">
   <h1>VDB</h1>
   <p>🔒 DIGITE SUA SENHA</p>
-  <input type="text" id="senha" placeholder="Digite sua senha" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')">
+  <input type="text" id="senha" placeholder="Digite sua senha" autocomplete="off" readonly onfocus="this.removeAttribute('readonly')">
   <button class="ok" id="btnOk">🔓 LIBERAR ACESSO</button>
   <button class="zap" id="btnZap"><i class="fab fa-whatsapp"></i> FALAR NO WHATSAPP</button>
   <div class="err" id="err"></div>
@@ -229,167 +207,34 @@ body.tv #topo,body.tv #player,body.tv #acoes,body.tv #meio{display:none!importan
   </div>
 </div>
 
-<!-- TELA DE ANÚNCIOS -->
-<div id="telaAds">
-  <div id="mediaAds"></div>
-  <button id="btnVoltarAds"><i class="fas fa-arrow-left"></i> VOLTAR</button>
-</div>
+<!-- ⭐ BOTÃO INSTALAR APP -->
+<button id="btnInstalar"><i class="fas fa-download"></i> INSTALAR APP</button>
 
-<!-- BANNER PROPAGANDA -->
-<div id="bannerFull">
-  <button id="bannerFechar">✕</button>
-  <div class="banner-box">
-    <div class="banner-logo">🎵</div>
-    <div class="banner-titulo">VDB MUSIC</div>
-    <div class="banner-sub">🎵 PREMIUM 🎵</div>
-    <div class="banner-preco">
-      <div class="banner-valor">R$ 39,90</div>
-      <div class="banner-label">VITALÍCIO • PAGA UMA VEZ</div>
-    </div>
-    <div class="banner-beneficio"><i class="fas fa-music"></i> +10 MIL MÚSICAS</div>
-    <div class="banner-beneficio"><i class="fas fa-guitar"></i> TODOS OS GÊNEROS</div>
-    <div class="banner-beneficio"><i class="fas fa-infinity"></i> ACESSO VITALÍCIO</div>
-    <button class="banner-cta" id="bannerCta"><i class="fab fa-whatsapp"></i> QUERO AGORA</button>
+<!-- MODAL INSTRUÇÕES -->
+<div id="modalInstalar">
+  <div class="instalar-box">
+    <h3 id="instTitulo">📲 INSTALAR APP</h3>
+    <div class="passo"><div class="num">1</div><div id="inst1">Toque no menu ⋮</div></div>
+    <div class="passo"><div class="num">2</div><div id="inst2">Toque em "Instalar app"</div></div>
+    <div class="passo"><div class="num">3</div><div id="inst3">Confirme e pronto!</div></div>
+    <button id="fecharInstalar">ENTENDI</button>
   </div>
 </div>
-
-<button id="sairTV">✕</button>
 
 <div class="modal" id="mGen">
   <div class="sheet">
-    <div class="sheet-header">
-      <h2>🎸 GÊNEROS</h2>
-      <button class="sheet-close" data-close="mGen"><i class="fas fa-times"></i></button>
-    </div>
+    <div class="sheet-header"><h2>🎸 GÊNEROS</h2><button class="sheet-close" data-close="mGen"><i class="fas fa-times"></i></button></div>
     <div class="gen-grid" id="genGrid"></div>
-  </div>
-</div>
-
-<div class="modal" id="mBusca">
-  <div class="sheet">
-    <div class="sheet-header">
-      <h2>🔍 BUSCAR</h2>
-      <button class="sheet-close" data-close="mBusca"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="busca-top">
-      <input type="text" id="buscaInput" placeholder="Buscar música ou artista..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-form-type="other">
-      <button id="buscaClose"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="busca-filtros">
-      <select id="buscaGenero"><option value="">🎸 Todos</option></select>
-      <select id="buscaOrdem">
-        <option value="rel">✨ Relevância</option>
-        <option value="az">🔤 A-Z</option>
-        <option value="za">🔤 Z-A</option>
-      </select>
-    </div>
-    <div class="busca-info" id="buscaInfo">Digite pra buscar em todos os gêneros</div>
-    <div class="busca-lista" id="buscaLista"></div>
-  </div>
-</div>
-
-<div class="modal" id="mFav">
-  <div class="sheet">
-    <div class="sheet-header">
-      <h2>❤️ FAVORITAS</h2>
-      <button class="sheet-close" data-close="mFav"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="fav-lista" id="favLista"></div>
   </div>
 </div>
 
 <div class="modal" id="mOpc">
   <div class="sheet">
-    <div class="sheet-header">
-      <h2>⚙️ OPÇÕES</h2>
-      <button class="sheet-close" data-close="mOpc"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="opc-cat">🎵 PLAYER</div>
-    <button class="opc" id="opcVel"><i class="fas fa-tachometer-alt"></i>Velocidade</button>
-    <button class="opc" id="opcSleep"><i class="fas fa-moon"></i>Sleep Timer</button>
+    <div class="sheet-header"><h2>⚙️ OPÇÕES</h2><button class="sheet-close" data-close="mOpc"><i class="fas fa-times"></i></button></div>
+    <button class="opc" id="opcInstalar"><i class="fas fa-download"></i>Instalar App</button>
     <button class="opc" id="opcFull"><i class="fas fa-expand"></i>Tela Cheia</button>
-    <div class="opc-cat">🎨 APARÊNCIA</div>
-    <button class="opc" id="opcTema"><i class="fas fa-palette"></i>Cores do App</button>
-    <button class="opc" id="opcTV"><i class="fas fa-tv"></i>Modo TV</button>
-    <div class="opc-cat">📥 OFFLINE</div>
-    <button class="opc" id="opcBaixar"><i class="fas fa-download"></i>Baixar Gênero Atual</button>
-    <button class="opc" id="opcOff"><i class="fas fa-hdd"></i>Gerenciar Offline</button>
-    <div class="opc-cat">👤 CONTA</div>
     <button class="opc" id="opcShare"><i class="fas fa-share-alt"></i>Compartilhar</button>
-    <div class="opc-cat">📱 APP</div>
-    <button class="opc" id="opcInst"><i class="fas fa-download"></i>Instalar App</button>
     <button class="opc" id="opcReload"><i class="fas fa-sync"></i>Recarregar</button>
-  </div>
-</div>
-
-<div class="modal" id="mTema">
-  <div class="sheet">
-    <div class="sheet-header">
-      <h2>🎨 CORES</h2>
-      <button class="sheet-close" data-close="mTema"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="gen-grid" id="temaGrid"></div>
-  </div>
-</div>
-
-<div class="modal" id="mVel">
-  <div class="sheet">
-    <div class="sheet-header">
-      <h2>⚡ VELOCIDADE</h2>
-      <button class="sheet-close" data-close="mVel"><i class="fas fa-times"></i></button>
-    </div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding:10px 0 20px">
-      <button class="opc" style="width:auto;padding:12px 20px" data-vel="0.5">0.5x</button>
-      <button class="opc" style="width:auto;padding:12px 20px" data-vel="1">1x</button>
-      <button class="opc" style="width:auto;padding:12px 20px" data-vel="1.25">1.25x</button>
-      <button class="opc" style="width:auto;padding:12px 20px" data-vel="1.5">1.5x</button>
-      <button class="opc" style="width:auto;padding:12px 20px" data-vel="2">2x</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="mSleep">
-  <div class="sheet">
-    <div class="sheet-header">
-      <h2>😴 SLEEP TIMER</h2>
-      <button class="sheet-close" data-close="mSleep"><i class="fas fa-times"></i></button>
-    </div>
-    <button class="opc" data-sleep="15">⏱️ 15 minutos</button>
-    <button class="opc" data-sleep="30">⏱️ 30 minutos</button>
-    <button class="opc" data-sleep="60">⏱️ 1 hora</button>
-    <button class="opc" data-sleep="120">⏱️ 2 horas</button>
-    <button class="opc" data-sleep="0">🚫 Cancelar</button>
-  </div>
-</div>
-
-<div class="modal" id="mOff">
-  <div class="sheet">
-    <div class="sheet-header">
-      <h2>📥 MÚSICAS OFFLINE</h2>
-      <button class="sheet-close" data-close="mOff"><i class="fas fa-times"></i></button>
-    </div>
-    <div id="offStats" style="background:rgba(255,255,255,.05);border-radius:14px;padding:14px;margin-bottom:12px;text-align:center;color:#fff;font-weight:700;font-size:.85rem">Carregando...</div>
-    <div id="offLista" style="max-height:40vh;overflow-y:auto;margin-bottom:12px"></div>
-    <button class="opc" id="offLimpar" style="background:#ef4444;justify-content:center">🗑️ LIMPAR TUDO</button>
-  </div>
-</div>
-
-<div class="modal" id="mDown">
-  <div class="sheet">
-    <div class="sheet-header">
-      <h2 id="downTitulo">📥 BAIXANDO</h2>
-    </div>
-    <div style="text-align:center;padding:10px 0">
-      <div style="font-size:2.6rem;margin-bottom:8px">📥</div>
-      <div id="downSub" style="color:rgba(255,255,255,.7);font-size:.85rem;font-weight:700;margin-bottom:14px">Preparando...</div>
-      <div style="height:12px;background:rgba(0,0,0,.5);border-radius:12px;overflow:hidden;margin-bottom:10px">
-        <div id="downFill" style="height:100%;width:0%;background:linear-gradient(90deg,var(--c1),var(--c3));border-radius:12px;transition:width .3s"></div>
-      </div>
-      <div style="display:flex;justify-content:space-between;font-size:.78rem;color:rgba(255,255,255,.7);font-weight:700;margin-bottom:14px">
-        <span id="downCont">0 / 0</span><span id="downAtual"></span>
-      </div>
-      <button class="opc" id="downCancel" style="background:#ef4444;justify-content:center">🛑 CANCELAR</button>
-    </div>
   </div>
 </div>
 
@@ -407,32 +252,15 @@ const CONFIG = {
   SALT: 'vdb_music_2024_x9k7',
   HASH_MASTER: '6c62070b5f5d14e73e27214df05fdda0773523a189eb619c8dcde6de2fbb1631',
   TEMPO_TESTE: 86400,
-  PRECO: 'R$ 39,90',
-  VERSION: 'v63',
-  LOADING_MS: 2500,
-  FADE_IN: 500,
-  FADE_OUT: 300
+  VERSION: 'v65',
+  LOADING_MS: 2500
 };
 
 const TEMAS = {
   azul:{n:'Azul',c1:'#2563eb',c2:'#1e40af',c3:'#3b82f6'},
   roxo:{n:'Roxo',c1:'#7c3aed',c2:'#5b21b6',c3:'#a855f7'},
-  vermelho:{n:'Vermelho',c1:'#dc2626',c2:'#991b1b',c3:'#ef4444'},
   verde:{n:'Verde',c1:'#059669',c2:'#065f46',c3:'#10b981'},
-  rosa:{n:'Rosa',c1:'#db2777',c2:'#9d174d',c3:'#ec4899'},
-  laranja:{n:'Laranja',c1:'#ea580c',c2:'#9a3412',c3:'#f97316'},
-  ciano:{n:'Ciano',c1:'#0891b2',c2:'#155e75',c3:'#06b6d4'},
-  indigo:{n:'Índigo',c1:'#4338ca',c2:'#312e81',c3:'#6366f1'}
-};
-
-const GENRE_COLORS = {
-  'BÔNUS':'#22d3ee','POP/MIX':'#60a5fa','MPB':'#2dd4bf','SERTANEJO':'#fbbf24',
-  'ROMÂNTICA':'#f472b6','FLASHBACK':'#a855f7','NOVIDADES':'#34d399','FUNK':'#f43f5e',
-  'ROCK':'#f472b6','FORRÓ':'#fb923c','DISCO MUSIC':'#fbbf24','SAMBA':'#f59e0b',
-  'PAGODE':'#ef4444','RELIGIOSA':'#8b5cf6','REGGAE':'#10b981','BREGA':'#ec4899',
-  'HIP HOP':'#6366f1','BAILÃO':'#f97316','MODA RAIZ':'#a16207','MODÃO SERTANEJO':'#ca8a04',
-  'SERESTA':'#eab308','FORRÓ RAIZ':'#ea580c','MPB 2':'#14b8a6','CHORINHO':'#0891b2',
-  'TREINO':'#dc2626','MISTURA BRASIL':'#16a34a','GLOBAL HITS':'#0ea5e9','TESTE MIDIA':'#8b5cf6'
+  rosa:{n:'Rosa',c1:'#db2777',c2:'#9d174d',c3:'#ec4899'}
 };
 
 const URLS = {
@@ -443,50 +271,10 @@ const URLS = {
   'MPB':'https://raw.githubusercontent.com/radiolojasjc-hub/mpbtop/refs/heads/main/mpb.json',
   'POP/MIX':'https://raw.githubusercontent.com/radiolojasjc-hub/poptop/refs/heads/main/pop.json',
   'SERTANEJO':'https://raw.githubusercontent.com/radiolojasjc-hub/sertanejo/refs/heads/main/sertanejo.json',
-  'FORRÓ':'https://raw.githubusercontent.com/radiolojasjc-hub/forrodez/refs/heads/main/forrodez.json',
-  'SAMBA':'https://raw.githubusercontent.com/radiolojasjc-hub/sambatop/refs/heads/main/samba.json',
-  'BREGA':'https://raw.githubusercontent.com/radiolojasjc-hub/bregatop/refs/heads/main/brega.json',
-  'REGGAE':'https://raw.githubusercontent.com/radiolojasjc-hub/reggaetop/refs/heads/main/reggae.json',
-  'MODA RAIZ':'https://raw.githubusercontent.com/radiolojasjc-hub/modatop/refs/heads/main/moda.json',
-  'FUNK':'https://raw.githubusercontent.com/radiolojasjc-hub/fank/refs/heads/main/fank.json',
-  'MODÃO SERTANEJO':'https://raw.githubusercontent.com/radiolojasjc-hub/modasertaneja/refs/heads/main/modaosert.json',
-  'CHORINHO':'https://raw.githubusercontent.com/radiolojasjc-hub/chorinho/refs/heads/main/chorinho.json',
-  'FORRÓ RAIZ':'https://raw.githubusercontent.com/radiolojasjc-hub/forroraiz/refs/heads/main/forroraiz.json',
-  'ROCK':'https://raw.githubusercontent.com/radiolojasjc-hub/rock/refs/heads/main/rock.json',
-  'NOVIDADES':'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/novidades.json',
-  'MISTURA BRASIL':'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/misturabrasil.json',
-  'DISCO MUSIC':'https://raw.githubusercontent.com/vaideboaroger-dotcom/vdb/refs/heads/main/discomusic.json',
-  'TREINO':'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/treino.json',
-  'SERESTA':'https://raw.githubusercontent.com/radiolojasjc-hub/sertanejo/refs/heads/main/seresta.json',
-  'MPB 2':'https://raw.githubusercontent.com/radiolojasjc-hub/mpbtop/refs/heads/main/mpb2.json',
-  'HIP HOP':'https://raw.githubusercontent.com/radiolojasjc-hub/poptop/refs/heads/main/hiphop.json',
-  'PAGODE':'https://raw.githubusercontent.com/radiolojasjc-hub/sambatop/refs/heads/main/pagode.json',
-  'BAILÃO':'https://raw.githubusercontent.com/radiolojasjc-hub/forrodez/refs/heads/main/bail%C3%A3o.json',
-  'GLOBAL HITS':'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/globalhits.json'
+  'FORRÓ':'https://raw.githubusercontent.com/radiolojasjc-hub/forrodez/refs/heads/main/forrodez.json'
 };
 
-const ORDEM = ['BÔNUS','POP/MIX','MPB','FORRÓ','SERTANEJO','ROMÂNTICA','FLASHBACK','PAGODE','MODÃO SERTANEJO','ROCK','SERESTA','MPB 2','MODA RAIZ','DISCO MUSIC','FORRÓ RAIZ','BAILÃO','SAMBA','NOVIDADES','BREGA','REGGAE','HIP HOP','RELIGIOSA','FUNK','TESTE MIDIA','MISTURA BRASIL','CHORINHO','TREINO','GLOBAL HITS'];
-
-const REPOS = {};
-Object.keys(URLS).forEach(g => {
-  const m = URLS[g].match(/githubusercontent\.com\/([^\/]+)\/([^\/]+)/);
-  REPOS[g] = m ? m[1] + '/' + m[2] : 'radiolojasjc-hub/play12';
-});
-
-const MIDIAS_URL = 'https://raw.githubusercontent.com/vaideboaroger-dotcom/radiovdb/main/midias.json';
-const MIDIAS_FB = [{tipo:'video', src:'https://raw.githubusercontent.com/vaideboaroger-dotcom/radiovdb/main/bv1.mp4'}];
-const TV_URL = 'https://raw.githubusercontent.com/vaideboaroger-dotcom/radiovdb/main/modotv.json';
-const TV_FB = [
-  {tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/mac1.mp4'},
-  {tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/amytv.mp4'},
-  {tipo:'video', src:'https://raw.githubusercontent.com/radiolojasjc-hub/VDB/refs/heads/main/tvbob.mp4'}
-];
-
-const ADS_URL = 'https://raw.githubusercontent.com/vaideboaroger-dotcom/radiovdb/main/anuncios.json';
-const ADS_FB = [
-  {tipo:'video', src:'https://raw.githubusercontent.com/vaideboaroger-dotcom/radiovdb/main/tes.mp4'},
-  {tipo:'video', src:'https://raw.githubusercontent.com/vaideboaroger-dotcom/radiovdb/main/xb.mp4'}
-];
+const ORDEM = ['BÔNUS','POP/MIX','MPB','FORRÓ','SERTANEJO','ROMÂNTICA','FLASHBACK','RELIGIOSA'];
 
 const $ = id => document.getElementById(id);
 const now = () => Date.now();
@@ -494,24 +282,6 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 const fmtT = s => { if(!s||isNaN(s)) return '0:00'; const m=Math.floor(s/60),sg=Math.floor(s%60); return m+':'+(sg<10?'0':'')+sg; };
 const vib = (p=15) => { try{ if(navigator.vibrate) navigator.vibrate(p); }catch(e){} };
 const san = t => { if(!t) return ''; const d = document.createElement('div'); d.textContent = t; return d.textContent; };
-
-function fmtTempo(s){
-  if(s<0)s=0;s=Math.floor(s);
-  const d=Math.floor(s/86400),h=Math.floor((s%86400)/3600),m=Math.floor((s%3600)/60);
-  if(d>0) return d+'d '+h+'h';
-  if(h>0) return h+'h '+m+'m';
-  return m+'m';
-}
-
-function shuffle(arr){
-  if(!arr||!arr.length) return [];
-  const x = [...arr];
-  const rec = state.recentes;
-  const limpo = x.filter(m => !rec.has(m.id));
-  const base = limpo.length > Math.max(5, Math.floor(x.length*0.3)) ? limpo : x;
-  for(let i=base.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [base[i],base[j]]=[base[j],base[i]]; }
-  return base;
-}
 
 async function sha256(t){
   const b = new TextEncoder().encode(t);
@@ -535,31 +305,17 @@ const state = {
   tocando: false,
   genero: 'BÔNUS',
   favs: [],
-  historico: [],
   recentes: new Set(),
-  tema: 'azul',
   playerAtivo: false,
-  ativo: false,
   carregando: false,
-  modoTV: false,
   cacheGeneros: new Map()
 };
 
-function salvarFavs(){ try{ localStorage.setItem('vdb_favs', JSON.stringify(state.favs)); }catch(e){} }
-function carregarFavs(){ try{ const s = localStorage.getItem('vdb_favs'); if(s) state.favs = JSON.parse(s); }catch(e){} }
-function salvarRecentes(){ try{ localStorage.setItem('vdb_rec', JSON.stringify([...state.recentes].slice(-30))); }catch(e){} }
-function carregarRecentes(){ try{ const s = localStorage.getItem('vdb_rec'); if(s) state.recentes = new Set(JSON.parse(s)); }catch(e){} }
-
-function aplicarTema(nome){
-  const t = TEMAS[nome] || TEMAS.azul;
-  const r = document.documentElement;
-  r.style.setProperty('--c1', t.c1);
-  r.style.setProperty('--c2', t.c2);
-  r.style.setProperty('--c3', t.c3);
-  const meta = document.querySelector('meta[name="theme-color"]');
-  if(meta) meta.setAttribute('content', t.c1);
-  state.tema = nome;
-  try{ localStorage.setItem('vdb_tema', nome); }catch(e){}
+function shuffle(arr){
+  if(!arr||!arr.length) return [];
+  const x = [...arr];
+  for(let i=x.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [x[i],x[j]]=[x[j],x[i]]; }
+  return x;
 }
 
 async function carregarGenero(g){
@@ -587,42 +343,13 @@ async function carregarGenero(g){
   return null;
 }
 
-let todosMusicasCarregadas = false;
-async function carregarTODOSparaBusca(){
-  if(todosMusicasCarregadas) return;
-  notif('🔍 Carregando catálogo...', 3000);
-  const promessas = ORDEM.map(g => carregarGenero(g).catch(() => null));
-  const resultados = await Promise.all(promessas);
-  const todas = [];
-  resultados.forEach((r) => {
-    if(r && r.length){ r.forEach(m => todas.push(m)); }
-  });
-  state.musicas = todas;
-  todosMusicasCarregadas = true;
-  notif('✅ ' + todas.length + ' músicas carregadas', 2500);
-}
-
 function getUrls(m){
   const s = m.src || '';
   if(!s) return [];
   if(s.startsWith('http')) return [s + (s.includes('?')?'&':'?') + 'v=' + CONFIG.VERSION];
   const n = s.replace(/^\.\//,'').replace(/[^a-zA-Z0-9\-_.]/g,'');
-  const repo = REPOS[m.genero] || 'radiolojasjc-hub/play12';
+  const repo = 'radiolojasjc-hub/play12';
   return ['https://raw.githubusercontent.com/' + repo + '/refs/heads/main/' + n + '?v=' + CONFIG.VERSION];
-}
-
-async function proximaMusica(){
-  if(!state.playlist.length) return null;
-  if(state.indice >= state.playlist.length){
-    if(state.playlist.length <= 1){ state.indice = 0; return state.playlist[0]; }
-    if(state.recentes.size >= state.playlist.length * 0.8){
-      state.recentes = new Set();
-      try{ localStorage.removeItem('vdb_rec'); }catch(e){}
-    }
-    state.playlist = shuffle(state.playlist);
-    state.indice = 0;
-  }
-  return state.playlist[state.indice];
 }
 
 async function tocar(){
@@ -632,41 +359,15 @@ async function tocar(){
   $('loadOverlay').classList.add('on');
   try{
     $('btnPlay').innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-    if(!a.paused && a.src){
-      const v0 = a.volume;
-      await new Promise(r => {
-        let s = 0; const i = setInterval(() => { s++; a.volume = Math.max(0, v0 * (1 - s/15)); if(s>=15){ clearInterval(i); r(); } }, CONFIG.FADE_OUT/15);
-      });
-    }
-    const m = await proximaMusica();
+    const m = state.playlist[state.indice];
     if(!m){ state.carregando = false; $('loadOverlay').classList.remove('on'); return; }
     
     $('nome').textContent = san(m.title);
     $('artista').textContent = san(m.artist);
-    $('scroll').innerHTML = '🎵 <b>' + san(m.title) + '</b> — ' + san(m.artist) + ' • VDB MUSIC • ' + CONFIG.PRECO;
-    atualizarCoracao();
-    
-    state.historico = state.historico.filter(h => h.id !== m.id);
-    state.historico.unshift(m);
-    if(state.historico.length > 20) state.historico.pop();
-    state.recentes.add(m.id);
-    salvarRecentes();
-    
-    if('mediaSession' in navigator){
-      try{
-        navigator.mediaSession.metadata = new MediaMetadata({
-          title: m.title, artist: m.artist, album: m.genero,
-          artwork: [{src:'favicon30.png', sizes:'512x512', type:'image/png'}]
-        });
-        navigator.mediaSession.setActionHandler('play', togglePlay);
-        navigator.mediaSession.setActionHandler('pause', togglePlay);
-        navigator.mediaSession.setActionHandler('previoustrack', prev);
-        navigator.mediaSession.setActionHandler('nexttrack', prox);
-      }catch(e){}
-    }
+    $('scroll').innerHTML = '🎵 <b>' + san(m.title) + '</b> — ' + san(m.artist) + ' • VDB MUSIC';
     
     try{ a.pause(); }catch(e){}
-    const urls = getUrls(m).slice(0, 5);
+    const urls = getUrls(m).slice(0, 3);
     let ok = false;
     for(const u of urls){
       try{
@@ -685,20 +386,14 @@ async function tocar(){
       try{
         a.volume = 0;
         await a.play();
-        const vf = parseFloat(localStorage.getItem('vdb_vol') || '1');
-        await new Promise(r => {
-          const st = performance.now();
-          function step(t){
-            const p = Math.min(1, (t-st)/CONFIG.FADE_IN);
-            a.volume = Math.min(vf, (1-Math.pow(1-p,2))*vf);
-            if(p<1) requestAnimationFrame(step);
-            else { a.volume = vf; r(); }
-          }
-          requestAnimationFrame(step);
-        });
+        let v = 0;
+        const iv = setInterval(() => {
+          v += 0.1;
+          if(v >= 1){ a.volume = 1; clearInterval(iv); }
+          else a.volume = v;
+        }, 40);
         state.tocando = true;
         $('btnPlay').innerHTML = '<i class="fas fa-pause"></i>';
-        if('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
       }catch(e){
         $('btnPlay').innerHTML = '<i class="fas fa-play"></i>';
         setTimeout(prox, 500);
@@ -723,7 +418,6 @@ function togglePlay(){
     a.pause();
     state.tocando = false;
     $('btnPlay').innerHTML = '<i class="fas fa-play"></i>';
-    if('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
   }
 }
 
@@ -755,36 +449,21 @@ function toggleFav(){
   if(!m) return;
   const i = state.favs.findIndex(f => f.id === m.id);
   if(i > -1){ state.favs.splice(i,1); notif('💔 Removida'); }
-  else{ state.favs.push({id:m.id, title:m.title, artist:m.artist, src:m.src, genero:m.genero}); notif('❤️ Adicionada'); }
-  salvarFavs();
+  else{ state.favs.push({id:m.id, title:m.title, artist:m.artist}); notif('❤️ Adicionada'); }
   atualizarCoracao();
-}
-
-function gerarOff(g){
-  try{
-    const m = JSON.parse(localStorage.getItem('vdb_off') || '{}');
-    return m[g] && m[g].completo;
-  }catch(e){ return false; }
-}
-function qtdOff(g){
-  try{
-    const m = JSON.parse(localStorage.getItem('vdb_off') || '{}');
-    return m[g] ? m[g].baixadas : 0;
-  }catch(e){ return 0; }
 }
 
 function renderGeneros(){
   const grid = $('genGrid');
   grid.innerHTML = '';
   ORDEM.forEach(g => {
-    const cor = GENRE_COLORS[g] || '#22d3ee';
+    const cores = ['#22d3ee','#60a5fa','#2dd4bf','#fbbf24','#f472b6','#a855f7','#34d399','#8b5cf6'];
+    const cor = cores[ORDEM.indexOf(g) % cores.length];
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'gen';
     b.style.setProperty('--gc', cor);
-    if(gerarOff(g)) b.classList.add('ok');
-    const q = qtdOff(g);
-    b.innerHTML = '<div class="gen-nome">' + g + '</div>' + (q > 0 ? '<div class="gen-qtd">' + q + ' offline</div>' : '');
+    b.innerHTML = '<div class="gen-nome">' + g + '</div>';
     b.onclick = () => escolherGenero(g);
     grid.appendChild(b);
   });
@@ -798,13 +477,10 @@ async function escolherGenero(g){
   const a = $('audio');
   a.pause();
   state.tocando = false;
-  $('btnPlay').innerHTML = '<i class="fas fa-play"></i>';
   state.musicas = m;
   state.genero = g;
   state.playlist = shuffle(m);
   state.indice = 0;
-  state.recentes = new Set();
-  salvarRecentes();
   $('lbl').textContent = '🎵 ' + g;
   $('loadOverlay').classList.remove('on');
   fecharModal('mGen');
@@ -818,495 +494,6 @@ function abrirModal(id){
   vib(10);
 }
 function fecharModal(id){ $(id).classList.remove('on'); }
-
-const Busca = {
-  gen: '',
-  ordem: 'rel',
-  termo: '',
-  init(){
-    const sel = $('buscaGenero');
-    ORDEM.forEach(g => {
-      const o = document.createElement('option');
-      o.value = g;
-      o.textContent = '🎸 ' + g;
-      sel.appendChild(o);
-    });
-    sel.onchange = () => { this.gen = sel.value; this.buscar(); };
-    $('buscaOrdem').onchange = e => { this.ordem = e.target.value; this.buscar(); };
-    let tm = null;
-    $('buscaInput').oninput = e => {
-      clearTimeout(tm);
-      tm = setTimeout(() => { this.termo = e.target.value.toLowerCase().trim(); this.buscar(); }, 250);
-    };
-    $('buscaInput').onkeydown = e => { if(e.key === 'Enter') this.buscar(); };
-    $('buscaClose').onclick = () => fecharModal('mBusca');
-  },
-  async abrir(){
-    abrirModal('mBusca');
-    setTimeout(() => $('buscaInput').focus(), 300);
-    if(!todosMusicasCarregadas && state.musicas.length < 100){
-      await carregarTODOSparaBusca();
-    }
-    this.buscar();
-  },
-  buscar(){
-    const lista = $('buscaLista');
-    const info = $('buscaInfo');
-    if(!todosMusicasCarregadas && !state.musicas.length){
-      info.textContent = '⏳ Carregando catálogo...';
-      lista.innerHTML = '';
-      return;
-    }
-    let r = state.musicas;
-    if(this.termo){
-      r = r.filter(m => {
-        const t = (m.title || '').toLowerCase();
-        const a = (m.artist || '').toLowerCase();
-        return t.includes(this.termo) || a.includes(this.termo);
-      });
-    }
-    if(this.gen) r = r.filter(m => m.genero === this.gen);
-    if(this.ordem === 'az') r = [...r].sort((a,b) => (a.title||'').localeCompare(b.title||''));
-    else if(this.ordem === 'za') r = [...r].sort((a,b) => (b.title||'').localeCompare(a.title||''));
-    
-    info.textContent = r.length ? '✅ ' + r.length + ' música(s) encontrada(s)' : '❌ Nenhuma encontrada';
-    if(!r.length){
-      lista.innerHTML = '<div style="text-align:center;color:#888;padding:30px">🔍<br><br>Nada encontrado<br><small>Digite nome da música ou do artista</small></div>';
-      return;
-    }
-    lista.innerHTML = '';
-    r.slice(0, 150).forEach(m => {
-      const d = document.createElement('div');
-      d.className = 'busca-item';
-      d.innerHTML = '<div class="ic"><i class="fas fa-music"></i></div><div class="info"><div class="t">' + san(m.title) + '</div><div class="a">' + san(m.artist) + '</div></div><span class="g">' + (m.genero||'') + '</span>';
-      d.onclick = () => {
-        const i = state.playlist.findIndex(x => x.id === m.id);
-        if(i > -1) state.indice = i;
-        else { state.playlist = [m, ...shuffle(state.musicas.filter(x => x.id !== m.id))]; state.indice = 0; }
-        if(state.playerAtivo) tocar();
-        fecharModal('mBusca');
-        notif('🎵 ' + m.title);
-      };
-      lista.appendChild(d);
-    });
-  }
-};
-
-function renderFavs(){
-  const l = $('favLista');
-  if(!state.favs.length){
-    l.innerHTML = '<div class="fav-vazio">💔 Nenhuma favorita ainda<br><br><small>Aperte no coração<br>durante a música</small></div>';
-    return;
-  }
-  l.innerHTML = '';
-  state.favs.forEach(f => {
-    const d = document.createElement('div');
-    d.className = 'fav-item';
-    d.innerHTML = '<div><span class="t">' + san(f.title) + '</span><span class="a">' + san(f.artist) + '</span></div><button class="x"><i class="fas fa-times-circle"></i></button>';
-    d.onclick = e => {
-      if(e.target.closest('.x')) return;
-      const i = state.playlist.findIndex(x => x.id === f.id);
-      if(i > -1) state.indice = i;
-      else { state.playlist = [f, ...shuffle(state.musicas.filter(x => x.id !== f.id))]; state.indice = 0; }
-      if(state.playerAtivo) tocar();
-      fecharModal('mFav');
-    };
-    d.querySelector('.x').onclick = e => {
-      e.stopPropagation();
-      state.favs = state.favs.filter(x => x.id !== f.id);
-      salvarFavs();
-      renderFavs();
-      atualizarCoracao();
-    };
-    l.appendChild(d);
-  });
-}
-
-function renderTemas(){
-  const g = $('temaGrid');
-  g.innerHTML = '';
-  Object.keys(TEMAS).forEach(k => {
-    const t = TEMAS[k];
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'gen';
-    b.style.setProperty('--gc', t.c3);
-    if(state.tema === k) b.classList.add('ok');
-    b.innerHTML = '<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,' + t.c1 + ',' + t.c3 + ');box-shadow:0 4px 12px rgba(0,0,0,.5);margin-bottom:8px"></div><div class="gen-nome" style="font-size:.9rem">' + t.n + '</div>';
-    b.onclick = () => { aplicarTema(k); renderTemas(); notif('🎨 ' + t.n); };
-    g.appendChild(b);
-  });
-}
-
-const CACHE_MUS = 'vdb-musicas';
-let baixando = false, cancelarBaixa = false;
-
-async function cacheOpen(){ return await caches.open(CACHE_MUS); }
-
-async function salvarOff(url){
-  try{
-    const c = await cacheOpen();
-    if(await c.match(url)) return true;
-    const r = await fetch(url, {signal: AbortSignal.timeout(25000)});
-    if(!r.ok) return false;
-    await c.put(url, r.clone());
-    return true;
-  }catch(e){ return false; }
-}
-
-async function baixarGeneroCompleto(gen, musicas, onProg){
-  if(baixando){ notif('⚠️ Já baixando...'); return; }
-  baixando = true;
-  cancelarBaixa = false;
-  let ok = 0, falhou = 0;
-  const total = musicas.length;
-  
-  for(let i = 0; i < musicas.length; i += 5){
-    if(cancelarBaixa) break;
-    const lote = musicas.slice(i, i+5);
-    const res = await Promise.allSettled(lote.map(async m => {
-      const urls = getUrls(m);
-      for(const u of urls){
-        if(await salvarOff(u)) return true;
-      }
-      return false;
-    }));
-    res.forEach(r => { if(r.status === 'fulfilled' && r.value) ok++; else falhou++; });
-    if(onProg) onProg({atual: Math.min(i+5, total), total, ok, falhou});
-    try{
-      const meta = JSON.parse(localStorage.getItem('vdb_off') || '{}');
-      meta[gen] = {baixadas: ok, total, completo: false, data: now()};
-      localStorage.setItem('vdb_off', JSON.stringify(meta));
-    }catch(e){}
-  }
-  
-  try{
-    const meta = JSON.parse(localStorage.getItem('vdb_off') || '{}');
-    meta[gen] = {baixadas: ok, total, completo: ok >= total * 0.9, data: now()};
-    localStorage.setItem('vdb_off', JSON.stringify(meta));
-  }catch(e){}
-  
-  baixando = false;
-  renderGeneros();
-  return {ok, falhou, total};
-}
-
-async function iniciarDownload(){
-  if(!state.musicas.length){ notif('⚠️ Escolha um gênero'); return; }
-  if(gerarOff(state.genero)){ notif('✅ Já offline'); return; }
-  fecharModal('mOpc');
-  abrirModal('mDown');
-  $('downTitulo').textContent = '📥 ' + state.genero;
-  $('downSub').textContent = 'Preparando...';
-  $('downFill').style.width = '0%';
-  $('downCont').textContent = '0 / ' + state.musicas.length;
-  $('downAtual').textContent = '';
-  const r = await baixarGeneroCompleto(state.genero, state.musicas, p => {
-    const pct = (p.atual / p.total) * 100;
-    $('downFill').style.width = pct + '%';
-    $('downCont').textContent = p.atual + ' / ' + p.total;
-    $('downSub').textContent = p.ok + ' baixadas • ' + p.falhou + ' falhas';
-  });
-  $('downSub').textContent = cancelarBaixa ? '🛑 Cancelado' : '✅ Concluído!';
-  $('downCont').textContent = r.ok + ' / ' + r.total;
-  notif('✅ ' + r.ok + ' músicas offline!', 3000);
-  setTimeout(() => fecharModal('mDown'), 2500);
-}
-
-async function abrirOffline(){
-  fecharModal('mOpc');
-  abrirModal('mOff');
-  const meta = JSON.parse(localStorage.getItem('vdb_off') || '{}');
-  let total = 0;
-  Object.keys(meta).forEach(g => total += (meta[g].baixadas || 0));
-  let uso = '0 MB';
-  try{
-    if(navigator.storage && navigator.storage.estimate){
-      const e = await navigator.storage.estimate();
-      uso = (e.usage/1024/1024).toFixed(1) + ' MB';
-    }
-  }catch(e){}
-  $('offStats').innerHTML = '📊 <b>' + total + '</b> músicas offline<br>💾 <b>' + uso + '</b> usados';
-  const lista = $('offLista');
-  lista.innerHTML = '';
-  const gs = Object.keys(meta);
-  if(!gs.length){ lista.innerHTML = '<div style="text-align:center;color:#888;padding:20px">Nenhum gênero baixado</div>'; return; }
-  gs.forEach(g => {
-    const info = meta[g];
-    const d = document.createElement('div');
-    d.className = 'opc';
-    d.innerHTML = '<div style="flex:1"><b>' + g + '</b><div style="font-size:.75rem;color:rgba(255,255,255,.6)">' + info.baixadas + '/' + info.total + ' ' + (info.completo?'✓':'') + '</div></div><button style="background:transparent;border:none;color:#ec4899;font-size:1.1rem"><i class="fas fa-trash"></i></button>';
-    d.querySelector('button').onclick = async e => {
-      e.stopPropagation();
-      const c = await cacheOpen();
-      const ks = await c.keys();
-      for(const k of ks){
-        if(k.url.toLowerCase().includes(g.toLowerCase().replace(/[^a-z]/g,''))) await c.delete(k);
-      }
-      delete meta[g];
-      localStorage.setItem('vdb_off', JSON.stringify(meta));
-      abrirOffline();
-      renderGeneros();
-      notif('🗑️ ' + g + ' removido');
-    };
-    lista.appendChild(d);
-  });
-}
-
-/* ═══════ ANÚNCIOS — TELA CHEIA ═══════ */
-let adsAtivo = false;
-let adsVideos = [];
-let adsTimer = null;
-
-async function trocarPraAds(){
-  if(adsAtivo || state.modoTV) return;
-  if(document.querySelector('.modal.on, #bannerFull.on, #block.on')) return;
-  adsAtivo = true;
-  
-  const tela = $('telaAds');
-  const el = $('mediaAds');
-  el.innerHTML = '';
-  adsVideos = [];
-  tela.classList.add('on');
-  
-  try{
-    let list = [];
-    try{
-      const r = await fetch(ADS_URL + '?v=' + CONFIG.VERSION + '&t=' + now(), {signal: AbortSignal.timeout(6000)});
-      if(r.ok){ const j = await r.json(); list = Array.isArray(j) ? j : (j.medias || j.midias || []); }
-    }catch(e){}
-    if(!list.length) list = ADS_FB;
-    list = list.filter(m => m && m.src);
-    if(!list.length){ sairAds(); return; }
-    
-    list.forEach((m, i) => {
-      const u = m.src + (m.src.includes('?')?'&':'?') + 'v=' + CONFIG.VERSION;
-      let e;
-      if(m.tipo === 'video'){
-        e = document.createElement('video');
-        e.src = u; e.muted = true; e.loop = false; e.playsInline = true; e.preload = 'auto';
-        e.setAttribute('playsinline',''); e.setAttribute('muted','');
-      }else{
-        e = document.createElement('img');
-        e.src = u; e.alt = 'VDB';
-      }
-      e.className = i === 0 ? 'on' : '';
-      el.appendChild(e);
-      adsVideos.push(e);
-    });
-    
-    let idx = 0;
-    function tocarAds(n){
-      if(!adsAtivo) return;
-      const e = adsVideos[n];
-      if(!e) return;
-      adsVideos.forEach((x, j) => {
-        x.classList.toggle('on', j === n);
-        if(j !== n && x.tagName === 'VIDEO'){ try{ x.pause(); x.currentTime = 0; }catch(er){} }
-      });
-      if(e.tagName === 'VIDEO'){
-        try{ e.currentTime = 0; }catch(er){}
-        e.play().catch(()=>{});
-        e.onended = () => {
-          if(!adsAtivo) return;
-          setTimeout(() => {
-            idx = (idx + 1) % adsVideos.length;
-            tocarAds(idx);
-          }, 500);
-        };
-      }else{
-        setTimeout(() => {
-          if(!adsAtivo) return;
-          idx = (idx + 1) % adsVideos.length;
-          tocarAds(idx);
-        }, 6000);
-      }
-    }
-    tocarAds(0);
-  }catch(e){ sairAds(); }
-}
-
-function sairAds(){
-  if(!adsAtivo) return;
-  adsAtivo = false;
-  $('telaAds').classList.remove('on');
-  const el = $('mediaAds');
-  el.querySelectorAll('video').forEach(v => { try{ v.pause(); v.removeAttribute('src'); v.load(); }catch(e){} });
-  setTimeout(() => { el.innerHTML = ''; adsVideos = []; }, 600);
-}
-
-/* ═══════ BANNER PROPAGANDA ═══════ */
-let bannerTimer = null;
-let bannerJaFoiFechado = false;
-
-function mostrarBanner(){
-  if(bannerJaFoiFechado) return;
-  if(!state.playerAtivo) return;
-  if(state.modoTV) return;
-  if(adsAtivo) return;
-  if(document.querySelector('.modal.on')) return;
-  $('bannerFull').classList.add('on');
-}
-
-function esconderBanner(){
-  $('bannerFull').classList.remove('on');
-  bannerJaFoiFechado = true;
-  clearTimeout(bannerTimer);
-}
-
-function agendarBanner(){
-  clearTimeout(bannerTimer);
-  bannerTimer = setTimeout(() => {
-    mostrarBanner();
-    agendarBanner();
-  }, 600000); /* 10 minutos */
-}
-
-/* ═══════ CICLO DE TELAS ═══════ */
-let cicloTimer = null;
-function agendarCiclo(){
-  clearTimeout(cicloTimer);
-  cicloTimer = setTimeout(() => {
-    if(!state.playerAtivo){ agendarCiclo(); return; }
-    if(state.modoTV){ agendarCiclo(); return; }
-    if(document.querySelector('.modal.on, #bannerFull.on, #block.on')){ agendarCiclo(); return; }
-    if(adsAtivo) sairAds();
-    else trocarPraAds();
-    agendarCiclo();
-  }, 30000);
-}
-
-/* ═══════ MODO TV ═══════ */
-let videosTV = [];
-let idxTV = 0;
-
-async function entrarModoTV(){
-  if(state.modoTV) return;
-  state.modoTV = true;
-  vib(20);
-  document.body.classList.add('tv');
-  $('sairTV').style.display = 'flex';
-  
-  const el = $('bg');
-  el.innerHTML = '';
-  videosTV = [];
-  
-  try{
-    let list = [];
-    try{
-      const r = await fetch(TV_URL + '?v=' + CONFIG.VERSION + '&t=' + now(), {signal: AbortSignal.timeout(8000)});
-      if(r.ok){ const j = await r.json(); list = Array.isArray(j) ? j : (j.medias || j.midias || []); }
-    }catch(e){}
-    if(!list.length) list = TV_FB;
-    list = list.filter(m => m && m.src && m.tipo === 'video');
-    if(!list.length) list = TV_FB;
-    
-    list.forEach((m, i) => {
-      const v = document.createElement('video');
-      v.src = m.src + (m.src.includes('?')?'&':'?') + 'v=' + CONFIG.VERSION;
-      v.muted = true;
-      v.playsInline = true;
-      v.preload = 'auto';
-      v.setAttribute('playsinline','');
-      v.setAttribute('muted','');
-      v.className = i === 0 ? 'on' : '';
-      el.appendChild(v);
-      videosTV.push(v);
-    });
-    
-    if(videosTV.length){
-      idxTV = 0;
-      tocarVideoTV(0);
-    }
-  }catch(e){ console.error(e); }
-  
-  notif('📺 Modo TV — ← → troca música');
-}
-
-function tocarVideoTV(n){
-  if(!state.modoTV) return;
-  const v = videosTV[n];
-  if(!v) return;
-  videosTV.forEach((x, j) => {
-    x.classList.toggle('on', j === n);
-    if(j !== n){ try{ x.pause(); x.currentTime = 0; }catch(e){} }
-  });
-  try{ v.currentTime = 0; }catch(e){}
-  v.play().catch(()=>{});
-  v.onended = () => {
-    if(!state.modoTV) return;
-    setTimeout(() => {
-      idxTV = (idxTV + 1) % videosTV.length;
-      tocarVideoTV(idxTV);
-    }, 500);
-  };
-}
-
-function sairModoTV(){
-  if(!state.modoTV) return;
-  state.modoTV = false;
-  vib(20);
-  document.body.classList.remove('tv');
-  $('sairTV').style.display = 'none';
-  carregarMidias();
-  notif('🎵 Modo Normal');
-}
-
-function fullscreen(){
-  if(document.fullscreenElement || document.webkitFullscreenElement) return;
-  const el = document.documentElement;
-  const req = el.requestFullscreen || el.webkitRequestFullscreen;
-  if(req){ try{ req.call(el, {navigationUI:'hide'}).catch(()=>{}); }catch(e){} }
-}
-
-let mediaToken = 0;
-async function carregarMidias(){
-  if(state.modoTV) return;
-  const el = $('bg');
-  const tk = ++mediaToken;
-  el.innerHTML = '';
-  try{
-    let list = [];
-    try{
-      const r = await fetch(MIDIAS_URL + '?v=' + CONFIG.VERSION + '&t=' + now(), {signal: AbortSignal.timeout(8000)});
-      if(r.ok){ const j = await r.json(); list = Array.isArray(j) ? j : (j.medias || j.midias || []); }
-    }catch(e){}
-    if(!list.length) list = MIDIAS_FB;
-    list = list.filter(m => m && m.src);
-    if(tk !== mediaToken) return;
-    if(!list.length) return;
-    
-    const els = list.map((m, i) => {
-      const u = m.src + (m.src.includes('?')?'&':'?') + 'v=' + CONFIG.VERSION;
-      let e;
-      if(m.tipo === 'video'){
-        e = document.createElement('video');
-        e.src = u; e.muted = true; e.playsInline = true; e.preload = 'auto';
-        e.setAttribute('playsinline',''); e.setAttribute('muted','');
-      }else{
-        e = document.createElement('img');
-        e.src = u; e.alt = 'VDB';
-      }
-      e.className = i === 0 ? 'on' : '';
-      el.appendChild(e);
-      return e;
-    });
-    
-    let idx = 0;
-    function tocar(n){
-      if(tk !== mediaToken || state.modoTV) return;
-      els.forEach((x, j) => { x.classList.toggle('on', j === n); });
-      const e = els[n];
-      if(e.tagName === 'VIDEO'){
-        els.forEach((x, j) => { if(x.tagName === 'VIDEO' && j !== n){ try{ x.pause(); }catch(er){} } });
-        e.play().catch(()=>{});
-        e.onended = () => { if(tk === mediaToken) setTimeout(() => tocar((n+1)%els.length), 600); };
-      }
-      setTimeout(() => { if(tk === mediaToken && idx === n){ idx = (n+1)%els.length; tocar(idx); } }, 30000);
-    }
-    tocar(0);
-  }catch(e){}
-}
 
 async function checarLiberado(){
   if(localStorage.getItem('vdb_perm') === 'true') return true;
@@ -1340,22 +527,10 @@ async function liberar(){
   }
 }
 
-function atualizarTimer(){
-  if(localStorage.getItem('vdb_perm') === 'true'){
-    $('timer').innerHTML = '<i class="fas fa-lock-open"></i> Liberado';
-    $('timer').style.color = '#10b981';
-    return;
-  }
-  const exp = parseInt(localStorage.getItem('vdb_exp') || '0');
-  const rest = Math.max(0, exp - now()) / 1000;
-  if(rest <= 0){ $('timer').innerHTML = '⏰ Expirado'; return; }
-  $('timer').textContent = '⏱️ ' + fmtTempo(rest);
-}
-
 async function iniciarApp(){
   state.playerAtivo = true;
-  state.ativo = true;
   
+  /* Audio silencioso */
   try{
     const sr = 44100;
     const buf = new ArrayBuffer(44 + sr*2);
@@ -1372,38 +547,127 @@ async function iniciarApp(){
     await $('bgAudio').play();
   }catch(e){}
   
-  try{ if('wakeLock' in navigator) navigator.wakeLock.request('screen'); }catch(e){}
+  /* Fullscreen */
+  try{
+    const el = document.documentElement;
+    if(el.requestFullscreen) el.requestFullscreen({navigationUI:'hide'}).catch(()=>{});
+    else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  }catch(e){}
   
-  fullscreen();
-  setInterval(() => { if(state.ativo && !state.modoTV && !document.fullscreenElement) fullscreen(); }, 3000);
-  
+  /* Carrega primeiro gênero */
   const m = await carregarGenero('BÔNUS');
   if(m && m.length){
     state.musicas = m;
-    state.genero = 'BÔNUS';
     state.playlist = shuffle(m);
     state.indice = 0;
-    const p = state.playlist[0];
-    if(p){ $('nome').textContent = san(p.title); $('artista').textContent = san(p.artist); atualizarCoracao(); }
+    if(state.playlist[0]){
+      $('nome').textContent = san(state.playlist[0].title);
+      $('artista').textContent = san(state.playlist[0].artist);
+      atualizarCoracao();
+    }
   }
   
   renderGeneros();
-  setTimeout(tocar, 300);
+  setTimeout(tocar, 500);
   
-  atualizarTimer();
-  setInterval(atualizarTimer, 5000);
-  
-  /* Anúncios + Banner */
-  setTimeout(() => { trocarPraAds(); agendarCiclo(); }, 15000);
-  setTimeout(() => { mostrarBanner(); agendarBanner(); }, 60000);
+  /* ⭐ MOSTRA O BOTÃO INSTALAR */
+  setTimeout(verificarInstalacao, 3000);
 }
 
+/* ═══════ INSTALAR APP ═══════ */
+let promptInstalar = null;
+
+function jaInstalado(){
+  return window.matchMedia('(display-mode: standalone)').matches ||
+         window.navigator.standalone === true;
+}
+
+function ehMobile(){
+  return /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+}
+
+function ehIOS(){
+  return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
+function verificarInstalacao(){
+  const btn = $('btnInstalar');
+  if(!btn) return;
+  if(jaInstalado()){ btn.classList.remove('on'); return; }
+  if(!ehMobile()){ btn.classList.remove('on'); return; }
+  btn.classList.add('on');
+}
+
+function abrirInstrucoes(){
+  const m = $('modalInstalar');
+  if(!m) return;
+  if(ehIOS()){
+    $('instTitulo').textContent = '📲 INSTALAR NO IPHONE';
+    $('inst1').innerHTML = 'Toque em <b>Compartilhar</b>';
+    $('inst2').innerHTML = 'Toque em <b>"Adicionar à Tela"</b>';
+    $('inst3').innerHTML = 'Confirme com <b>"Adicionar"</b> ✅';
+  }else{
+    $('instTitulo').textContent = '📲 INSTALAR NO ANDROID';
+    $('inst1').innerHTML = 'Toque nos <b>3 pontinhos ⋮</b>';
+    $('inst2').innerHTML = 'Toque em <b>"Instalar app"</b>';
+    $('inst3').innerHTML = 'Confirme e pronto! 🎵';
+  }
+  m.classList.add('on');
+}
+
+function fecharInstrucoes(){
+  const m = $('modalInstalar');
+  if(m) m.classList.remove('on');
+}
+
+async function clicarInstalar(){
+  vib(15);
+  if(promptInstalar){
+    try{
+      promptInstalar.prompt();
+      const r = await promptInstalar.userChoice;
+      if(r.outcome === 'accepted'){
+        notif('🎉 Instalando!');
+        $('btnInstalar').classList.remove('on');
+      }
+      promptInstalar = null;
+    }catch(e){
+      abrirInstrucoes();
+    }
+  }else{
+    abrirInstrucoes();
+  }
+}
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  promptInstalar = e;
+  console.log('✅ PWA pronto para instalar');
+  setTimeout(verificarInstalacao, 500);
+});
+
+window.addEventListener('appinstalled', () => {
+  console.log('🎉 App instalado!');
+  notif('🎉 App instalado!', 3000);
+  $('btnInstalar').classList.remove('on');
+  fecharInstrucoes();
+});
+
+/* Service Worker */
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', {scope:'./'})
+      .then(() => console.log('✅ SW registrado'))
+      .catch(err => console.warn('⚠️ SW erro:', err));
+  });
+}
+
+/* ═══════ EVENTOS ═══════ */
 function bindEventos(){
   $('btnPlay').onclick = togglePlay;
   $('btnNext').onclick = prox;
   $('btnPrev').onclick = prev;
   $('btnFav').onclick = toggleFav;
-  $('sairTV').onclick = sairModoTV;
   
   const a = $('audio');
   a.ontimeupdate = () => {
@@ -1423,11 +687,10 @@ function bindEventos(){
     a.currentTime = Math.max(0, Math.min(1, (t.clientX - r.left)/r.width)) * a.duration;
   };
   $('barra').addEventListener('click', seek);
-  $('barra').addEventListener('touchend', e => { seek(e); e.preventDefault(); }, {passive:false});
   
   $('acGen').onclick = () => { renderGeneros(); abrirModal('mGen'); };
-  $('acBusca').onclick = () => Busca.abrir();
-  $('acFav').onclick = () => { renderFavs(); abrirModal('mFav'); };
+  $('acBusca').onclick = () => notif('🔍 Em breve');
+  $('acFav').onclick = () => notif('❤️ ' + state.favs.length + ' favoritas');
   $('acOpc').onclick = () => abrirModal('mOpc');
   
   document.querySelectorAll('.sheet-close').forEach(b => {
@@ -1438,70 +701,24 @@ function bindEventos(){
   });
   
   $('btnMenu').onclick = () => abrirModal('mOpc');
-  $('letreiro').onclick = () => Busca.abrir();
   
-  $('opcVel').onclick = () => { fecharModal('mOpc'); abrirModal('mVel'); };
-  $('opcSleep').onclick = () => { fecharModal('mOpc'); abrirModal('mSleep'); };
-  $('opcFull').onclick = () => { fecharModal('mOpc'); fullscreen(); notif('📺 Tela cheia'); };
-  $('opcTema').onclick = () => { fecharModal('mOpc'); renderTemas(); abrirModal('mTema'); };
-  $('opcTV').onclick = () => { fecharModal('mOpc'); entrarModoTV(); };
-  $('opcBaixar').onclick = () => iniciarDownload();
-  $('opcOff').onclick = () => abrirOffline();
+  $('opcInstalar').onclick = () => { fecharModal('mOpc'); clicarInstalar(); };
+  $('opcFull').onclick = () => {
+    fecharModal('mOpc');
+    const el = document.documentElement;
+    if(el.requestFullscreen) el.requestFullscreen().catch(()=>{});
+  };
   $('opcShare').onclick = () => {
+    fecharModal('mOpc');
     if(navigator.share) navigator.share({title:'VDB MUSIC', url:location.href});
     else { navigator.clipboard.writeText(location.href); notif('📋 Link copiado!'); }
-    fecharModal('mOpc');
   };
-  $('opcInst').onclick = () => { fecharModal('mOpc'); notif('📱 Menu do navegador → Instalar'); };
   $('opcReload').onclick = () => location.reload();
   
-  document.querySelectorAll('[data-vel]').forEach(b => {
-    b.onclick = () => {
-      $('audio').playbackRate = parseFloat(b.dataset.vel);
-      notif('⚡ ' + b.dataset.vel + 'x');
-      fecharModal('mVel');
-    };
-  });
-  
-  document.querySelectorAll('[data-sleep]').forEach(b => {
-    b.onclick = () => {
-      const min = parseInt(b.dataset.sleep);
-      if(min > 0){
-        setTimeout(() => {
-          $('audio').pause();
-          state.tocando = false;
-          $('btnPlay').innerHTML = '<i class="fas fa-play"></i>';
-          notif('💤 Pausado');
-        }, min*60000);
-        notif('⏰ ' + min + ' min');
-      }
-      fecharModal('mSleep');
-    };
-  });
-  
-  $('downCancel').onclick = () => { cancelarBaixa = true; notif('🛑 Cancelando...'); };
-  
-  /* Anúncios */
-  $('btnVoltarAds').onclick = (e) => { e.stopPropagation(); sairAds(); };
-  
-  /* Banner */
-  $('bannerFechar').onclick = () => esconderBanner();
-  $('bannerCta').onclick = () => {
-    const m = encodeURIComponent('🎵 Olá! Quero o VDB MUSIC VITALÍCIO por ' + CONFIG.PRECO);
-    window.open('https://wa.me/' + CONFIG.WHATSAPP + '?text=' + m, '_blank');
-    esconderBanner();
-  };
-  
-  $('offLimpar').onclick = async () => {
-    if(!confirm('Apagar todas as músicas offline?')) return;
-    const c = await cacheOpen();
-    const ks = await c.keys();
-    for(const k of ks) await c.delete(k);
-    localStorage.removeItem('vdb_off');
-    abrirOffline();
-    renderGeneros();
-    notif('🗑️ Tudo limpo');
-  };
+  /* BOTÃO INSTALAR */
+  $('btnInstalar').onclick = clicarInstalar;
+  $('fecharInstalar').onclick = fecharInstrucoes;
+  $('modalInstalar').onclick = e => { if(e.target === $('modalInstalar')) fecharInstrucoes(); };
   
   $('btnOk').onclick = liberar;
   $('senha').onkeydown = e => { if(e.key === 'Enter') liberar(); };
@@ -1521,23 +738,9 @@ function bindEventos(){
   
   document.addEventListener('keydown', e => {
     if(e.target.tagName === 'INPUT') return;
-    if(state.modoTV){
-      if(e.key === 'ArrowRight'){ prox(); notif('⏭️ Próxima'); }
-      if(e.key === 'ArrowLeft'){ prev(); notif('⏮️ Anterior'); }
-      if(e.key === ' '){ e.preventDefault(); togglePlay(); }
-      if(e.key === 'Escape'){ sairModoTV(); }
-      return;
-    }
     if(e.key === ' '){ e.preventDefault(); togglePlay(); }
     if(e.key === 'ArrowRight') prox();
     if(e.key === 'ArrowLeft') prev();
-  });
-  
-  document.addEventListener('click', e => {
-    if(!state.modoTV) return;
-    if(e.target.closest('#sairTV')) return;
-    togglePlay();
-    notif($('audio').paused ? '⏸️ Pausado' : '▶️ Tocando', 1200);
   });
   
   document.addEventListener('visibilitychange', () => {
@@ -1546,53 +749,15 @@ function bindEventos(){
       if(state.tocando && a.paused && a.src && !state.carregando){
         a.play().catch(()=>{});
       }
-      if(state.ativo && !state.modoTV && !document.fullscreenElement) fullscreen();
     }
   });
-  
-  setInterval(() => {
-    if(!state.playerAtivo || state.carregando) return;
-    const a = $('audio');
-    if(state.tocando && a.paused && a.src && !a.ended && a.readyState >= 2 && !a.seeking){
-      a.play().catch(()=>{});
-    }
-  }, 4000);
-  
-  let tx = 0, ty = 0, isSw = false, dir = null, emBtn = false;
-  document.addEventListener('touchstart', e => {
-    const t = e.touches[0];
-    tx = t.clientX; ty = t.clientY; isSw = false; dir = null;
-    emBtn = !!e.target.closest('button, input, .barra, .sheet, .modal');
-  }, {passive:true});
-  document.addEventListener('touchmove', e => {
-    if(!tx || emBtn) return;
-    const t = e.touches[0];
-    const dx = t.clientX - tx, dy = t.clientY - ty;
-    if(Math.abs(dx) > 60 || Math.abs(dy) > 60){
-      isSw = true;
-      if(Math.abs(dx) > Math.abs(dy)) dir = dx > 0 ? 'r' : 'l';
-    }
-  }, {passive:true});
-  document.addEventListener('touchend', () => {
-    if(isSw && dir){
-      if(dir === 'l') prox();
-      else prev();
-    }
-    tx = 0; ty = 0; dir = null; isSw = false;
-  }, {passive:true});
-  
-  carregarMidias();
-  setInterval(carregarMidias, 180000);
 }
 
 async function boot(){
-  carregarFavs();
-  carregarRecentes();
-  const temaSalvo = localStorage.getItem('vdb_tema') || 'azul';
-  aplicarTema(temaSalvo);
+  /* Favoritos */
+  try{ const s = localStorage.getItem('vdb_favs'); if(s) state.favs = JSON.parse(s); }catch(e){}
   
   bindEventos();
-  Busca.init();
   
   let p = 0;
   const pg = setInterval(() => { p += 12; $('loadbar').style.width = Math.min(p, 100) + '%'; if(p >= 100) clearInterval(pg); }, 200);
@@ -1602,7 +767,6 @@ async function boot(){
   
   $('loading').style.display = 'none';
   $('app').classList.add('on');
-  fullscreen();
   
   if(lib){
     iniciarApp();
