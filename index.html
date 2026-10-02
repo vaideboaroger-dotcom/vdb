@@ -11,6 +11,8 @@
 <link rel="manifest" href="./manifest.json">
 <meta name="application-name" content="VDB Music">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="VDB Music">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#2563eb">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -89,17 +91,14 @@ body.tv #player .nome{font-size:2rem}
 .gen::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:5px;height:60%;background:var(--gc,#22d3ee);border-radius:0 5px 5px 0}
 .gen:active{transform:scale(.95);border-color:var(--gc)}
 .gen-nome{font-family:'Rajdhani';font-size:1.15rem;font-weight:800;color:#fff;text-transform:uppercase;position:relative;z-index:2}
-.gen-qtd{font-size:.68rem;color:rgba(255,255,255,.55);font-weight:700;margin-top:4px;position:relative;z-index:2}
 .gen.ok::after{content:'✓';position:absolute;top:8px;right:10px;background:linear-gradient(135deg,#10b981,#059669);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:900;z-index:3}
 
 .busca-top{display:flex;gap:8px;margin-bottom:12px}
 .busca-top input{flex:1;padding:14px 18px;border-radius:30px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff;font-size:.95rem;outline:none}
 .busca-top input:focus{border-color:var(--c3)}
 .busca-top button{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:50%;width:46px;height:46px;color:#fff;font-size:1rem}
-.busca-filtros{display:flex;gap:8px;margin-bottom:10px}
-.busca-filtros select{flex:1;padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff;font-size:.82rem;font-weight:700;outline:none}
 .busca-info{text-align:center;font-size:.72rem;color:rgba(255,255,255,.6);font-weight:700;margin-bottom:10px}
-.busca-lista{display:flex;flex-direction:column;gap:8px;max-height:55vh;overflow-y:auto;overflow-x:hidden}
+.busca-lista{display:flex;flex-direction:column;gap:8px;max-height:55vh;overflow-y:auto}
 .busca-item{padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:12px;cursor:pointer}
 .busca-item:active{background:rgba(255,255,255,.12)}
 .busca-item .ic{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--c1),var(--c3));display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
@@ -151,9 +150,11 @@ body.tv #player .nome{font-size:2rem}
 .adm-input:focus{border-color:var(--c3)}
 .adm-row{display:flex;gap:8px;align-items:center;margin-top:6px}
 .adm-row input{flex:1}
-#admLog{background:#000;border:1px solid #333;border-radius:12px;padding:10px;font-family:monospace;font-size:.7rem;color:#22d3ee;max-height:180px;overflow-y:auto;white-space:pre-wrap;margin-top:10px}
 .adm-hist{max-height:120px;overflow-y:auto;background:rgba(0,0,0,.3);border-radius:10px;padding:8px;font-family:monospace;font-size:.65rem;color:#888;margin-top:6px}
 .adm-hist div{padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+
+#btnInstalar{position:fixed;bottom:calc(85px + var(--safe-bottom));right:16px;z-index:999999;background:linear-gradient(135deg,#a855f7,#22d3ee);color:#fff;border:none;border-radius:30px;padding:14px 22px;font-weight:800;font-size:.95rem;cursor:pointer;display:none;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(168,85,247,.5)}
+#btnInstalar.mostrar{display:flex}
 
 @media(max-width:400px){.nome{font-size:1.3rem}.acao{font-size:.55rem}}
 </style>
@@ -215,6 +216,7 @@ body.tv #player .nome{font-size:2rem}
     <button class="acao" id="acFav"><i class="fas fa-heart" style="color:#f472b6"></i>FAVORITAS</button>
     <button class="acao" id="acOpc"><i class="fas fa-sliders-h" style="color:#fbbf24"></i>OPÇÕES</button>
   </div>
+  <button id="btnInstalar"><i class="fas fa-download"></i> INSTALAR APP</button>
 </div>
 
 <div class="modal" id="mGen"><div class="sheet">
@@ -227,14 +229,6 @@ body.tv #player .nome{font-size:2rem}
   <div class="busca-top">
     <input type="text" id="buscaInput" placeholder="Buscar música ou artista..." autocomplete="off" enterkeyhint="search">
     <button id="buscaClose"><i class="fas fa-times"></i></button>
-  </div>
-  <div class="busca-filtros">
-    <select id="buscaGenero"><option value="">🎸 Todos</option></select>
-    <select id="buscaOrdem">
-      <option value="rel">✨ Relevância</option>
-      <option value="az">🔤 A-Z</option>
-      <option value="za">🔤 Z-A</option>
-    </select>
   </div>
   <div class="busca-info" id="buscaInfo">Digite algo pra buscar</div>
   <div class="busca-lista" id="buscaLista"></div>
@@ -254,9 +248,8 @@ body.tv #player .nome{font-size:2rem}
   <div class="opc-cat">🎨 APARÊNCIA</div>
   <button class="opc" id="opcTema"><i class="fas fa-palette"></i>Cores do App</button>
   <button class="opc" id="opcTV"><i class="fas fa-tv"></i>Modo TV</button>
-  <div class="opc-cat">🔬 DIAGNÓSTICO</div>
-  <button class="opc" id="opcScan"><i class="fas fa-radar"></i>Painel Admin</button>
   <div class="opc-cat">📱 APP</div>
+  <button class="opc" id="opcInstalar"><i class="fas fa-download"></i>Instalar App</button>
   <button class="opc" id="opcShare"><i class="fas fa-share-alt"></i>Compartilhar</button>
   <button class="opc" id="opcReload"><i class="fas fa-sync"></i>Recarregar</button>
 </div></div>
@@ -286,32 +279,17 @@ body.tv #player .nome{font-size:2rem}
   <button class="opc" data-sleep="0">🚫 Cancelar</button>
 </div></div>
 
-<div class="modal" id="mDown"><div class="sheet">
-  <div class="sheet-header"><h2 id="downTitulo">📥 VARREDURA</h2></div>
-  <div style="text-align:center;padding:10px 0">
-    <div style="font-size:2.6rem;margin-bottom:8px">🔬</div>
-    <div id="downSub" style="color:rgba(255,255,255,.7);font-size:.85rem;font-weight:700;margin-bottom:14px">Preparando...</div>
-    <div style="height:12px;background:rgba(0,0,0,.5);border-radius:12px;overflow:hidden;margin-bottom:10px">
-      <div id="downFill" style="height:100%;width:0%;background:linear-gradient(90deg,var(--c1),var(--c3));border-radius:12px;transition:width .3s"></div>
-    </div>
-    <div style="display:flex;justify-content:space-between;font-size:.78rem;color:rgba(255,255,255,.7);font-weight:700;margin-bottom:14px">
-      <span id="downCont">0 / 0</span><span id="downAtual"></span>
-    </div>
-    <button class="opc" id="downCancel" style="background:#ef4444;justify-content:center">🛑 PARAR</button>
-  </div>
-</div></div>
-
-<!-- PAINEL ADMIN -->
+<!-- PAINEL ADMIN — abre SÓ com 8 cliques no VDB -->
 <div id="admin">
   <h2>🔧 PAINEL ADMIN</h2>
 
   <div class="adm-card">
     <h3>🆔 FINGERPRINT DO CLIENTE</h3>
-    <div class="adm-info" style="margin-bottom:8px">Cole aqui o fingerprint que o cliente enviou:</div>
+    <div class="adm-info" style="margin-bottom:8px">Cole o fingerprint que o cliente enviou:</div>
     <input type="text" id="admFpInput" class="adm-input" placeholder="Cole o fingerprint do cliente">
-    <button id="admGerarCliente" class="ok">🔑 GERAR SENHA DO CLIENTE</button>
-    <button id="admGerarUniversal" class="gold">🌍 GERAR UNIVERSAL</button>
-    <button id="admGerarMestra" class="danger">👑 SENHA MESTRA</button>
+    <button id="admGerarCliente" class="ok">🔑 GERAR SENHA</button>
+    <button id="admGerarUniversal" class="gold">🌍 UNIVERSAL</button>
+    <button id="admGerarMestra" class="danger">👑 MESTRA</button>
   </div>
 
   <div class="adm-card">
@@ -320,20 +298,20 @@ body.tv #player .nome{font-size:2rem}
       <input type="text" id="admSenhaOut" class="adm-input" readonly placeholder="Clique em gerar...">
       <button id="admCopiar" style="background:rgba(168,85,247,.2);padding:12px 16px">📋</button>
     </div>
-    <button id="admZap" class="ok" style="width:100%;justify-content:center;margin-top:6px">📱 ENVIAR NO WHATSAPP</button>
+    <button id="admZap" class="ok" style="width:100%;justify-content:center;margin-top:6px">📱 ENVIAR WHATSAPP</button>
   </div>
 
   <div class="adm-card">
     <h3>🧪 TESTAR SENHA</h3>
-    <input type="text" id="admTeste" class="adm-input" placeholder="Digite uma senha pra testar...">
+    <input type="text" id="admTeste" class="adm-input" placeholder="Digite uma senha...">
     <button id="admTestar">🔍 TESTAR</button>
     <div id="admTesteResult" style="margin-top:8px;font-size:.8rem;font-weight:700"></div>
   </div>
 
   <div class="adm-card">
-    <h3>📜 HISTÓRICO DE SENHAS</h3>
+    <h3>📜 HISTÓRICO</h3>
     <div class="adm-hist" id="admHist"></div>
-    <button id="admLimparHist" class="danger">🗑️ LIMPAR HISTÓRICO</button>
+    <button id="admLimparHist" class="danger">🗑️ LIMPAR</button>
   </div>
 
   <div class="adm-card">
@@ -342,24 +320,9 @@ body.tv #player .nome{font-size:2rem}
   </div>
 
   <div class="adm-card">
-    <h3>🔬 VARREDURA DE LINKS</h3>
-    <div class="adm-info">Testa URLs do gênero atual e remove quebradas.</div>
-    <button id="admScan" class="ok">▶️ INICIAR SCAN</button>
-    <button id="admStopScan" class="danger">⏹️ PARAR</button>
-    <div id="admLog">Aguardando...</div>
-  </div>
-
-  <div class="adm-card">
     <h3>🆔 ESTE DISPOSITIVO</h3>
     <div class="adm-info" id="admMeuID" style="word-break:break-all;font-size:.65rem"></div>
     <button id="admCopiarMeuID">📋 COPIAR MEU ID</button>
-  </div>
-
-  <div class="adm-card">
-    <h3>🧹 LIMPEZA</h3>
-    <button id="admClearCache" class="danger">🗑️ Limpar Cache</button>
-    <button id="admClearFav" class="danger">🗑️ Limpar Favoritas</button>
-    <button id="admReset" class="danger">🗑️ Reset Total</button>
   </div>
 
   <button class="opc" id="admClose" style="background:#dc2626;justify-content:center;margin-top:20px">❌ FECHAR PAINEL</button>
@@ -379,7 +342,7 @@ const CONFIG = {
   TEMPO_TESTE: 86400,
   SENHA_ADMIN: 'patico1685',
   SENHA_MESTRA: 'Patico1685@',
-  VERSION: 'v64',
+  VERSION: 'v65',
   LOADING_MS: 800
 };
 
@@ -513,7 +476,7 @@ const state = {
   musicas:[], playlist:[], indice:0, tocando:false, genero:'BÔNUS',
   favs:[], recentes:new Set(), tema:'azul',
   playerAtivo:false, ativo:false, carregando:false,
-  modoTV:false, generosCarregados:{}, scanAtivo:false,
+  modoTV:false, generosCarregados:{},
   fingerprint: getFingerprint(),
   desbloqueado: false
 };
@@ -535,6 +498,7 @@ function aplicarTema(nome){
   try{ localStorage.setItem('vdb_tema', nome); }catch(e){}
 }
 
+/* ═══════ FULLSCREEN — RETRY A CADA 3s ═══════ */
 function fullscreen(){
   if(document.fullscreenElement || document.webkitFullscreenElement) return;
   const el = document.documentElement;
@@ -542,12 +506,10 @@ function fullscreen(){
   if(req){ try{ req.call(el, {navigationUI:'hide'}).catch(()=>{}); }catch(e){} }
 }
 
-/* ═══════ SENHA / VALIDAÇÃO ═══════ */
+/* ═══════ SENHA — SEU SISTEMA ═══════ */
 function validarSenha(s){
   if(!s) return { valida:false };
-  // 1) Mestra
   if(s === CONFIG.SENHA_MESTRA) return { valida:true, tipo:'mestra', msg:'✅ Senha mestra OK!' };
-  // 2) Cliente (vinculada ao fingerprint)
   try{
     const d = atob(s);
     const p = d.split(':');
@@ -555,7 +517,6 @@ function validarSenha(s){
       return { valida:true, tipo:'cliente', msg:'✅ Liberado permanentemente!' };
     }
   }catch(e){}
-  // 3) Universal
   if(s.startsWith('UNIV:')){
     const p = s.split(':');
     if(p.length === 3 && p[2].length === 16){
@@ -571,15 +532,13 @@ function checarLiberado(){
   if(!exp){
     const e = now() + CONFIG.TEMPO_TESTE * 1000;
     localStorage.setItem('vdb_exp', String(e));
-    state.desbloqueado = false;
     return true;
   }
-  if(now() > exp){ state.desbloqueado = false; return false; }
-  state.desbloqueado = false;
+  if(now() > exp){ return false; }
   return true;
 }
 
-async function liberar(){
+function liberar(){
   const s = $('senha').value.trim();
   if(!s){ $('err').textContent = '⚠️ Digite a senha'; return; }
   const r = validarSenha(s);
@@ -644,6 +603,45 @@ function getUrls(m){
   return ['https://raw.githubusercontent.com/' + repo + '/refs/heads/main/' + n + '?v=' + CONFIG.VERSION];
 }
 
+/* ═══════ ÁUDIO SILENCIOSO (PRA TOCAR BLOQUEADO) ═══════ */
+function criarSilentAudio(){
+  const sr = 44100, ns = sr * 5;
+  const b = new ArrayBuffer(44 + ns * 2);
+  const v = new DataView(b);
+  const w = (o, s) => { for(let i=0;i<s.length;i++) v.setUint8(o+i, s.charCodeAt(i)); };
+  w(0,'RIFF'); v.setUint32(4, 36 + ns*2, true); w(8,'WAVE'); w(12,'fmt ');
+  v.setUint32(16,16,true); v.setUint16(20,1,true); v.setUint16(22,1,true);
+  v.setUint32(24,sr,true); v.setUint32(28,sr*2,true); v.setUint16(32,2,true);
+  v.setUint16(34,16,true); w(36,'data'); v.setUint32(40, ns*2, true);
+  return new Blob([b], {type:'audio/wav'});
+}
+let silentBlob = null, silentUrl = null;
+function getSilentUrl(){
+  if(!silentBlob) silentBlob = criarSilentAudio();
+  if(!silentUrl) silentUrl = URL.createObjectURL(silentBlob);
+  return silentUrl;
+}
+
+let keepAliveInterval = null;
+function manterAudioAtivo(){
+  if(keepAliveInterval) clearInterval(keepAliveInterval);
+  keepAliveInterval = setInterval(() => {
+    if(!state.playerAtivo) return;
+    try{
+      if($('bgAudio').paused){
+        $('bgAudio').src = getSilentUrl();
+        $('bgAudio').loop = true;
+        $('bgAudio').volume = 0.001;
+        $('bgAudio').play().catch(()=>{});
+      }
+      const a = $('audio');
+      if(state.tocando && a.paused && a.src && !a.ended && !state.carregando){
+        a.play().catch(()=>{});
+      }
+    }catch(e){}
+  }, 3000);
+}
+
 /* ═══════ PLAYER ═══════ */
 async function proximaMusica(){
   if(!state.playlist.length) return null;
@@ -677,12 +675,22 @@ async function tocar(){
     state.recentes.add(m.id);
     salvarRecentes();
 
+    // ⭐ Media Session (controles na tela bloqueada)
     if('mediaSession' in navigator){
       try{
         navigator.mediaSession.metadata = new MediaMetadata({
-          title: m.title, artist: m.artist, album: m.genero,
-          artwork: [{src:'favicon30.png', sizes:'512x512', type:'image/png'}]
+          title: m.title,
+          artist: m.artist,
+          album: m.genero,
+          artwork: [
+            {src: 'favicon192.png', sizes: '192x192', type: 'image/png'},
+            {src: 'favicon30.png', sizes: '512x512', type: 'image/png'}
+          ]
         });
+        navigator.mediaSession.setActionHandler('play', () => togglePlay());
+        navigator.mediaSession.setActionHandler('pause', () => togglePlay());
+        navigator.mediaSession.setActionHandler('previoustrack', () => prev());
+        navigator.mediaSession.setActionHandler('nexttrack', () => prox());
       }catch(e){}
     }
 
@@ -794,16 +802,8 @@ function abrirModal(id){ document.querySelectorAll('.modal').forEach(m => m.clas
 function fecharModal(id){ $(id).classList.remove('on'); }
 
 const Busca = {
-  gen:'', ordem:'rel', termo:'',
+  termo:'',
   init(){
-    const sel = $('buscaGenero');
-    ORDEM.forEach(g => {
-      const o = document.createElement('option');
-      o.value = g; o.textContent = '🎸 ' + g;
-      sel.appendChild(o);
-    });
-    sel.onchange = () => { this.gen = sel.value; this.buscar(); };
-    $('buscaOrdem').onchange = e => { this.ordem = e.target.value; this.buscar(); };
     let tm = null;
     $('buscaInput').oninput = e => {
       clearTimeout(tm);
@@ -815,7 +815,6 @@ const Busca = {
     const lista = $('buscaLista');
     const info = $('buscaInfo');
     let r = state.musicas;
-    if(this.gen) r = r.filter(m => m.genero === this.gen);
     if(this.termo){
       const partes = this.termo.split(' ').filter(Boolean);
       r = r.filter(m => {
@@ -823,8 +822,6 @@ const Busca = {
         return partes.every(p => alvo.includes(p));
       });
     }
-    if(this.ordem === 'az') r = [...r].sort((a,b) => norm(a.title).localeCompare(norm(b.title)));
-    else if(this.ordem === 'za') r = [...r].sort((a,b) => norm(b.title).localeCompare(norm(a.title)));
     info.textContent = r.length ? '✅ ' + r.length + ' música(s)' : '❌ Nenhuma';
     if(!r.length){ lista.innerHTML = '<div style="text-align:center;color:#888;padding:30px">Nenhuma encontrada</div>'; return; }
     lista.innerHTML = '';
@@ -849,7 +846,7 @@ const Busca = {
 
 function renderFavs(){
   const l = $('favLista');
-  if(!state.favs.length){ l.innerHTML = '<div class="fav-vazio">💔 Nenhuma favorita ainda<br><small>Aperte no coração pra adicionar</small></div>'; return; }
+  if(!state.favs.length){ l.innerHTML = '<div class="fav-vazio">💔 Nenhuma favorita ainda</div>'; return; }
   l.innerHTML = '';
   state.favs.forEach(f => {
     const d = document.createElement('div');
@@ -943,7 +940,50 @@ async function carregarMidias(){
   }catch(e){}
 }
 
-/* ═══════ ADMIN — GERADOR DE SENHA (SEU SISTEMA) ═══════ */
+/* ═══════ INSTALAR APP (PWA) ═══════ */
+let deferredInstallPrompt = null;
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', {scope:'./'})
+      .then(r => console.log('✅ SW:', r.scope))
+      .catch(e => console.warn('⚠️ SW falhou:', e));
+  });
+}
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  setTimeout(() => mostrarBotaoInstalar(), 500);
+});
+
+window.addEventListener('appinstalled', () => {
+  $('btnInstalar').classList.remove('mostrar');
+  notif('🎉 App instalado!', 3000);
+});
+
+function jaEstaInstalado(){
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+}
+function ehMobile(){
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+function mostrarBotaoInstalar(){
+  if(!ehMobile() || jaEstaInstalado()){ return; }
+  $('btnInstalar').classList.add('mostrar');
+}
+async function acionarInstalar(){
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    const r = await deferredInstallPrompt.userChoice;
+    if(r.outcome === 'accepted') notif('✅ Instalando...', 2500);
+    deferredInstallPrompt = null;
+    return;
+  }
+  alert('📱 Para instalar:\n\n1. Abra o menu do navegador (⋮)\n2. Toque em "Instalar app" ou "Adicionar à tela inicial"\n3. Confirme');
+}
+
+/* ═══════ ADMIN ═══════ */
 let cliqueLogo = 0, cliqueTimer = null;
 function registrarCliqueLogo(){
   cliqueLogo++;
@@ -956,7 +996,7 @@ function pedirSenhaAdmin(){
   const l = JSON.parse(localStorage.getItem('vdb_admin_lock') || '{"tentativas":0,"bloqueado":false,"ate":0}');
   if(l.bloqueado && now() < l.ate){
     const r = Math.ceil((l.ate - now())/1000);
-    notif('🔒 Painel bloqueado! Aguarde ' + r + 's', 2500);
+    notif('🔒 Bloqueado! Aguarde ' + r + 's', 2500);
     return;
   }
   if(l.bloqueado && now() >= l.ate){ l.bloqueado = false; l.tentativas = 0; localStorage.setItem('vdb_admin_lock', JSON.stringify(l)); }
@@ -988,17 +1028,11 @@ function abrirAdmin(){
 }
 
 function atualizarAdminStats(){
-  let off = 0;
-  try{
-    const meta = JSON.parse(localStorage.getItem('vdb_off')||'{}');
-    Object.keys(meta).forEach(g => off += (meta[g].baixadas||0));
-  }catch(e){}
   const hist = JSON.parse(localStorage.getItem('vdb_senhas_hist')||'[]');
   $('admStats').innerHTML =
-    '🎵 Músicas no gênero: <b>' + state.musicas.length + '</b><br>' +
+    '🎵 Músicas: <b>' + state.musicas.length + '</b><br>' +
     '🎸 Gênero: <b>' + state.genero + '</b><br>' +
     '❤️ Favoritas: <b>' + state.favs.length + '</b><br>' +
-    '📥 Offline: <b>' + off + '</b><br>' +
     '🔑 Senhas geradas: <b>' + hist.length + '</b><br>' +
     '🔊 Tocando: <b>' + (state.tocando?'SIM':'NÃO') + '</b>';
 }
@@ -1035,14 +1069,14 @@ function gerarSenhaCliente(){
   $('admSenhaOut').value = s;
   adicionarHistoricoSenha(s, 'dispositivo');
   $('admFpInput').value = '';
-  notif('✅ Senha do cliente gerada!', 2000);
+  notif('✅ Senha gerada!', 2000);
 }
 
 function gerarSenhaUniversalAdmin(){
   const s = gerarSenhaUniversal();
   $('admSenhaOut').value = s;
   adicionarHistoricoSenha(s, 'universal');
-  notif('✅ Senha universal gerada!', 2000);
+  notif('✅ Universal gerada!', 2000);
 }
 
 function mostrarSenhaMestra(){
@@ -1062,68 +1096,24 @@ function testarSenhaAtual(){
   }
 }
 
-/* ═══════ VARREDURA ═══════ */
-async function iniciarScan(){
-  if(state.scanAtivo){ notif('⚠️ Scan já rodando'); return; }
-  if(!state.musicas.length){ notif('⚠️ Escolha um gênero primeiro'); return; }
-  state.scanAtivo = true;
-  abrirModal('mDown');
-  $('downTitulo').textContent = '🔬 SCAN: ' + state.genero;
-  $('downSub').textContent = 'Iniciando...';
-  $('downFill').style.width = '0%';
-  const log = $('admLog');
-  log.textContent = '';
-  const addLog = t => { log.textContent += t + '\n'; log.scrollTop = log.scrollHeight; };
-  addLog('🔬 Scan em ' + state.genero + ' (' + state.musicas.length + ')');
-
-  let validas = [], quebradas = [];
-  let i = 0;
-  for(const m of state.musicas){
-    if(!state.scanAtivo) break;
-    i++;
-    let ok = false;
-    for(const u of getUrls(m).slice(0,2)){
-      try{
-        const resp = await fetch(u, {method:'HEAD', signal: timeoutSignal(3500)});
-        if(resp && resp.ok){ ok = true; break; }
-      }catch(e){}
-    }
-    if(ok) validas.push(m);
-    else{ quebradas.push(m); addLog('❌ ' + m.title); }
-
-    const pct = (i/state.musicas.length)*100;
-    $('downFill').style.width = pct + '%';
-    $('downCont').textContent = i + ' / ' + state.musicas.length;
-    $('downSub').textContent = '✅ ' + validas.length + ' ok • ❌ ' + quebradas.length + ' ruins';
-  }
-
-  addLog('\n✅ Válidas: ' + validas.length);
-  addLog('❌ Quebradas: ' + quebradas.length);
-
-  if(validas.length){
-    try{
-      const mem = 'vdb_pl_' + CONFIG.VERSION + '_' + state.genero;
-      localStorage.setItem(mem, JSON.stringify(validas));
-      state.generosCarregados[state.genero] = validas;
-      state.musicas = validas;
-      state.playlist = shuffle(validas);
-      state.indice = 0;
-      addLog('💾 Lista limpa salva.');
-    }catch(e){}
-  }
-  state.scanAtivo = false;
-  $('downSub').textContent = '✅ Concluído!';
-  notif('✅ Scan finalizado!', 3000);
-  setTimeout(() => fecharModal('mDown'), 2000);
-}
-
 /* ═══════ INICIAR APP ═══════ */
 async function iniciarApp(){
   state.playerAtivo = true;
   state.ativo = true;
+
+  // 🔋 Wake Lock (tela sempre ligada)
   try{ if('wakeLock' in navigator) navigator.wakeLock.request('screen'); }catch(e){}
 
-  // Fullscreen — retry a cada 3s (igual seu sistema)
+  // 🎵 Áudio silencioso (pra tocar bloqueado)
+  try{
+    $('bgAudio').src = getSilentUrl();
+    $('bgAudio').loop = true;
+    $('bgAudio').volume = 0.001;
+    await $('bgAudio').play();
+  }catch(e){}
+  manterAudioAtivo();
+
+  // 🖥️ FULLSCREEN — retry a cada 3s
   fullscreen();
   setInterval(() => {
     if(state.ativo && !document.fullscreenElement && !state.modoTV) fullscreen();
@@ -1170,7 +1160,6 @@ function bindEventos(){
     const r = $('barra').getBoundingClientRect();
     a.currentTime = Math.max(0, Math.min(1, ((e.clientX||0) - r.left)/r.width)) * a.duration;
   });
-  $('barra').addEventListener('pointercancel', () => { seekPendente = false; });
 
   $('acGen').onclick = () => { renderGeneros(); abrirModal('mGen'); };
   $('acBusca').onclick = () => { abrirModal('mBusca'); setTimeout(() => $('buscaInput').focus(), 200); };
@@ -1198,13 +1187,14 @@ function bindEventos(){
   };
   $('opcTema').onclick = () => { fecharModal('mOpc'); renderTemas(); abrirModal('mTema'); };
   $('opcTV').onclick = () => { fecharModal('mOpc'); toggleModoTV(); };
-  $('opcScan').onclick = () => { fecharModal('mOpc'); pedirSenhaAdmin(); };
+  $('opcInstalar').onclick = () => { fecharModal('mOpc'); acionarInstalar(); };
   $('opcShare').onclick = () => {
     if(navigator.share) navigator.share({title:'VDB MUSIC', url:location.href});
     else { navigator.clipboard.writeText(location.href); notif('📋 Link copiado!'); }
     fecharModal('mOpc');
   };
   $('opcReload').onclick = () => location.reload();
+  $('btnInstalar').onclick = acionarInstalar;
 
   document.querySelectorAll('[data-vel]').forEach(b => {
     b.onclick = () => { $('audio').playbackRate = parseFloat(b.dataset.vel); notif('⚡ ' + b.dataset.vel + 'x'); fecharModal('mVel'); };
@@ -1220,9 +1210,7 @@ function bindEventos(){
     };
   });
 
-  $('downCancel').onclick = () => { state.scanAtivo = false; notif('🛑 Parando...'); };
-
-  // ADMIN — listeners
+  // ADMIN
   $('admGerarCliente').onclick = gerarSenhaCliente;
   $('admGerarUniversal').onclick = gerarSenhaUniversalAdmin;
   $('admGerarMestra').onclick = mostrarSenhaMestra;
@@ -1246,26 +1234,9 @@ function bindEventos(){
     atualizarAdminStats();
     notif('🗑️ Histórico limpo');
   };
-  $('admScan').onclick = iniciarScan;
-  $('admStopScan').onclick = () => { state.scanAtivo = false; $('admLog').textContent += '\n⏹️ Parado.'; };
   $('admClose').onclick = () => $('admin').classList.remove('on');
   $('admCopiarMeuID').onclick = () => {
     navigator.clipboard.writeText(state.fingerprint).then(() => notif('📋 ID copiado!')).catch(() => notif('❌ Erro'));
-  };
-  $('admClearCache').onclick = async () => {
-    if(!confirm('Limpar cache de playlists?')) return;
-    Object.keys(localStorage).forEach(k => { if(k.startsWith('vdb_pl_')) localStorage.removeItem(k); });
-    state.generosCarregados = {};
-    notif('🧹 Cache limpo'); atualizarAdminStats();
-  };
-  $('admClearFav').onclick = () => {
-    if(!confirm('Apagar favoritas?')) return;
-    state.favs = []; salvarFavs(); atualizarCoracao();
-    notif('❤️ Limpas'); atualizarAdminStats();
-  };
-  $('admReset').onclick = () => {
-    if(!confirm('⚠️ RESET TOTAL?')) return;
-    localStorage.clear(); location.reload();
   };
 
   // BLOQUEIO
@@ -1292,10 +1263,18 @@ function bindEventos(){
       const a = $('audio');
       if(state.tocando && a.paused && a.src && !state.carregando) a.play().catch(()=>{});
       if(state.ativo && !document.fullscreenElement && !state.modoTV) fullscreen();
+      // Retoma áudio silencioso
+      try{
+        if($('bgAudio').paused){
+          $('bgAudio').src = getSilentUrl();
+          $('bgAudio').loop = true;
+          $('bgAudio').volume = 0.001;
+          $('bgAudio').play().catch(()=>{});
+        }
+      }catch(e){}
     }
   });
 
-  // Swipe
   let tx=0, ty=0, isSwipe=false, dir=null, emBtn=false;
   document.addEventListener('touchstart', e => {
     const t = e.touches[0];
@@ -1317,6 +1296,9 @@ function bindEventos(){
   }, {passive:true});
 
   if(localStorage.getItem('vdb_tv') === '1'){ state.modoTV = true; document.body.classList.add('tv'); }
+
+  // Tenta mostrar botão instalar depois de 2s
+  setTimeout(mostrarBotaoInstalar, 2000);
 }
 
 async function boot(){
@@ -1333,6 +1315,7 @@ async function boot(){
 
   $('loading').style.display = 'none';
   $('app').classList.add('on');
+
   carregarMidias();
 
   if(lib) iniciarApp();
